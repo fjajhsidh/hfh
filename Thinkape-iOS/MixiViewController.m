@@ -62,10 +62,8 @@
     
     
     
-    _dexcel =[self.dict2 objectForKey:layoutModel.fieldname];
-   _dexcel =_dexcel.length>0?_dexcel:@"";
-    
-    cell.detailtext.text =_dexcel;
+ 
+       cell.detailtext.text =@"";
 //    self.dict2 =[NSDictionary dictionary];
 //    AppDelegate *app =[UIApplication sharedApplication].delegate;
 //    
@@ -120,10 +118,15 @@
 //    self.dict2=app.dict;
     AppDelegate *aler =[UIApplication sharedApplication].delegate;
     self.dict2=aler.dict;
-//    NSIndexPath *indexs =[self.tableview cellForRowAtIndexPath:_index];
-//    UITableViewCell *cell =[self.tableview cellForRowAtIndexPath:indexs.row];
     
-//    [self.dict2 newValueFromOldValue: property:<#(MJProperty *)#>]
+    NSIndexPath *indexs =[self.tableview indexPathForSelectedRow];
+    
+    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:indexs];
+    
+    
+//    [self.dict2 newValueFromOldValue:cell.detailtext.text property:layout.fieldname];
+    
+    
     
     [self.navigationController popViewControllerAnimated:YES];
     

@@ -810,6 +810,8 @@
    self.actionsheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"生成借款",@"生成报销", nil];
     self.actionsheet.tag=3;
     
+    
+       
     [self.actionsheet showInView:self.view];
     
 }

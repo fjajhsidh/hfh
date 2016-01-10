@@ -1,5 +1,5 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9C8BAD4C812B9D40109D55BFF71695EDE8E8D8A4",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D9D22AB9F5D266A2BD6CD3684EDC5961580CFE43",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
     "ae925084-e451-4705-8aa1-d0b7518dcfe5" : {
 
@@ -7,12 +7,14 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "9C8BAD4C812B9D40109D55BFF71695EDE8E8D8A4" : 0,
-    "ae925084-e451-4705-8aa1-d0b7518dcfe5" : 0
+    "ae925084-e451-4705-8aa1-d0b7518dcfe5" : 0,
+    "D9D22AB9F5D266A2BD6CD3684EDC5961580CFE43" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A88D4732-BCF7-47E4-8E55-B3B304EC22ED",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "9C8BAD4C812B9D40109D55BFF71695EDE8E8D8A4" : "Thinkape-iOS%E5%A4%8D%E5%88%BB%E7%89%88%E5%89%AF%E6%9C%AC%206\/Pods\/",
-    "ae925084-e451-4705-8aa1-d0b7518dcfe5" : ""
+    "ae925084-e451-4705-8aa1-d0b7518dcfe5" : "",
+    "D9D22AB9F5D266A2BD6CD3684EDC5961580CFE43" : "thinkae\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Thinkape-iOS",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -22,6 +24,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/fjajhsidh\/sad.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9C8BAD4C812B9D40109D55BFF71695EDE8E8D8A4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/yangxxxxz\/thinkae.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D9D22AB9F5D266A2BD6CD3684EDC5961580CFE43"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/www.svnchina.com\/svn\/think",

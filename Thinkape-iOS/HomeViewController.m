@@ -68,6 +68,7 @@
     // Do any additional setup after loading the view.
     
     self.shouYeView.backgroundColor=[UIColor colorWithPatternImage:[[UIImage imageNamed:@"thinkape.jpg"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    self.shouYeView.contentMode=UIViewTintAdjustmentModeAutomatic;
 }
 
 - (void)showLoginVC{

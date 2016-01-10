@@ -219,7 +219,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mtm-JM-VQC">
                                         <rect key="frame" x="188" y="0.0" width="93" height="49"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="item_2" translatesAutoresizingMaskIntoConstraints="NO" id="ufJ-Vt-iH6">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="report_n.png" translatesAutoresizingMaskIntoConstraints="NO" id="ufJ-Vt-iH6">
                                                 <rect key="frame" x="35" y="7" width="22" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="22" id="WzE-XT-fR8"/>
@@ -476,6 +476,7 @@
                         <outlet property="myMsg" destination="m6D-5s-KXd" id="I9U-HZ-lgi"/>
                         <outlet property="myUnDo" destination="BHd-v5-ifo" id="NEL-ee-sr8"/>
                         <outlet property="myWaiteApprove" destination="xsd-TF-j4S" id="wr2-kQ-q27"/>
+                        <outlet property="shouYeView" destination="iCQ-61-CPt" id="IbX-bA-iWK"/>
                         <outlet property="status" destination="VQJ-t6-kXk" id="Iqm-p4-lPc"/>
                         <outlet property="time" destination="Kv8-zM-lGB" id="IwB-Dv-osM"/>
                         <outlet property="userImageView" destination="sYh-vz-eLU" id="IML-uE-KC5"/>
@@ -2689,6 +2690,7 @@
         <image name="navi_back" width="10" height="20"/>
         <image name="phone" width="20" height="20"/>
         <image name="queding" width="28" height="28"/>
+        <image name="report_n.png" width="66" height="68"/>
         <image name="search" width="20" height="19"/>
         <image name="search_white" width="20" height="19"/>
     </resources>

@@ -108,6 +108,8 @@
 		6A4B6E9A1C07521400663B7E /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4B6E981C07521400663B7E /* ChangePasswordViewController.m */; };
 		6A4B6E9B1C07521400663B7E /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A4B6E991C07521400663B7E /* ChangePasswordViewController.xib */; };
 		6A94AF591BFCC82C00967DCC /* StatementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94AF581BFCC82C00967DCC /* StatementViewController.m */; };
+		842114151C4254570076C467 /* report_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 842114141C4254570076C467 /* report_n.png */; };
+		8421141D1C4258390076C467 /* thinkape.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8421141C1C4258390076C467 /* thinkape.jpg */; };
 		DB495B009259AC44877074F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD972AA8A05FE73285D78F1 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -295,6 +297,8 @@
 		6A94AF571BFCC82C00967DCC /* StatementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatementViewController.h; sourceTree = "<group>"; };
 		6A94AF581BFCC82C00967DCC /* StatementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatementViewController.m; sourceTree = "<group>"; };
 		6EEA067B9991BA68EB9D43E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		842114141C4254570076C467 /* report_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_n.png; sourceTree = "<group>"; };
+		8421141C1C4258390076C467 /* thinkape.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thinkape.jpg; sourceTree = "<group>"; };
 		D0BA8949B1BD04609B60F996 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -330,6 +334,8 @@
 		4E0076731AEA06910092CAB7 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8421141C1C4258390076C467 /* thinkape.jpg */,
+				842114141C4254570076C467 /* report_n.png */,
 				1F5C19721C33D3B500226BBD /* jiaban_white.png */,
 				4E082A451B66269200A7C262 /* word@2x.png */,
 				1F6D8D011C3B707D00496AF1 /* ab_nav_bg.png */,
@@ -890,6 +896,7 @@
 				4EB23B991B5CA2FA001DD240 /* lauch-568@2x.png in Resources */,
 				4EB23B9A1B5CA2FA001DD240 /* lauch-667@2x.png in Resources */,
 				4E082A461B66269200A7C262 /* word@2x.png in Resources */,
+				8421141D1C4258390076C467 /* thinkape.jpg in Resources */,
 				4EE56B461AD3C54700D34CDD /* Main.storyboard in Resources */,
 				4ED4493A1AEA32160047614F /* pageDot@2x.png in Resources */,
 				1F6D8D001C3B6FD200496AF1 /* no_image.9.png in Resources */,
@@ -917,6 +924,7 @@
 				1F4F63661C2A8BE400EB1CD1 /* BianJiViewController.xib in Resources */,
 				1F54CB091C364C6C009A642C /* BijicellTableViewCell.xib in Resources */,
 				6A4B6E961C074F0300663B7E /* AboutViewController.xib in Resources */,
+				842114151C4254570076C467 /* report_n.png in Resources */,
 				4E35D6F81B21491400A77624 /* HistoryViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

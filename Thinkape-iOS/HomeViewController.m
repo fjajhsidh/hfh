@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *myWaiteApprove;
 @property (weak, nonatomic) IBOutlet UIButton *myMsg;
 
+@property (weak, nonatomic) IBOutlet UIView *shouYeView;
 
 @end
 
@@ -63,6 +64,8 @@
         //[self requestHomeData];
     }
     // Do any additional setup after loading the view.
+    
+    self.shouYeView.backgroundColor=[UIColor colorWithPatternImage:[[UIImage imageNamed:@"thinkape.jpg"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 }
 
 - (void)showLoginVC{

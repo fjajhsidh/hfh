@@ -6,6 +6,14 @@
 //  Copyright (c) 2015年 TIXA. All rights reserved.
 //
 
+//
+//  SubmitApproveViewController.m
+//  Thinkape-iOS
+//
+//  Created by tixa on 15/6/4.
+//  Copyright (c) 2015年 TIXA. All rights reserved.
+//
+
 #import "SubmitApproveViewController.h"
 #import "KindsModel.h"
 #import "KindsLayoutModel.h"
@@ -44,6 +52,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UIButton *commintBtn;
+@property(nonatomic,assign)BOOL isHaven;
 
 @end
 
@@ -60,7 +69,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     _searchArray = [[NSMutableArray alloc] init];
     _selectModel = [[KindsModel alloc] init];
     _layoutArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -77,7 +86,7 @@
         UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithCustomView:backBt];
         self.navigationItem.rightBarButtonItem = back;
         if (!self.kindsPickerView) {
-           self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
+            self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
             [self.kindsPickerView setFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
             __block SubmitApproveViewController *weakSelf = self;
             self.kindsPickerView.selectItemCallBack = ^(KindsModel *model){
@@ -86,7 +95,7 @@
             };
             [self.view addSubview:self.kindsPickerView];
         }
-
+        
         [self requestBillsType];
     }
     else{
@@ -208,7 +217,7 @@
                               [self.tableView reloadData];
                               [SVProgressHUD dismiss];
                           }];
-                        
+                          
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           
@@ -230,7 +239,7 @@
             NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
             [SVProgressHUD showWithStatus:nil maskType:2];
             [self fetchItemsData:str callbakc:^(NSArray *arr) {
-
+                
                 if (arr.count == 0) {
                     [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
                     [self requestKindsDataSource:model];
@@ -239,7 +248,7 @@
                     [SVProgressHUD dismiss];
                     [self initItemView:arr tag:tag];
                 }
-
+                
             }];
         }
         else
@@ -288,7 +297,7 @@
     }
     NSString *gridmainid;
     NSString *programid;
-
+    
     NSString *appStr =@"Data";
     NSString * ac1 = [NSString stringWithFormat:@"%@%@",ac,appStr];
     if (self.type == 0) {
@@ -310,33 +319,51 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *op = [manager POST:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                                     parameters:nil
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              if ([[responseObject objectForKey:@"msg"] isKindOfClass:[NSDictionary class]]) {
-                  NSDictionary *dic = [responseObject objectForKey:@"msg"];
-                  NSString * ac2 = [NSString stringWithFormat:@"%@File",ac];
-                  if (_imagesArray.count != 0 || delteImageID.length != 0) {
-                      sspid = [NSString stringWithFormat:@"%@",dic[@"sspid"]];
-                      [self uploadImage:dic[@"sspid"] ac:ac2 inde:0];
-                  }
-                  else{
-                      [self.navigationController popViewControllerAnimated:YES];
-                      if (self.callback) {
-                          self.callback();
-                      }
-                  }
-                  
-                  
-                  [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
-              }
-              else
-                  [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
-
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              
-          }];
+                                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                           
+                                           if ([[responseObject objectForKey:@"msg"] isKindOfClass:[NSDictionary class]]) {
+                                               NSDictionary *dic = [responseObject objectForKey:@"msg"];
+                                               NSString * ac2 = [NSString stringWithFormat:@"%@File",ac];
+                                               sspid = [NSString stringWithFormat:@"%@",dic[@"sspid"]];
+                                               //                  if (_imagesArray.count != 0 || delteImageID.length != 0) {
+                                               //
+                                               //                      [self uploadImage:dic[@"sspid"] ac:ac2 inde:0];
+                                               //                  }
+                                               if (_imagesArray.count != 0 || delteImageID.length != 0) {
+                                                   
+                                                   [self uploadImage:dic[@"sspid"] ac:ac2 inde:0];
+                                               }
+                                               else{
+                                                   
+                                                   
+                                                   
+                                                   if (commintBills==YES) {
+                                                       if (self.type==0) {
+                                                           [self saveCGToBill:sspid];
+                                                           
+                                                       }
+                                                       
+                                                   }else
+                                                   {
+                                                       [self.navigationController popViewControllerAnimated:YES];
+                                                   }
+                                                   if (self.callback) {
+                                                       self.callback();
+                                                   }
+                                               }
+                                               
+                                               
+                                               [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
+                                           }
+                                           else
+                                               [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+                                           
+                                       }
+                                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                           
+                                       }];
     [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-       NSLog(@"totle %lld",totalBytesWritten);
+        NSLog(@"totle %lld",totalBytesWritten);
     }];
     
 }
@@ -368,9 +395,10 @@
                                                   if (index + 1 < _imagesArray.count) {
                                                       [self uploadImage:sspid ac:ac inde:index + 1];
                                                   }
-                                                  if (index + 1 == _imagesArray.count - 1) {
-                                                      if (commintBills) {
-                                                          [self saveCGToBill];
+                                                  //index + 1 == _imagesArray.count - 1
+                                                  if (index + 1 == _imagesArray.count ) {
+                                                      if (commintBills==YES) {
+                                                          [self saveCGToBill:sspid];
                                                       }
                                                       else{
                                                           [self.navigationController popViewControllerAnimated:YES];
@@ -384,7 +412,7 @@
                                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                               
                                           }];
-
+    
 }
 
 /**
@@ -420,14 +448,14 @@
 }
 
 // 编辑时  草稿 存为单据
-- (void)saveCGToBill{
+- (void)saveCGToBill:(NSString *)AG{
     //http://27.115.23.126:3032/ashx/mobilenew.ashx?ac= SspCGToBills &u=9& sspid =3,4,5,6,7
     NSString *billsspid = commintBills ? sspid : _editModel.SspID;
     NSString *url = [NSString stringWithFormat:@"ac=SspCGToBills&u=%@&sspid=%@",self.uid,billsspid];
     [RequestCenter GetRequest:url
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                         NSString *msg = [responseObject objectForKey:@"msg"];
+                          NSString *msg = [responseObject objectForKey:@"msg"];
                           if ([msg isEqualToString:@"ok"]) {
                               [SVProgressHUD showSuccessWithStatus:@"提交成功"];
                               [self.navigationController popViewControllerAnimated:YES];
@@ -459,9 +487,9 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             callBack(modelArr);
-                });
+        });
     });
-
+    
 }
 
 - (void)saveLayoutKindsToDB:(NSDictionary *)dataDic callbakc:(void (^)(void))callBack{
@@ -481,6 +509,8 @@
                         [self.XMLParameterDic setObject:layoutModel.Text forKey:layoutModel.key];
                     
                 }
+                
+                
                 if (layoutModel.datasource.length > 0) {
                     NSString *str = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",layoutModel.datasource]];
                     [[CoreDataManager shareManager] saveDataForTable:@"KindsLayout"
@@ -519,7 +549,7 @@
 #pragma mark - BtnAction
 
 - (void)editItem{
-     YPCGViewController *ypVC = [self.storyboard instantiateViewControllerWithIdentifier:@"YPCGVC"];
+    YPCGViewController *ypVC = [self.storyboard instantiateViewControllerWithIdentifier:@"YPCGVC"];
     [self.navigationController pushViewController:ypVC animated:YES];
 }
 
@@ -550,11 +580,10 @@
     if (self.type == 0) {
         commintBills = YES;
         [self saveBills:@"SaveCG"];
-         [self saveCGToBill];
     }
     else
     {
-        [self saveCGToBill];
+        [self saveCGToBill:sspid];
     }
 }
 
@@ -565,13 +594,20 @@
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"本地相册", nil];
     [sheet showInView:self.view];
     
-
+    
 }
 
+//- (BOOL)isPureInt:(NSString*)string{
+//  //  [NSScanner scannerWithString:string];
+//    NSScanner* scan = [NSScanner scannerWithString:string];
+//    float val;
+//    return[scan scanFloat:&val] && [scan isAtEnd];
+//}
 - (BOOL)isPureInt:(NSString*)string{
+    //  [NSScanner scannerWithString:string];
     NSScanner* scan = [NSScanner scannerWithString:string];
-    int val;
-    return[scan scanInt:&val] && [scan isAtEnd];
+    float val;
+    return[scan scanFloat:&val] && [scan isAtEnd];
 }
 
 
@@ -579,7 +615,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-
+    
     if (buttonIndex == 0) {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         picker.delegate = self;
@@ -591,7 +627,7 @@
         CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
         picker.delegate = self;
         [self presentViewController:picker animated:YES completion:nil];
-
+        
     }
     
 }
@@ -664,7 +700,7 @@
         
         [browser show]; // 展示图片浏览器
     }
-
+    
 }
 
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
@@ -689,7 +725,7 @@
 }
 
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
-   // UIButton *imageView = (UIButton *)[bgView viewWithTag:index];
+    // UIButton *imageView = (UIButton *)[bgView viewWithTag:index];
     if (browser.tag == 11) {
         return _imagesArray[index];
     }
@@ -718,7 +754,7 @@
     self.datePickerView.tag = tag;
     
     if (date.length != 0) {
-       self.datePickerView.date = date;
+        self.datePickerView.date = date;
     }
     
     self.datePickerView.selectDateCallBack = ^(NSString *date){
@@ -745,8 +781,11 @@
     NSMutableString *xmlStr = [NSMutableString string];
     int i = 0;
     for (KindsLayoutModel *layoutModel in self.layoutArray) {
+        // NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
+        //
         NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
-        if (layoutModel.IsMust && value.length == 0) {
+        
+        if (layoutModel.IsMust && value.length == 0&&i !=0&&[layoutModel.key isEqualToString:@"ybmoney"]) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
             return nil;
         }
@@ -759,10 +798,10 @@
                 [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.key,value];
             }
         }
-//        else if (i != 0){
-//            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
-//            return nil;
-//        }
+        //        else if (i != 0){
+        //            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
+        //            return nil;
+        //        }
         i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
@@ -776,37 +815,161 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-        KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-        if (layoutModel.datasource.length > 0) {
-            isSingal = layoutModel.IsSingle;
-            [self kindsDataSource:layoutModel];
-            return NO;
-        }
-        else if ([layoutModel.SqlDataType isEqualToString:@"date"]){
-            [self addDatePickerView:textField.tag date:textField.text];
-            return NO;
-        }
-        else
-            return YES;
-}
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
-        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-        textField.text = @"";
+    if (layoutModel.datasource.length > 0) {
+        isSingal = layoutModel.IsSingle;
+        [self kindsDataSource:layoutModel];
+        return NO;
+    }
+    else if ([layoutModel.SqlDataType isEqualToString:@"date"]){
+        [self addDatePickerView:textField.tag date:textField.text];
+        return NO;
     }
     else
-    {
-        [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
-        [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
+        return YES;
+}
+
+//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
+//        KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+//            if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
+//                [SVProgressHUD showInfoWithStatus:@"请输入数字"];
+//                textField.text = @"";
+//
+//
+//               if ([textField.text length]>0) {
+//                            unichar single = [textField.text characterAtIndex:0];
+//                           if ((single>='0'&&single<='9')||single=='.') {
+//                               //数据格式正确
+//                                //首字母不能为0和小数点
+//                                if ([textField.text length]==0) {
+//                                   if (single=='.') {
+//                                       [SVProgressHUD showInfoWithStatus:@"第一个数字不能为小数点" ];
+//                                      textField.text=@"";
+//                                       return NO;
+//
+//                                   }
+//
+//                                    if (single=='0') {
+//                                       [SVProgressHUD showInfoWithStatus:@"第一个数字不能为0"];
+//                                       textField.text=@"";
+//                                        return NO;
+//                                   }
+//
+//                              }
+//
+//
+//
+//
+////           if ([textField.text length]>0) {
+////    unichar single = [textField.text characterAtIndex:0];
+////    if ((single>='0'&&single<='9')||single=='.') {
+////        //数据格式正确
+////        //首字母不能为0和小数点
+////        if ([textField.text length]==0) {
+////            if (single=='.') {
+////                [SVProgressHUD showInfoWithStatus:@"第一个数字不能为小数点" ];
+////                textField.text=@"";
+////                return NO;
+////
+////            }
+////
+////            if (single=='0') {
+////                [SVProgressHUD showInfoWithStatus:@"第一个数字不能为0"];
+////                textField.text=@"";
+////                return NO;
+////            }
+////
+////        }
+////
+////    }
+////
+////        else
+////        {
+////            [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
+////                  [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
+////        }
+////        return YES;
+////    }
+
+//    -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+//    {
+//        KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+//            if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
+//                [SVProgressHUD showInfoWithStatus:@"请输入数字"];
+//                textField.text = @"";
+//
+//
+//
+//
+//            }
+//
+//    //    if ([textField.text rangeOfString:@"."].location==NSNotFound) {
+//    //
+//    //
+//    //    }
+//        if ([textField.text length]>0) {
+//            unichar single =[textField.text characterAtIndex:0];
+//            if ((single>='0'&&single<='9')||single=='.') {
+//                if ([textField.text length]==0) {
+//                    if (single=='.') {
+//                        [SVProgressHUD showInfoWithStatus:@"开头不能为小数点"];
+//                        textField.text=@"";
+//                        return NO;
+//                    }
+//    //                if (single=='0') {
+//    //                    [SVProgressHUD showInfoWithStatus:@"开头不能为0"];
+//    //                    textField.text=@"";
+//    //                    return NO;
+//    //                }
+//
+//                }
+//            }
+//        }
+//
+//
+//                [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
+//                [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
+//
+//            return YES;
+//}
+//
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
+        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
+        textField.text = @"";
+        _isHaven=NO;
     }
+    
+    if ([textField.text length]>0) {
+        unichar single = [textField.text characterAtIndex:0];
+        if ((single>='0'&&single<='9')||single=='.') {
+            //            if ([textField.text length]==0) {
+            if (single=='.') {
+                [SVProgressHUD showInfoWithStatus:@"第一个字不能为点"];
+                textField.text=@"";
+                return NO;
+            }
+            
+            //            }
+        }
+    }
+    
+    
+    
+    
+    [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
+    [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
+    
+    
     return YES;
 }
 #pragma mark - UITableView Delegate && DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
+    
     if (self.layoutArray.count ==0) {
         return 0;
     }
@@ -816,7 +979,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     if (indexPath.row != self.layoutArray.count) {
         KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:indexPath.row];
         NSString *cellID = @"cell";
@@ -839,7 +1002,7 @@
                 cell.contentText.placeholder = @"请输入，不能为空";
             }
             if ([layoutModel.SqlDataType isEqualToString:@"number"]) {
-                cell.contentText.keyboardType =  UIKeyboardTypePhonePad;
+                cell.contentText.keyboardType =UIKeyboardTypeDecimalPad ;
             }
         }
         return cell;
@@ -869,7 +1032,7 @@
                 [btn setImage:[UIImage imageNamed:@"word"] forState:UIControlStateNormal];
             }
             else{
-                [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:model.FilePath] forState:UIControlStateNormal];
+                [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:model.FilePath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"ab_nav_bg"]];
             }
             btn.tag = 1024+ i;
             [btn addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
@@ -924,7 +1087,7 @@
         int row = count / 3 + 1;
         return (speace + imageWidth) * row;
     }
-
+    
 }
 
 - (void)deleteImage:(UIButton *)btn{
@@ -953,14 +1116,16 @@
     // Dispose of any resources that can be recreated.
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
+
+
 

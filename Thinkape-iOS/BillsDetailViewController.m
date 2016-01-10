@@ -749,16 +749,60 @@
 //            
 //    }
 //    self.billType == 0 && ([[mainDataDic objectForKey:@"flowstatus_show"] isEqualToString:@"未提交"] ||[[mainDataDic objectForKey:@"flowstatus_show"] isEqualToString:@"已弃审"] ||
-    if (self.billType==0&&[[mainDataDic objectForKey:@"flowstatus_show"]isEqualToString:@"已审核"]) {
-        UIButton *button =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [button setBackgroundImage:[UIImage imageNamed:@"right_item"] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(danju) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *bar = [[UIBarButtonItem alloc] initWithCustomView:button];
-        self.navigationItem.rightBarButtonItem=bar;
+//    if (self.billType==0&&[[mainDataDic objectForKey:@"flowstatus_show"]isEqualToString:@"已审核"]) {
+//        UIButton *button =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+//        [button setBackgroundImage:[UIImage imageNamed:@"right_item"] forState:UIControlStateNormal];
+//        [button addTarget:self action:@selector(danju) forControlEvents:UIControlEventTouchUpInside];
+//        UIBarButtonItem *bar = [[UIBarButtonItem alloc] initWithCustomView:button];
+//        self.navigationItem.rightBarButtonItem=bar;
+    
+    if (self.billType==0&&[[mainDataDic objectForKey:@"flowstatus_show"]isEqualToString:@"已提交"]) {
         
         
+        
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
+        
+        
+        [btn setTitle:@"回 收" forState:UIControlStateNormal];
+        //设置边框为圆角
+        [btn.layer setMasksToBounds:YES];
+        [btn.layer setCornerRadius:10];
+        
+        [btn setBackgroundColor:[UIColor colorWithRed:0.906 green:0.251 blue:0.357 alpha:1.000]];
+        [btn addTarget:self action:@selector(aller) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        [self.view addSubview:btn];
+        self.tableViewBottomConstraint.constant = 50.0f;
+        lastConstant = 50.0f;
         
     }
+    
+}
+-(void)aller
+{
+    NSString *tuiHui =[NSString stringWithFormat:@"ac=Recover&u=%@&programid=%@&billid=%@",self.uid,self.programeId,self.billid];
+    NSLog(@"??????%@,???%@,%@",self.uid,self.programeId,self.billid);
+    
+    [RequestCenter GetRequest:tuiHui parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSString *msg =[responseObject objectForKey:@"msg"];
+        if ([msg isEqualToString:@"ok"]) {
+            [SVProgressHUD showInfoWithStatus:@"退回成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.reloadData) {
+                self.reloadData();
+                
+            }
+            else
+            {
+                [SVProgressHUD showInfoWithStatus:@"退回失败，请稍后尝试"];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }
+            showLoadingStatus:YES];
     
 }
 -(void)danju

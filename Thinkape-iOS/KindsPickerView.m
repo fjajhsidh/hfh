@@ -9,6 +9,8 @@
 #import "KindsPickerView.h"
 #import "KindsModel.h"
 #import "BFKit.h"
+#import "AppDelegate.h"
+
 
 @interface KindsPickerView()
 @property (strong, nonatomic) NSMutableArray *searchArray;
@@ -85,6 +87,13 @@
     if (component == 0) {
         [label setFrame:CGRectMake(0, 0, 40, 15)];
         label.text = [titleArr safeObjectAtIndex:row];
+        
+        
+        //wo
+        AppDelegate *app=[UIApplication sharedApplication ].delegate;
+        NSLog(@"传值%@",app.zhuanStr);
+        
+        app.zhuanStr=label.text;
     }
     else{
         [label setFrame:CGRectMake(0, 0, 160, 15)];

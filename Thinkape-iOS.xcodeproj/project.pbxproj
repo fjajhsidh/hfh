@@ -110,6 +110,7 @@
 		6A94AF591BFCC82C00967DCC /* StatementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94AF581BFCC82C00967DCC /* StatementViewController.m */; };
 		842114151C4254570076C467 /* report_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 842114141C4254570076C467 /* report_n.png */; };
 		8421141D1C4258390076C467 /* thinkape.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8421141C1C4258390076C467 /* thinkape.jpg */; };
+		842114201C4300710076C467 /* applyChangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8421141F1C4300710076C467 /* applyChangeModel.m */; };
 		DB495B009259AC44877074F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD972AA8A05FE73285D78F1 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -299,6 +300,8 @@
 		6EEA067B9991BA68EB9D43E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		842114141C4254570076C467 /* report_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_n.png; sourceTree = "<group>"; };
 		8421141C1C4258390076C467 /* thinkape.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thinkape.jpg; sourceTree = "<group>"; };
+		8421141E1C4300710076C467 /* applyChangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = applyChangeModel.h; sourceTree = "<group>"; };
+		8421141F1C4300710076C467 /* applyChangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = applyChangeModel.m; sourceTree = "<group>"; };
 		D0BA8949B1BD04609B60F996 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -713,6 +716,7 @@
 		4EE56B391AD3C54700D34CDD /* Thinkape-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				842114211C43007E0076C467 /* applyChange */,
 				4EEDA5781B141D8800BAD188 /* Model */,
 				4E8C78741AD5092A00E8CCFB /* Net Center */,
 				4EEDA5741B14197B00BAD188 /* DataCenter */,
@@ -797,6 +801,15 @@
 				4EEDA57A1B141D9800BAD188 /* AccountModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		842114211C43007E0076C467 /* applyChange */ = {
+			isa = PBXGroup;
+			children = (
+				8421141E1C4300710076C467 /* applyChangeModel.h */,
+				8421141F1C4300710076C467 /* applyChangeModel.m */,
+			);
+			name = applyChange;
 			sourceTree = "<group>";
 		};
 		B3506C0838056A8C56C7BFDC /* Frameworks */ = {
@@ -1024,6 +1037,7 @@
 				4ED449371AEA32160047614F /* PFAd.m in Sources */,
 				6A3371191C0058D800A5B0D5 /* UIImage+SKPImage.m in Sources */,
 				4EEDA5771B14198F00BAD188 /* DataManager.m in Sources */,
+				842114201C4300710076C467 /* applyChangeModel.m in Sources */,
 				4ED4493B1AEA32160047614F /* SMPageControl.m in Sources */,
 				4EBF82191B9D6F4A00FB065B /* DatePickerView.m in Sources */,
 				4EA5C4181AEDD99100D2EB32 /* StayApprovalViewController.m in Sources */,

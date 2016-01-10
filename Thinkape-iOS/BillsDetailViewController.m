@@ -24,6 +24,9 @@
 #import "UIImage+SKPImage.h"
 #import "CTAssetsPickerController.h"
 #import "BianJiViewController.h"
+#import "applyChangeModel.h"
+
+#import "AppDelegate.h"
 @interface BillsDetailViewController ()<SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate>{
     NSString *delteImageID;
 }
@@ -43,6 +46,14 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottomConstraint;
 @property (nonatomic , strong) NSMutableArray *imageArray;
 @property(nonatomic,strong)UIActionSheet *actionsheet;
+
+//wo
+@property(strong,nonatomic)NSDictionary * changedict;
+@property(strong,nonatomic)NSMutableArray * changeArr;
+@property(strong,nonatomic)applyChangeModel * changeModel;
+
+@property(weak,nonatomic)NSString * tuiHuiStr;
+@property(nonatomic)BOOL tuihui;
 @end
 
 @implementation BillsDetailViewController
@@ -65,6 +76,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //wo
+    self.tuihui=NO;
+    
     self.selectedIndex = 0;
     self.selectedion2=0;
     self.title = @"详情";
@@ -75,6 +89,10 @@
     _mainData = [[NSMutableArray alloc] init];
     _costData = [[NSMutableArray alloc] init];
     _pathFlow = [[NSMutableArray alloc] init];
+    //wo 申请转报销转借款
+    self.changeArr=[[NSMutableArray alloc]init];
+    self.changeModel=[[applyChangeModel alloc]init];
+    
     [self requestDataSource];
     self.topConstaraint.constant = -188.0f;
     lastConstant = 50.0f;
@@ -94,6 +112,107 @@
     
     // Do any additional setup after loading the view.
 }
+
+//wo添加申请转报销，申请转借款的按钮
+-(void)addRightNagationBar{
+    AppDelegate *ap=[UIApplication sharedApplication].delegate;
+    NSLog(@"转报销转借款%@",ap.zhuanStr);
+    if ([ap.danJu isEqualToString:@"未完成审批"]) {
+        if ([ap.flowstatus isEqualToString:@"未提交"]||[ap.flowstatus isEqualToString:@"已退回"]||[ap.flowstatus isEqualToString:@"已弃申"]) {
+            
+            
+            UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(item3Click:)];
+       //     self.navigationItem.rightBarButtonItems = @[item3];
+        }
+    }
+    
+    
+    if ([ap.zhuanStr isEqualToString:@"11"]) {
+        if([ap.danJu isEqualToString:@"已完成审批"]){
+            UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"转报销" style:UIBarButtonItemStylePlain target:self action:@selector(item1Click:)];
+            
+            UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转借款" style:UIBarButtonItemStylePlain target:self action:@selector(item2Click:)];
+            if (self.changeArr.count) {
+                self.navigationItem.rightBarButtonItems = @[item1, item2];
+                
+                self.navigationController.navigationBar.titleTextAttributes=@{UITextAttributeTextColor:[UIColor whiteColor]};
+            }
+        }
+    }
+    NSLog(@"changeArr%@",self.changeArr);
+}
+
+-(void)item1Click:(id)sender{
+    if (self.changeArr.count) {
+        for (int i=0; i<self.changeArr.count; i++) {
+            if ([[[self.changeArr objectAtIndex:i] objectForKey:@"barText"] isEqualToString:@"转差旅费报销"]) {
+                self.changeModel.iid=[[self.changeArr objectAtIndex:i] objectForKey:@"iid"];
+                
+                self.changeModel.SourceProgramID=[[self.changeArr objectAtIndex:i] objectForKey:@"SourceProgramID"];
+                self.changeModel.TargetProgramID=[[self.changeArr objectAtIndex:i] objectForKey:@"TargetProgramID"];
+                self.changeModel.barText=[[self.changeArr objectAtIndex:i] objectForKey:@"barText"];
+                NSLog(@"barText%@",[[self.changeArr objectAtIndex:i] objectForKey:@"barText"]);
+                NSLog(@"TargetProgramID%@",[[self.changeArr objectAtIndex:i] objectForKey:@"TargetProgramID"]);
+                NSLog(@"SourceProgramID%@",[[self.changeArr objectAtIndex:i] objectForKey:@"SourceProgramID"]);
+                NSLog(@"iid%@",[[self.changeArr objectAtIndex:i] objectForKey:@"iid"]);
+                for (NSString *key in self.changeArr[i]) {
+                    NSLog(@"%@字典%@",key,self.changeArr[i][key]);
+                }
+                NSLog(@"数组%@",self.changeArr[i]);
+                NSLog(@"模型%@",self.changeModel);
+                [self zhuanBaoXiaoHuoJieKuan];
+            }
+            
+        }
+    }
+    
+}
+-(void)item2Click:(id)sender{
+    
+    if (self.changeArr.count) {
+        for (int i=0; i<self.changeArr.count; i++) {
+            if ([[[self.changeArr objectAtIndex:i] objectForKey:@"barText"] isEqualToString:@"生成借款单"]) {
+                self.changeModel.iid=[[self.changeArr objectAtIndex:i] objectForKey:@"iid"];
+                
+                self.changeModel.SourceProgramID=[[self.changeArr objectAtIndex:i] objectForKey:@"SourceProgramID"];
+                self.changeModel.TargetProgramID=[[self.changeArr objectAtIndex:i] objectForKey:@"TargetProgramID"];
+                self.changeModel.barText=[[self.changeArr objectAtIndex:i] objectForKey:@"barText"];
+                NSLog(@"barText%@",[[self.changeArr objectAtIndex:i] objectForKey:@"barText"]);
+                NSLog(@"TargetProgramID%@",[[self.changeArr objectAtIndex:i] objectForKey:@"TargetProgramID"]);
+                NSLog(@"SourceProgramID%@",[[self.changeArr objectAtIndex:i] objectForKey:@"SourceProgramID"]);
+                NSLog(@"iid%@",[[self.changeArr objectAtIndex:i] objectForKey:@"iid"]);
+                for (NSString *key in self.changeArr[i]) {
+                    NSLog(@"%@字典%@",key,self.changeArr[i][key]);
+                }
+                NSLog(@"数组%@",self.changeArr[i]);
+                NSLog(@"模型%@",self.changeModel);
+                [self zhuanBaoXiaoHuoJieKuan];
+            }
+            
+        }
+    }
+}
+
+//wo上传后台转借款或报销
+
+-(void)zhuanBaoXiaoHuoJieKuan{
+    
+    NSString *str=[NSString stringWithFormat:@"ac=AutoCreate&u=%@&SourceProgramID=%@&TargetProgramID=%@&BillID=%@&IsAutoSubmit=%@",self.uid,self.changeModel.SourceProgramID,self.changeModel.TargetProgramID,self.billid,@"0"];
+    NSLog(@"请求的转%@",str);
+    [RequestCenter GetRequest:str                   parameters:nil
+                      success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                          
+                          NSLog(@"接收到的responseObject%@",responseObject);
+                          
+                      }
+                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                          NSLog(@"错误%@",error);
+                      }];
+    
+    
+}
+
+
 
 - (void)editItem{
     
@@ -163,6 +282,14 @@
                           NSArray * costLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"details"];
                           [_mainLayoutArray addObjectsFromArray:[LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]]];
                           [_costLayoutArray addObjectsFromArray:[CostLayoutModel objectArrayWithKeyValuesArray:costLayout]];
+                          
+                          
+                          //wo
+                          self.changeArr=[[NSMutableArray alloc] init];
+                          self.changeArr=[[responseObject objectForKey:@"msg"] objectForKey:@"btn"];
+                          
+                          
+                          
                           NSArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
                           _mainData = [dataArr safeObjectAtIndex:0];
                           
@@ -177,7 +304,8 @@
 //                          }
                           [self.tableView reloadData];
                           [SVProgressHUD dismiss];
-                        
+                          //wo
+                         [self addRightNagationBar];
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           
@@ -310,7 +438,11 @@
 //    {
 //        
 //    }
-    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=Approve&u=%@&ukey=%@&ProgramID=%@&Billid=%@&BillNo=%@&disc=%@&stepid=%@&returnrule=%@&dynamicid=%@&returntodynid=%@&resultType=%@",self.uid,self.ukey,model.programid,model.billid,model.billno,[_beizhuText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],model.stepid,model.returnrule,model.dynamicid,returntodynid,type]
+    
+    //wo
+    NSString *strRequest=[NSString stringWithFormat:@"ac=Approve&u=%@&ukey=%@&ProgramID=%@&Billid=%@&BillNo=%@&disc=%@&stepid=%@&returnrule=%@&dynamicid=%@&returntodynid=%@&resultType=%@",self.uid,self.ukey,model.programid,model.billid,model.billno,[_beizhuText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],model.stepid,model.returnrule,model.dynamicid,returntodynid,type];
+    
+    [RequestCenter GetRequest:strRequest
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           if([[responseObject objectForKey:@"msg"] isKindOfClass:[NSDictionary class]]){
@@ -466,6 +598,8 @@
             btn.selected = NO;
             [self singleApprove:_unModel type:@"fail"];
             [self resizeFootViewFrame:1];
+            //wo
+            self.tuiHuiStr=self.beizhuText.text;
         }
     }
 }
@@ -600,6 +734,17 @@
             cell.advice.text = model.resulttype;
             cell.stepName.text = model.stepname;
             cell.stepName.hidden = model.stepname.length > 0 ?NO : YES;
+           //wo    退回意见
+            if ([model.resulttype isEqualToString:@"不同意"]) {
+                cell.advice.text = model.appopinion;
+            }else{
+                cell.advice.text = model.resulttype;
+            }
+            
+            
+            
+            
+            
             if (indexPath.row == self.dataArray.count - 1) {
                 cell.lineView.hidden = YES;
             }

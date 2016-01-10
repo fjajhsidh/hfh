@@ -12,6 +12,8 @@
 #import "LinkViewController.h"
 #import "KindsPickerView.h"
 #import "JSBadgeView.h"
+#import "AppDelegate.h"
+
 
 @interface HomeViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *userName;
@@ -173,13 +175,18 @@
     
         [toVC setValue:[NSNumber numberWithBool:NO] forKey:@"undo"];
         self.istobe=NO;
-        
+        //wo
+        AppDelegate * app=[UIApplication sharedApplication].delegate;
+        app.danJu=@"未完成审批";
     }
     if ([segue.identifier isEqualToString:@"complantToList"]) {
         id toVC = segue.destinationViewController;
         [toVC setValue:@"已完成审批" forKey:@"titleStr"];
         [toVC setValue:[NSNumber numberWithBool:YES] forKey:@"undo"];
         self.istobe=YES;
+        //wo
+        AppDelegate * app=[UIApplication sharedApplication].delegate;
+        app.danJu=@"已完成审批";
     }
     if ([segue.identifier isEqualToString:@"LinkVC"]) {
         LinkViewController *link = (LinkViewController *)segue.destinationViewController;

@@ -15,6 +15,15 @@
 @property(nonatomic,strong)NSMutableDictionary *dict;
 @property(nonatomic,strong)NSMutableArray *uptateimage;
 @property(nonatomic,strong)NSMutableArray *imagedate;
-
+//wo 退回意见界面传值
+@property(strong,nonatomic)NSString * tuiHuiYiJianStr;
+//wo  传值
+@property(strong,nonatomic)NSString * zhuanStr;
+//wo  单据是否完成
+@property(strong,nonatomic)NSString * danJu;
+//wo  单据是否完成
+@property(strong,nonatomic)NSString * editorState;
+//wo  单据是否完成
+@property(strong,nonatomic)NSString * flowstatus;
 @end
 

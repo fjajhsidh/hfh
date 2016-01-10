@@ -10,6 +10,7 @@
 #import "BillsModel.h"
 #import "BillsListViewCell.h"
 #import "BillsDetailViewController.h"
+#import "AppDelegate.h"
 
 @interface BillsListViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *navHeightConstraints;
@@ -196,6 +197,13 @@
         [self.tableView.header beginRefreshing];
     };
     
+    //wo 未完成列表的审核状态
+    
+    AppDelegate * app=[UIApplication sharedApplication].delegate;
+    app.flowstatus=model.flowstatus;
+    
+    
+    
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -214,6 +222,12 @@
 //                    self.lineView.frame = CGRectMake(frame.size.width * (subBtn.tag - 10), frame.origin.y, frame.size.width, frame.size.height);
                     self.lineLeftConstraint.constant =frame.size.width * (subBtn.tag - 10);
                 }];
+                
+                //wo
+                AppDelegate *app=[UIApplication sharedApplication].delegate;
+                app.zhuanStr=[NSString stringWithFormat:@"%ld",sender.tag];
+                
+                
                 switch (sender.tag) {
                     case 10:
                         ac = @"GetMyAfrList";

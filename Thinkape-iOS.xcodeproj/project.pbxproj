@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F0D862B1C42416B006661C9 /* adsa.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D862A1C42416B006661C9 /* adsa.m */; };
 		1F4F63651C2A8BE400EB1CD1 /* BianJiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4F63631C2A8BE400EB1CD1 /* BianJiViewController.m */; };
 		1F4F63661C2A8BE400EB1CD1 /* BianJiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4F63641C2A8BE400EB1CD1 /* BianJiViewController.xib */; };
 		1F54CB031C3648C7009A642C /* Bianjiviewtableview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CB011C3648C7009A642C /* Bianjiviewtableview.m */; };
@@ -109,7 +108,6 @@
 		6A4B6E9A1C07521400663B7E /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4B6E981C07521400663B7E /* ChangePasswordViewController.m */; };
 		6A4B6E9B1C07521400663B7E /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A4B6E991C07521400663B7E /* ChangePasswordViewController.xib */; };
 		6A94AF591BFCC82C00967DCC /* StatementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94AF581BFCC82C00967DCC /* StatementViewController.m */; };
-		84F5FA571C42415E00EE36E6 /* AAAAAAA.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FA561C42415E00EE36E6 /* AAAAAAA.m */; };
 		DB495B009259AC44877074F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD972AA8A05FE73285D78F1 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -124,8 +122,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F0D86291C42416B006661C9 /* adsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = adsa.h; sourceTree = "<group>"; };
-		1F0D862A1C42416B006661C9 /* adsa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = adsa.m; sourceTree = "<group>"; };
 		1F4F63621C2A8BE400EB1CD1 /* BianJiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BianJiViewController.h; sourceTree = "<group>"; };
 		1F4F63631C2A8BE400EB1CD1 /* BianJiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BianJiViewController.m; sourceTree = "<group>"; };
 		1F4F63641C2A8BE400EB1CD1 /* BianJiViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BianJiViewController.xib; sourceTree = "<group>"; };
@@ -299,8 +295,6 @@
 		6A94AF571BFCC82C00967DCC /* StatementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatementViewController.h; sourceTree = "<group>"; };
 		6A94AF581BFCC82C00967DCC /* StatementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatementViewController.m; sourceTree = "<group>"; };
 		6EEA067B9991BA68EB9D43E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		84F5FA551C42415E00EE36E6 /* AAAAAAA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAAAAA.h; sourceTree = "<group>"; };
-		84F5FA561C42415E00EE36E6 /* AAAAAAA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAAAAA.m; sourceTree = "<group>"; };
 		D0BA8949B1BD04609B60F996 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -461,8 +455,6 @@
 				1F6D8CFA1C3B57B700496AF1 /* MixiViewController.h */,
 				1F6D8CFB1C3B57B700496AF1 /* MixiViewController.m */,
 				1F6D8CFC1C3B57B700496AF1 /* MixiViewController.xib */,
-				1F0D86291C42416B006661C9 /* adsa.h */,
-				1F0D862A1C42416B006661C9 /* adsa.m */,
 			);
 			name = danju;
 			sourceTree = "<group>";
@@ -695,8 +687,6 @@
 		4EE56B2E1AD3C54700D34CDD = {
 			isa = PBXGroup;
 			children = (
-				84F5FA551C42415E00EE36E6 /* AAAAAAA.h */,
-				84F5FA561C42415E00EE36E6 /* AAAAAAA.m */,
 				4EE56B391AD3C54700D34CDD /* Thinkape-iOS */,
 				4EE56B531AD3C54700D34CDD /* Thinkape-iOSTests */,
 				4EE56B381AD3C54700D34CDD /* Products */,
@@ -987,7 +977,6 @@
 				4EE2D0501B43DBC70081C120 /* SDBrowserImageView.m in Sources */,
 				4E03BC981B33C7BB00E7CD0B /* NewsModel.m in Sources */,
 				4EAFA35F1B15AD38000B0C23 /* CostLayoutModel.m in Sources */,
-				84F5FA571C42415E00EE36E6 /* AAAAAAA.m in Sources */,
 				4E2D56241AEB33FC00ABE1BA /* BillsListViewController.m in Sources */,
 				4E0076801AEA07ED0092CAB7 /* CompanyNoticeListViewController.m in Sources */,
 				4E1DB0EB1B253AB900333940 /* KindsLayoutModel.m in Sources */,
@@ -1016,7 +1005,6 @@
 				4E0076721AEA05D00092CAB7 /* ParentsViewController.m in Sources */,
 				4E26264E1B16B25A00993493 /* BillsDetailViewCell.m in Sources */,
 				4E2D56291AEB6C5000ABE1BA /* BillsListViewCell.m in Sources */,
-				1F0D862B1C42416B006661C9 /* adsa.m in Sources */,
 				4ED449551AEA51560047614F /* LinkViewCell.m in Sources */,
 				4E082A4C1B662B2F00A7C262 /* CTToastTipView.m in Sources */,
 				4EC772C01B315D460060E709 /* KindsPickerView.m in Sources */,

@@ -203,10 +203,11 @@
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           
                           NSLog(@"接收到的responseObject%@",responseObject);
-                          
+                          [SVProgressHUD showSuccessWithStatus:@"成功"];
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           NSLog(@"错误%@",error);
+                          [SVProgressHUD showSuccessWithStatus:@"失败"];
                       }];
     
     

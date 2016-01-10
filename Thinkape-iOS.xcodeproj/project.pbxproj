@@ -109,6 +109,7 @@
 		6A4B6E9A1C07521400663B7E /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4B6E981C07521400663B7E /* ChangePasswordViewController.m */; };
 		6A4B6E9B1C07521400663B7E /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A4B6E991C07521400663B7E /* ChangePasswordViewController.xib */; };
 		6A94AF591BFCC82C00967DCC /* StatementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94AF581BFCC82C00967DCC /* StatementViewController.m */; };
+		84F5FA571C42415E00EE36E6 /* AAAAAAA.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F5FA561C42415E00EE36E6 /* AAAAAAA.m */; };
 		DB495B009259AC44877074F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD972AA8A05FE73285D78F1 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -298,6 +299,8 @@
 		6A94AF571BFCC82C00967DCC /* StatementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatementViewController.h; sourceTree = "<group>"; };
 		6A94AF581BFCC82C00967DCC /* StatementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatementViewController.m; sourceTree = "<group>"; };
 		6EEA067B9991BA68EB9D43E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		84F5FA551C42415E00EE36E6 /* AAAAAAA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAAAAA.h; sourceTree = "<group>"; };
+		84F5FA561C42415E00EE36E6 /* AAAAAAA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAAAAA.m; sourceTree = "<group>"; };
 		D0BA8949B1BD04609B60F996 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -692,6 +695,8 @@
 		4EE56B2E1AD3C54700D34CDD = {
 			isa = PBXGroup;
 			children = (
+				84F5FA551C42415E00EE36E6 /* AAAAAAA.h */,
+				84F5FA561C42415E00EE36E6 /* AAAAAAA.m */,
 				4EE56B391AD3C54700D34CDD /* Thinkape-iOS */,
 				4EE56B531AD3C54700D34CDD /* Thinkape-iOSTests */,
 				4EE56B381AD3C54700D34CDD /* Products */,
@@ -982,6 +987,7 @@
 				4EE2D0501B43DBC70081C120 /* SDBrowserImageView.m in Sources */,
 				4E03BC981B33C7BB00E7CD0B /* NewsModel.m in Sources */,
 				4EAFA35F1B15AD38000B0C23 /* CostLayoutModel.m in Sources */,
+				84F5FA571C42415E00EE36E6 /* AAAAAAA.m in Sources */,
 				4E2D56241AEB33FC00ABE1BA /* BillsListViewController.m in Sources */,
 				4E0076801AEA07ED0092CAB7 /* CompanyNoticeListViewController.m in Sources */,
 				4E1DB0EB1B253AB900333940 /* KindsLayoutModel.m in Sources */,

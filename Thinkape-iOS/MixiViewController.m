@@ -121,8 +121,8 @@
     
     NSIndexPath *indexs =[self.tableview indexPathForSelectedRow];
     
-    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:indexs];
-    
+//    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:indexs];
+//    
     
 //    [self.dict2 newValueFromOldValue:cell.detailtext.text property:layout.fieldname];
     

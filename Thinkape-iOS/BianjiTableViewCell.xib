@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -24,25 +25,26 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XwU-mb-9gZ">
-                        <rect key="frame" x="136" y="5" width="170" height="30"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2kT-ud-sd4">
+                        <rect key="frame" x="140" y="5" width="172" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="oEf-uC-5xp"/>
-                            <constraint firstAttribute="width" constant="170" id="riU-qW-Dku"/>
+                            <constraint firstAttribute="width" constant="172" id="9HB-QE-AWE"/>
+                            <constraint firstAttribute="height" constant="30" id="kxW-lV-iW9"/>
                         </constraints>
-                        <state key="normal" title="Button"/>
-                    </button>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="XwU-mb-9gZ" secondAttribute="trailing" constant="14" id="SO4-yM-Gre"/>
+                    <constraint firstItem="2kT-ud-sd4" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="eX5-7S-ghb"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="2kT-ud-sd4" secondAttribute="bottom" constant="0.5" id="k6y-rX-sL1"/>
                     <constraint firstAttribute="bottom" secondItem="KwO-8B-By7" secondAttribute="bottom" constant="8.5" id="wei-NS-N1z"/>
-                    <constraint firstAttribute="bottom" secondItem="XwU-mb-9gZ" secondAttribute="bottom" constant="8.5" id="yeA-rS-YS9"/>
                     <constraint firstItem="KwO-8B-By7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="yv6-tn-a1P"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="leftlabel" destination="KwO-8B-By7" id="Xti-8f-zub"/>
-                <outlet property="rightButton" destination="XwU-mb-9gZ" id="PGb-0g-k1c"/>
+                <outlet property="textfield" destination="2kT-ud-sd4" id="ou3-n2-Rle"/>
             </connections>
             <point key="canvasLocation" x="2" y="45"/>
         </tableViewCell>

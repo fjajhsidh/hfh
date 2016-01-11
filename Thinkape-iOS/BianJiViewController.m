@@ -219,29 +219,46 @@
     
     if (indexPath.row < _mainLayoutArray.count) {
         LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
+        
+        
         cell.leftlabel.text = [NSString stringWithFormat:@"%@:",model.name];
         //        cell.rightbutton text = [mainDataDic objectForKey:model.fieldname];
         //        [cell.rightbutton setTitle:[mainDataDic objectForKey:model.fieldname] forState:UIControlStateNormal];
 //        [cell.rightButton setTitle:[NSString stringWithFormat:@"%@",[mainDataDic objectForKey:model.fieldname]] forState:UIControlStateNormal];
 //        [cell.rightButton setTitleColor:[UIColor blackColor]];
+       
         cell.textfield.text= [NSString stringWithFormat:@"%@",[mainDataDic objectForKey:model.fieldname]];
-        
+        cell.textfield.delegate=self;
+        if ([model.isreadonly isEqualToString:@"0"]) {
+            cell.textfield.enabled=YES;
+            
+        }else
+        {   cell.textfield.textColor=[UIColor grayColor];
+            
+            cell.textfield.enabled=NO;
+        }
+      
         
         //        cell.contentLabelHeight.constant = [self fixStr:[mainDataDic objectForKey:model.fieldname]];
         if ([model.fieldname isEqualToString:@"totalmoney"]) {
             //            cell.leftlabel.textColor = [UIColor hex:@"f23f4e"];
             cell.leftlabel.textColor=[UIColor hex:@"f23f4e"];
 //        }
-     if ([model.fieldname isEqualToString:@"billdate_show"]) {
+           
+            
+            if ([model.fieldname isEqualToString:@"billdate_show"]) {
+//                [self addDatePickerView:<#(NSInteger)#> date:<#(NSString *)#>]
+            }
+        
+       
          
-
-         cell.textfield.tag=1;
-         [self aller];
+         
          
         
             
          
-             }
+            
+          
 //            if ([model.fieldname isEqualToString:@"deptid_show"]) {
 //                
 //            }
@@ -277,7 +294,6 @@
     else if (indexPath.row == _mainLayoutArray.count + 1){
         cell.leftlabel.text =nil;
         cell.textfield.text=nil;
-//        [cell.rightButton setTitle:@"" forState:UIControlStateNormal];
         
         if (!bgView) {
             bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (SCREEN_WIDTH - 36) * 0.75)];
@@ -291,7 +307,7 @@
         CGFloat speace = 15.0f;
         CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
         int row = count / 3 + 1;
-//        bgView.backgroundColor = [UIColor redColor];
+
         [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
         [bgView removeFromSuperview];
         [self addItems:bgView];
@@ -309,6 +325,55 @@
 {
     NSLog(@">>>>>>>");
 }
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    NSLog(@"开始输入了");
+}
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+//
+//    
+//    BianjiTableViewCell *cell =(BianjiTableViewCell *)[textField superview];
+//    NSIndexPath *indexPath =[self.tableview indexPathForCell:cell];
+//    if (indexPath.row>0) {
+//      cell.textfield.text=@"dsadsa";
+//        
+//    }
+//    
+//       return YES;
+//    
+//    //    }
+//    //    else
+//    //        return YES;
+//}
+//- (void)kindsDataSource:(LayoutModel *)model{
+//    NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.fieldname]];
+//    NSInteger tag= [self.layoutArray indexOfObject:model];
+//    if (model.fieldname.length != 0) {
+//        NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
+//        if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.fieldname : @"0.01"] && oldDataVer.length >0) {
+//            NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+//            [SVProgressHUD showWithStatus:nil maskType:2];
+//            [self fetchItemsData:str callbakc:^(NSArray *arr) {
+//
+//                if (arr.count == 0) {
+//                    [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
+//                    [self requestKindsDataSource:model];
+//                }
+//                else{
+//                    [SVProgressHUD dismiss];
+//                    [self initItemView:arr tag:tag];
+//                }
+//
+//            }];
+//        }
+//        else
+//        {
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length > 0 ? model.DataVer : @"0.01",@"dataVer", nil];
+//            [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
+//            [self requestKindsDataSource:model];
+//        }
+//
+//    }
+//}
 - (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
     if (!self.datePickerView) {
         self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
@@ -346,18 +411,10 @@
     };
     [self.view addSubview:self.datePickerView];
 }
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    textField =(UITextField *)[self.view viewWithTag:1];
+#pragma Textfield点击方法
 
-    
-   
-    
-    return NO;
-    
-//    }
-//    else
-//        return YES;
-}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     CGFloat rowHeight = 0.0f;

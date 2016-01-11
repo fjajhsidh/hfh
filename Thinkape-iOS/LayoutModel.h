@@ -14,5 +14,14 @@
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSString *ishide;
 @property(nonatomic,strong) NSString *ismust;
+@property(nonatomic,strong)NSString *datasource;
+@property(nonatomic,strong)NSString *mobilequeryspan;
+@property(nonatomic,strong)NSString *isreadonly;
+@property(nonatomic,strong)NSString *sqldatatype;
+@property(nonatomic,strong)NSString *issingle;
+@property(nonatomic,strong)NSString *mobiledefaultvalue;
+@property(nonatomic,strong)NSString *mobileeventbyauto;
+@property(nonatomic,strong)NSString *mobiledatasourcewhere;
+
 
 @end

@@ -32,7 +32,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OIL-1k-AYO">
-                            <rect key="frame" x="557" y="8" width="30" height="30"/>
+                            <rect key="frame" x="520" y="8" width="30" height="30"/>
                             <state key="normal" title="保存"/>
                             <connections>
                                 <action selector="Save:" destination="-1" eventType="touchUpInside" id="eIx-f2-w8N"/>
@@ -43,12 +43,12 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="600" id="3Y2-vf-hUL"/>
                         <constraint firstAttribute="height" constant="42" id="JM0-JJ-Nfi"/>
+                        <constraint firstAttribute="bottom" secondItem="OIL-1k-AYO" secondAttribute="bottom" constant="4" id="QEa-7t-Qjv"/>
                         <constraint firstItem="DBb-MZ-DpS" firstAttribute="top" secondItem="ftK-lq-e06" secondAttribute="top" constant="6" id="VYS-cR-7ZX"/>
                         <constraint firstItem="DBb-MZ-DpS" firstAttribute="leading" secondItem="ftK-lq-e06" secondAttribute="leading" constant="50" id="b0i-w7-Re2"/>
+                        <constraint firstAttribute="trailing" secondItem="OIL-1k-AYO" secondAttribute="trailing" constant="50" id="fiX-CZ-pIH"/>
                         <constraint firstAttribute="bottom" secondItem="DBb-MZ-DpS" secondAttribute="bottom" constant="6" id="ja2-PL-Di4"/>
-                        <constraint firstAttribute="trailing" secondItem="OIL-1k-AYO" secondAttribute="trailing" constant="13" id="sh7-Ne-BJ9"/>
-                        <constraint firstAttribute="bottom" secondItem="OIL-1k-AYO" secondAttribute="bottom" constant="4" id="tkG-Ee-9GE"/>
-                        <constraint firstItem="OIL-1k-AYO" firstAttribute="top" secondItem="ftK-lq-e06" secondAttribute="top" constant="8" id="y8P-dh-wf9"/>
+                        <constraint firstItem="OIL-1k-AYO" firstAttribute="top" secondItem="ftK-lq-e06" secondAttribute="top" constant="8" id="u8d-4o-rG0"/>
                     </constraints>
                 </view>
             </subviews>

@@ -34,6 +34,7 @@
 #import "DatePickerView.h"
 #import "Bianjito.h"
 #import "AppDelegate.h"
+#import "SDPhotoBrowser.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (strong,nonatomic) NSMutableArray *mainLayoutArray; // 主表 布局视图
@@ -56,9 +57,11 @@
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
 @property(nonatomic,strong)NSMutableArray *datestring;
 @property(nonatomic,strong)DatePickerView *datePickerView;
-@property(nonatomic,strong)NSString *datetext;
-@property(nonatomic,strong)UITextField *textfiedate;
-@property(nonatomic,assign)BOOL ishoer;
+@property(nonatomic,strong)NSMutableDictionary *XMLParameterDic;
+@property(nonatomic,strong)UITextField *textfield;
+
+
+
 @end
 
 @implementation BianJiViewController
@@ -88,6 +91,11 @@
     
     self.datestring=[[NSMutableArray alloc] init];
     [self requestDataSource];
+    //存右边栏数据的字典
+    self.tableViewDic=[NSMutableDictionary dictionary];
+    self.XMLParameterDic=[NSMutableDictionary dictionary];
+    
+ 
 }
 
 - (IBAction)Cancel:(id)sender {
@@ -105,12 +113,14 @@
                           
                           NSDictionary * mainLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"main"];
                           NSArray * costLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"details"];
-                          [_mainLayoutArray addObjectsFromArray:[LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]]];
+                          LayoutModel *l = [LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]];
+                          
+                          [_mainLayoutArray addObjectsFromArray:l];
                           [_costLayoutArray2 addObjectsFromArray:[CostLayoutModel objectArrayWithKeyValuesArray:costLayout]];
                           NSArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
                           _mainData = [dataArr safeObjectAtIndex:0];
                           
-                          
+                         
                           //                          [self addCommintBtn];
                           
                           [_costData2 addObjectsFromArray:[dataArr objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, _costLayoutArray2.count)]]];
@@ -214,7 +224,7 @@
     [subView removeFromSuperview];
     [subView1 removeFromSuperview];
     
-    NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
+    self.tableViewDic = [_mainData safeObjectAtIndex:0];
     //    cell.lineViewHeight.constant = 0.5f;
     
     if (indexPath.row < _mainLayoutArray.count) {
@@ -222,13 +232,13 @@
         
         
         cell.leftlabel.text = [NSString stringWithFormat:@"%@:",model.name];
-        //        cell.rightbutton text = [mainDataDic objectForKey:model.fieldname];
-        //        [cell.rightbutton setTitle:[mainDataDic objectForKey:model.fieldname] forState:UIControlStateNormal];
-//        [cell.rightButton setTitle:[NSString stringWithFormat:@"%@",[mainDataDic objectForKey:model.fieldname]] forState:UIControlStateNormal];
-//        [cell.rightButton setTitleColor:[UIColor blackColor]];
-       
-        cell.textfield.text= [NSString stringWithFormat:@"%@",[mainDataDic objectForKey:model.fieldname]];
+        
+        
+               cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
         cell.textfield.delegate=self;
+        cell.textfield.tag=indexPath.row;
+       
+        
         if ([model.isreadonly isEqualToString:@"0"]) {
             cell.textfield.enabled=YES;
             
@@ -239,18 +249,14 @@
         }
       
         
-        //        cell.contentLabelHeight.constant = [self fixStr:[mainDataDic objectForKey:model.fieldname]];
+        
         if ([model.fieldname isEqualToString:@"totalmoney"]) {
             //            cell.leftlabel.textColor = [UIColor hex:@"f23f4e"];
             cell.leftlabel.textColor=[UIColor hex:@"f23f4e"];
 //        }
            
-            
-            if ([model.fieldname isEqualToString:@"billdate_show"]) {
-//                [self addDatePickerView:<#(NSInteger)#> date:<#(NSString *)#>]
-            }
-        
-       
+//            
+//
          
          
          
@@ -259,10 +265,7 @@
          
             
           
-//            if ([model.fieldname isEqualToString:@"deptid_show"]) {
-//                
-//            }
-////         
+
        }
     
         else
@@ -279,6 +282,7 @@
         [cell.contentView addSubview:[self costScrollView]];
         
     }
+    
     //注释看看删不删掉
     //            else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
     //                LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
@@ -315,8 +319,9 @@
         
         [cell.contentView addSubview:bgView];
     }
+    
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-   
+  
   
     return cell;
     
@@ -325,74 +330,76 @@
 {
     NSLog(@">>>>>>>");
 }
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    NSLog(@"开始输入了");
+
+//- (void)textFieldDidBeginEditing:(UITextField *)textField {
+//    
+//    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
+//    
+//
+//    if ([model.fieldname isEqualToString:@"billdate_show"]){
+//        [self addDatePickerView:textField.tag date:textField.text];
+//        return;
+//    }
+//    else
+//    {
+//       
+//    }
+//       
+//}
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    
+    
+    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
+    self.textfield= textField;
+    self.textfield.tag=textField.tag;
+    NSLog(@"<<<<<<<<<<<<<<<<%ld",(long)self.textfield.tag);
+    
+
+    
+    if ([model.sqldatatype isEqualToString:@"date"]){
+        [self addDatePickerView:self.textfield.tag date:textField.text field:textField];
+
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+
 }
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-//
-//    
-//    BianjiTableViewCell *cell =(BianjiTableViewCell *)[textField superview];
-//    NSIndexPath *indexPath =[self.tableview indexPathForCell:cell];
-//    if (indexPath.row>0) {
-//      cell.textfield.text=@"dsadsa";
-//        
-//    }
-//    
-//       return YES;
-//    
-//    //    }
-//    //    else
-//    //        return YES;
-//}
-//- (void)kindsDataSource:(LayoutModel *)model{
-//    NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.fieldname]];
-//    NSInteger tag= [self.layoutArray indexOfObject:model];
-//    if (model.fieldname.length != 0) {
-//        NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
-//        if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.fieldname : @"0.01"] && oldDataVer.length >0) {
-//            NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
-//            [SVProgressHUD showWithStatus:nil maskType:2];
-//            [self fetchItemsData:str callbakc:^(NSArray *arr) {
-//
-//                if (arr.count == 0) {
-//                    [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
-//                    [self requestKindsDataSource:model];
-//                }
-//                else{
-//                    [SVProgressHUD dismiss];
-//                    [self initItemView:arr tag:tag];
-//                }
-//
-//            }];
-//        }
-//        else
-//        {
-//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length > 0 ? model.DataVer : @"0.01",@"dataVer", nil];
-//            [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
-//            [self requestKindsDataSource:model];
-//        }
-//
-//    }
-//}
-- (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
+
+- (void)addDatePickerView:(NSInteger)tag date:(NSString *)date field:(UITextField *)textf{
     if (!self.datePickerView) {
         self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
         [self.datePickerView setFrame:CGRectMake(0, self.view.frame.size.height - 218, self.view.frame.size.width, 218)];
     }
     __block BianJiViewController *weakSelf = self;
-//    self.datePickerView.tag = tag;
-    
-//    if (date.length != 0) {
-//        self.datePickerView.date = date;
-//    }
+   self.datePickerView.tag = tag;
     
     self.datePickerView.selectDateCallBack = ^(NSString *date){
       
+       LayoutModel *layout =[weakSelf.mainLayoutArray safeObjectAtIndex:tag];
+       
+        layout.text = date;
+        [weakSelf.mainLayoutArray removeObjectAtIndex:tag];
+        [weakSelf.mainLayoutArray insertObject:layout atIndex:tag];
+//        [weakSelf.mainLayoutArray setValue:date forKey:layout.fieldname];
+        weakSelf.textfield.text=date;
+        textf.text=date;
+        
+//        [weakSelf.mainData setValue:date forKey:weakSelf.textfield.text];
+        
+     
+        
+        
+//        [weakSelf.costLayoutArray2 setValue:date forKey:layout.fieldname];
+//        
+        
+        
+       [weakSelf.datePickerView closeView:nil];
+     
       
-       
-        date =[NSString stringWithFormat:@"%@",self.textfiedate.text];
-        weakSelf.textfiedate.text=date;
-       
+       [weakSelf.tableview reloadData];
 //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
         
         
@@ -400,14 +407,7 @@
         
        
        
-//        KindsLayoutModel *layoutModel =[KindsLayoutModel new];
-//       layoutModel = [weakSelf.layoutArray safeObjectAtIndex:tag];
-        
-//        [weakSelf.XMLParameterDic setObject:date forKey:layoutModel.key];
-//        [weakSelf.tableViewDic setObject:date forKey:layoutModel.key];
-       [weakSelf.datePickerView closeView:nil];
-       
-        [weakSelf.tableview reloadData];
+
     };
     [self.view addSubview:self.datePickerView];
 }
@@ -466,70 +466,6 @@
     return rowHeight;
     
 }
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    //    if (self.selectedIndex == 2) {
-//    NSMutableDictionary *dict = [_pathFlow objectAtIndex:indexPath.row];
-//    [CTToastTipView showTipText:[dict objectForKey:@"approveuser"]];
-//    //    }
-//}
-// 单条审批
-//- (void)singleApprove:(UnApprovalModel *)model type:(NSString *)type{
-//    //http://27.115.23.126:3032/ashx/mobile.ashx?ac=Approve&u=1&ukey=abc&ProgramID=130102&Billid=3&BillNo=NO130102_9&disc=fuck&stepid=617&returnrule=&dynamicid=6976&returntodynid=0&resultType=pass
-//    NSString *returntodynid = @"0";
-//    //看看这条能不能删掉
-//    if (![model.returnrule isEqualToString:@"ChoiceReturnStep"]) {
-//        returntodynid = @"0";
-//    }
-//    else
-//    {
-//
-//    }
-//    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=Approve&u=%@&ukey=%@&ProgramID=%@&Billid=%@&BillNo=%@&disc=%@&stepid=%@&returnrule=%@&dynamicid=%@&returntodynid=%@&resultType=%@",self.uid,self.ukey,model.programid,model.billid,model.billno,[_beizhuText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],model.stepid,model.returnrule,model.dynamicid,returntodynid,type]
-//                   parameters:nil
-//                      success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//                          if([[responseObject objectForKey:@"msg"] isKindOfClass:[NSDictionary class]]){
-//                              NSString *msg = [[responseObject objectForKey:@"msg"] objectForKey:@"Msg"];
-//                              if ([msg isEqualToString:@"ok"] && [type isEqualToString:@"pass"]) {
-//                                  [SVProgressHUD showSuccessWithStatus:@"审批成功"];
-//                                  [self backVC];
-//                              }
-//                              else if ([msg isEqualToString:@"ok"] && [type isEqualToString:@"fail"]){
-//                                  [SVProgressHUD showSuccessWithStatus:@"退回成功"];
-//                                  [self backVC];
-//                              }
-//                              else
-//                              {
-//                                  [SVProgressHUD showSuccessWithStatus:msg];
-//                              }
-//                          }
-//                          else
-//                          {
-//                              [SVProgressHUD showInfoWithStatus:[responseObject objectForKey:@"msg"]];
-//                          }
-//
-//                      }
-//                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//
-//                      }
-//            showLoadingStatus:NO];
-//
-//}
-//- (void)deleateOrder{
-//    //http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=DeleteRecord&u=5&programid=130102&billid=382
-//    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=DeleteRecord&u=%@&programid=%@&billid=%@",self.uid,self.programeId,self.bills.billid]
-//                   parameters:nil
-//                      success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//
-//                          [SVProgressHUD showSuccessWithStatus:@"删除成功"];
-//                          if (self.reloadData) {
-//                              self.reloadData();
-//                          }
-//                          [self.navigationController popViewControllerAnimated:YES];
-//                      }
-//                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                          [SVProgressHUD dismiss];
-//                      }];
-//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -952,16 +888,7 @@
     return scroll;
 }
 //
-//-(void)costDetail:(UIButton *)btn{
-//    
-//    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
-//    vc.costLayoutArray = _costLayoutArray;
-//    vc.costDataArr = _costData;
-//    vc.index = btn.tag;
-//    [self.navigationController pushViewController:vc animated:YES];
-//    
-//    
-//}
+
 -(void)costDetails:(UIButton *)btn
 {
 //    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
@@ -989,282 +916,66 @@
     }
     return returnStr;
 }
-//实验
-//- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
-//    NSInteger tag = view.tag;
-//    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:tag];
-//    [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
-//    [self.tableViewDic setObject:name forKey:layoutModel.key];
-//    [view closed];
-//    [self.tableview reloadData];
-//}
 
-//- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
-//    NSString *idStr = @"";
-//    NSString *nameStr = @"";
-//    NSInteger tag = view.tag;
-//    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:tag];
-//    int i = 0;
-//    for (KindsItemModel *model in arr) {
-//        if (i == 0) {
-//            idStr = [NSString stringWithFormat:@"%@",model.ID];
-//            nameStr = [NSString stringWithFormat:@"%@",model.name];
-//        }
-//        else{
-//            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
-//            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
-//        }
-//        i++;
-//    }
-//    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
-//    [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
-//    [self.tableview reloadData];
-//}
-//- (void)billDetails{
-//    //http://27.115.23.126:3032/ashx/mobilenew.ashx?ac=GetSspGridField&u=9&programid=130102&gridmainid=130102
-//    //
-//    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetSspGridField_IOS&u=%@&programid=%@&gridmainid=%@",self.uid,_selectModel.programid,_selectModel.gridmainid]
-//                   parameters:nil
-//                      success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//                          [self.layoutArray removeAllObjects];
-//                          NSDictionary *dataDic = [[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"];
-//                          KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
-//                          layoutModel.Name = @"类别";
-//                          self.newflag = [dataDic objectForKey:@"new"];
-//                          self.newflag = self.newflag.length > 0 ? self.newflag : @"yes";
-//                          [self.layoutArray addObject:layoutModel];
-//                          [self saveLayoutKindsToDB:dataDic callbakc:^{
-//                              [self.tableview reloadData];
-//                              [SVProgressHUD dismiss];
-//                          }];
-//                          
-//                      }
-//                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                          
-//                      }
-//            showLoadingStatus:YES];
-//    
-//}
-//- (void)saveLayoutKindsToDB:(NSDictionary *)dataDic callbakc:(void (^)(void))callBack{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        for (NSString *key in dataDic.allKeys) {
-//            if ([[dataDic objectForKey:key] isKindOfClass:[NSDictionary class]]) {
-//                KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
-//                [layoutModel setValuesForKeysWithDictionary:[dataDic objectForKey:key]];
-//                layoutModel.key = key;
-//                [self.layoutArray addObject:layoutModel];
-//               
-//                    [self.tableViewDic setObject:layoutModel.Text forKey:layoutModel.key];
-//                    if (layoutModel.datasource.length != 0) {
-//                        [self.XMLParameterDic setObject:layoutModel.Value forKey:layoutModel.key];
-//                    }
-//                    else
-//                        [self.XMLParameterDic setObject:layoutModel.Text forKey:layoutModel.key];
-//                    
-//                
-//                if (layoutModel.datasource.length > 0) {
-//                    NSString *str = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",layoutModel.datasource]];
-//                    [[CoreDataManager shareManager] saveDataForTable:@"KindsLayout"
-//                                                               model:[NSDictionary dictionaryWithObjectsAndKeys:layoutModel.datasource,@"datasource",@"-1",@"dataVer", nil]
-//                                                                 sql:str];
-//                }
-//            }
-//        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            callBack();
-//        });
-//    });
-//    
-//}
-//- (void)requestEdithBillsType{
-//    //http://27.115.23.126:3032/ashx/mobilenew.ashx?ac= CGEnterSspEdit&u=9&sspid=4
-//    //self.uid,_editModel.SspID
-//    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=CGEnterSspEdit_IOS&u=%@&sspid=%@",self.uid,_editModel.SspID]
-//                   parameters:nil
-//                      success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//                          [self.layoutArray removeAllObjects];
-//                          NSDictionary *dataDic = [[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"];
-//                          NSArray *imageArr = [[responseObject objectForKey:@"msg"] objectForKey:@"filepath"];
-//                          [_imageArray addObjectsFromArray:[ImageModel objectArrayWithKeyValuesArray:imageArr]];
-//                          self.newflag = [dataDic objectForKey:@"new"];
-//                          self.newflag = self.newflag.length > 0 ? self.newflag : @"no";
-//                          KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
-//                          layoutModel.Name = @"类别";
-//                          layoutModel.key = @"cagegory_c";
-//                          [self.layoutArray addObject:layoutModel];
-//                          [self.tableViewDic setObject:_editModel.cname forKey:layoutModel.key];
-//                          [self saveLayoutKindsToDB:dataDic callbakc:^{
-//                              [self.tableview reloadData];
-//                              [SVProgressHUD dismiss];
-//                              
-//                          }];
-//                      }
-//                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                          
-//                      }
-//            showLoadingStatus:YES];
-//}
-//
-//- (NSString *)XMLParameter{
-//    NSMutableString *xmlStr = [NSMutableString string];
-//    int i = 0;
-//    for (KindsLayoutModel *layoutModel in self.layoutArray) {
-//        NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
-//        if (layoutModel.IsMust && value.length == 0) {
-//            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
-//            return nil;
-//        }
-//        if (i != 0 && value.length != 0) {
-//            if (i != self.layoutArray.count - 1) {
-//                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.key,value];
-//            }
-//            else
-//            {
-//                [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.key,value];
-//            }
-//        }
-//
-//    }
-//    NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
-//    NSLog(@"xmlStr : %@",returnStr);
-//    return returnStr;
-//}
-//
-//
-//- (void)kindsDataSource:(KindsLayoutModel *)model{
-//    NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
-//    NSInteger tag= [self.layoutArray indexOfObject:model];
-//    if (model.datasource.length != 0) {
-//        NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
-//        if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.DataVer : @"0.01"] && oldDataVer.length >0) {
-//            NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
-//            [SVProgressHUD showWithStatus:nil maskType:2];
-//            [self fetchItemsData:str callbakc:^(NSArray *arr) {
-//                
-//                if (arr.count == 0) {
-//                    [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
-//                    [self requestKindsDataSource:model];
-//                }
-//                else{
-//                    [SVProgressHUD dismiss];
-//                    [self initItemView:arr tag:tag];
-//                }
-//                
-//            }];
-//        }
-//        else
-//        {
-//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length > 0 ? model.DataVer : @"0.01",@"dataVer", nil];
-//            [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
-//            [self requestKindsDataSource:model];
-//        }
-//        
-//    }
-//}
-//- (void)fetchItemsData:(NSString *)sql callbakc:(void (^)(NSArray *arr))callBack{
-//    NSMutableArray *modelArr = [[NSMutableArray alloc] init];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSArray *arr =[NSArray arrayWithArray:[[CoreDataManager shareManager] fetchDataForTable:@"KindItem" sql:sql]];
-//        for (NSManagedObject *obj in arr) {
-//            KindsItemModel *model = [[KindsItemModel alloc] init];
-//            model.name = [obj valueForKey:@"name"];
-//            model.code = [obj valueForKey:@"code"];
-//            model.datasource = [obj valueForKey:@"datasource"];
-//            model.ID = [obj valueForKey:@"id"];
-//            [modelArr addObject:model];
-//        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            callBack(modelArr);
-//        });
-//    });
-//    
-//    
-//}
-//- (void)requestKindsDataSource:(KindsLayoutModel *)model{
-//    //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
-//    NSInteger tag= [self.layoutArray indexOfObject:model];
-//    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
-//                   parameters:nil
-//                      success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//                          id dataArr = [responseObject objectForKey:@"msg"];
-//                          if ([dataArr isKindOfClass:[NSArray class]]) {
-//                              [self saveItemsToDB:dataArr callbakc:^(NSArray *modelArr) {
-//                                  [self initItemView:modelArr tag:tag];
-//                                  [SVProgressHUD dismiss];
-//                              }];
-//                          }
-//                          else
-//                          {
-//                              [SVProgressHUD showInfoWithStatus:@"请求数据失败。"];
-//                              [SVProgressHUD dismiss];
-//                          }
-//                          
-//                      }
-//                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                          
-//                      }
-//            showLoadingStatus:YES];
-//}
-//- (void)initItemView:(NSArray *)arr tag:(NSInteger)tag{
-//    KindsItemsView *itemView;
-//    itemView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
-//    itemView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
-//    itemView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
-//    itemView.delegate = self;
-//    itemView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(itemView.frame) / 2.0f);
-//    itemView.dataArray = arr;
-//    itemView.isSingl = isSinglal;
-//    itemView.tag = tag;
-//    [self.view addSubview:itemView];
-//    [UIView animateWithDuration:1.0
-//                          delay:0
-//         usingSpringWithDamping:0.5
-//          initialSpringVelocity:0.6
-//                        options:UIViewAnimationOptionLayoutSubviews
-//                     animations:^{
-//                         itemView.transform = CGAffineTransformMakeTranslation(0, 0);
-//                     }
-//                     completion:^(BOOL finished) {
-//                         
-//                     }];
-//}
-//- (void)saveItemsToDB:(NSArray *)arr callbakc:(void (^)(NSArray *modelArr))callBack{
-//    NSMutableArray *modelArr = [[NSMutableArray alloc] init];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        for (NSDictionary *dic in arr) {
-//            KindsItemModel *itemModel = [KindsItemModel objectWithKeyValues:dic];
-//            [modelArr addObject:itemModel];
-//            NSString *str = [NSString stringWithFormat:@"datasource like %@ and id like %@",[NSString stringWithFormat:@"\"%@\"",itemModel.datasource],[NSString stringWithFormat:@"\"%@\"",itemModel.ID]];
-//            [[CoreDataManager shareManager] updateModelForTable:@"KindItem"
-//                                                            sql:str
-//                                                           data:dic];
-//        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            callBack(modelArr);
-//        });
-//    });
-//    
-//}
-
-//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
-//    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-//    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
-//        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-//        textField.text = @"";
-//    }
-//    else
-//    {
-//        [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
-//        [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
-//    }
-//    return YES;
-//}
 - (BOOL)isPureInt:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
     return[scan scanInt:&val] && [scan isAtEnd];
 }
-
+- (NSString *)XMLParameter{
+    NSMutableString *xmlStr = [NSMutableString string];
+    int i = 0;
+    for (LayoutModel *layoutModel in self.mainData) {
+        // NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
+        //
+        NSString *value = [self.XMLParameterDic objectForKey:layoutModel.fieldname];
+        
+        if (layoutModel.ismust && value.length == 0&&i !=0) {
+//
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.fieldname]];
+            
+            return nil;
+        }
+        if (i != 0 && value.length != 0) {
+            if (i != self.mainData.count - 1) {
+                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
+            }
+            else
+            {
+                [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.fieldname,value];
+            }
+        }
+        //        else if (i != 0){
+        //            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
+        //            return nil;
+        //        }
+        i++;
+    }
+    NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
+    NSLog(@"xmlStr : %@",returnStr);
+    return returnStr;
+}
+- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+    NSString *idStr = @"";
+    NSString *nameStr = @"";
+    NSInteger tag = view.tag;
+    LayoutModel *layoutModel = [self.mainData safeObjectAtIndex:tag];
+    int i = 0;
+    for (KindsItemModel *model in arr) {
+        if (i == 0) {
+            idStr = [NSString stringWithFormat:@"%@",model.ID];
+            nameStr = [NSString stringWithFormat:@"%@",model.name];
+        }
+        else{
+            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
+            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+        }
+        i++;
+    }
+    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
+    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
+    [self.tableview reloadData];
+}
 /*
 #pragma mark - Navigation
 

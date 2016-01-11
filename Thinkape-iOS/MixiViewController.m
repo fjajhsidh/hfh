@@ -12,6 +12,7 @@
 #import "LayoutModel.h"
 #import "BijicellTableViewCell.h"
 #import "AppDelegate.h"
+#import "SubmitApproveViewController.h"
 @interface MixiViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet UIButton *safete;

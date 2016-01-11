@@ -13,7 +13,7 @@
 @property (nonatomic,strong) NSString *fieldname;
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSString *ishide;
-@property(nonatomic,strong) NSString *ismust;
+@property(nonatomic,assign) BOOL ismust;
 @property(nonatomic,strong)NSString *datasource;
 @property(nonatomic,strong)NSString *mobilequeryspan;
 @property(nonatomic,strong)NSString *isreadonly;
@@ -22,6 +22,7 @@
 @property(nonatomic,strong)NSString *mobiledefaultvalue;
 @property(nonatomic,strong)NSString *mobileeventbyauto;
 @property(nonatomic,strong)NSString *mobiledatasourcewhere;
-
+@property(nonatomic,strong)NSString *idfortext;
+@property(nonatomic,strong)NSString *text;
 
 @end

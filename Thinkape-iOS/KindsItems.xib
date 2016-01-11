@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,7 +16,6 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBE-mF-UCP">
                             <rect key="frame" x="8" y="7" width="46" height="30"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="46" id="Kuv-mL-sxo"/>
                                 <constraint firstAttribute="height" constant="30" id="gFZ-PS-ntN"/>
@@ -31,7 +30,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6lZ-KW-NFC">
                             <rect key="frame" x="546" y="7" width="46" height="30"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="FiO-NP-jRF"/>
                                 <constraint firstAttribute="width" constant="46" id="HUz-mz-cem"/>
@@ -46,7 +44,6 @@
                         </button>
                         <searchBar contentMode="redraw" placeholder="输入关键字" translatesAutoresizingMaskIntoConstraints="NO" id="YdT-sG-f6L">
                             <rect key="frame" x="54" y="0.0" width="492" height="44"/>
-                            <animations/>
                             <color key="barTintColor" red="0.2666666667" green="0.50980392159999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                             <textInputTraits key="textInputTraits"/>
                             <scopeButtonTitles>
@@ -58,7 +55,6 @@
                             </connections>
                         </searchBar>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" red="0.2666666667" green="0.50980392159999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="6lZ-KW-NFC" secondAttribute="trailing" constant="8" id="4KV-h9-FAQ"/>
@@ -74,7 +70,6 @@
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rat-D3-iZP">
                     <rect key="frame" x="0.0" y="44" width="600" height="556"/>
-                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="iN0-l3-epB" id="qGH-Bq-obU"/>
@@ -82,7 +77,6 @@
                     </connections>
                 </tableView>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="rat-D3-iZP" secondAttribute="trailing" id="4I2-uF-ZMJ"/>

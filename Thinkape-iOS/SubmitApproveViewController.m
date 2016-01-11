@@ -785,12 +785,12 @@
         //
         NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
         
-        if (layoutModel.IsMust && value.length == 0&&i !=0&&[layoutModel.key isEqualToString:@"ybmoney"]) {
+        if (layoutModel.IsMust==1 && value.length == 0&&i !=0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
             return nil;
         }
         if (i != 0 && value.length != 0) {
-            if (i != self.layoutArray.count - 1) {
+            if (i != self.layoutArray.count ) {
                 [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.key,value];
             }
             else

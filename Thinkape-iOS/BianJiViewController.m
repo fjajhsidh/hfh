@@ -348,19 +348,6 @@
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     textField =(UITextField *)[self.view viewWithTag:1];
-//     KindsLayoutModel *layoutModel =[KindsLayoutModel new];
-//   layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-//    if (layoutModel.datasource.length > 0) {
-//        isSinglal = layoutModel.IsSingle;
-//        [self kindsDataSource:layoutModel];
-//        return NO;
-//    }
-//    else if ([layoutModel.SqlDataType isEqualToString:@"date"]){
-    
- 
-    
-   
-//        [self addDatePickerView:textField.tag date:textField.text];
 
     
    

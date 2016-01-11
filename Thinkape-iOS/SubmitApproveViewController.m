@@ -937,18 +937,26 @@
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
+    
+//    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
+//        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
+//        textField.text = @"";
+//        _isHaven=NO;
+//    }
+    
+    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
-        _isHaven=NO;
     }
+
+    
     
     if ([textField.text length]>0) {
         unichar single = [textField.text characterAtIndex:0];
         if ((single>='0'&&single<='9')||single=='.') {
             //            if ([textField.text length]==0) {
             if (single=='.') {
-                [SVProgressHUD showInfoWithStatus:@"第一个字不能为点"];
+                [SVProgressHUD showInfoWithStatus:@"开头不能是小数点点"];
                 textField.text=@"";
                 return NO;
             }
@@ -988,6 +996,7 @@
         cell.contentText.tag = indexPath.row;
         NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
         value = value.length >0 ? value :@"";
+        NSLog(@"值%@",value);
         cell.contentText.text = value;
         cell.contentText.enabled = YES;
         if (indexPath.row == 0 &&self.type == 0) {

@@ -988,6 +988,7 @@
         cell.contentText.tag = indexPath.row;
         NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
         value = value.length >0 ? value :@"";
+        NSLog(@"值%@",value);
         cell.contentText.text = value;
         cell.contentText.enabled = YES;
         if (indexPath.row == 0 &&self.type == 0) {

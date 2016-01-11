@@ -130,7 +130,7 @@
                           for (NSDictionary *dic in arr) {
                               if (/*[[dic objectForKey:@"ac"] isEqualToString:@"审批中"] || */ [[dic objectForKey:@"ac"] isEqualToString:@"MyUnReceive"]) {
                                   
-                                  str = [NSString stringWithFormat:@"%@待付款:%@元   ",str,[dic objectForKey:@"num"]];
+                                  str = [NSString stringWithFormat:@"%@待付款条数:%@   ",str,[dic objectForKey:@"num"]];
                                  // break;
                               }
                               else if ([[dic objectForKey:@"ac"] isEqualToString:@"Msg"]) {

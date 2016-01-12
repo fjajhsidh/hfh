@@ -25,5 +25,6 @@
 @property(strong,nonatomic)NSString * editorState;
 //wo  单据是否完成
 @property(strong,nonatomic)NSString * flowstatus;
+
 @end
 

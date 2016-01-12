@@ -237,6 +237,7 @@
         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
         if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.DataVer : @"0.01"] && oldDataVer.length >0) {
             NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+           
             [SVProgressHUD showWithStatus:nil maskType:2];
             [self fetchItemsData:str callbakc:^(NSArray *arr) {
                 

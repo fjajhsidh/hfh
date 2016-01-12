@@ -7,7 +7,7 @@
 //
 
 #import "DatePickerView.h"
-
+#import "AppDelegate.h"
 @implementation DatePickerView
 
 
@@ -28,17 +28,6 @@
     // Drawing code
 }
 */
-- (IBAction)doSelect:(id)sender {
-//    
-//    NSDate *currentDate = picker.date;
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    [formatter setDateFormat:@"yyyy-MM-dd"];
-//    NSString *dateStr = [formatter stringFromDate:currentDate];
-//    if (self.selectDateCallBack) {
-//        self.selectDateCallBack(dateStr);
-//    }
-    
-}
 
 - (void)setDate:(NSString *)date{
     if (_date != date) {
@@ -61,9 +50,18 @@
     NSDate *currentDate = picker.date;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
+    
     NSString *dateStr = [formatter stringFromDate:currentDate];
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    app.textdate=dateStr;
+    
     if (self.selectDateCallBack) {
         self.selectDateCallBack(dateStr);
     }
+    if (self.selectDateBack) {
+        self.selectDateBack(dateStr);
+        
+    }
 }
+
 @end

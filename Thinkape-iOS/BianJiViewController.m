@@ -59,7 +59,7 @@
 @property(nonatomic,strong)DatePickerView *datePickerView;
 @property(nonatomic,strong)NSMutableDictionary *XMLParameterDic;
 @property(nonatomic,strong)UITextField *textfield;
-
+@property(nonatomic,strong)NSString *textstring;
 
 
 @end
@@ -95,7 +95,7 @@
     self.tableViewDic=[NSMutableDictionary dictionary];
     self.XMLParameterDic=[NSMutableDictionary dictionary];
     
- 
+    self.textfield=[[UITextField alloc] init];
 }
 
 - (IBAction)Cancel:(id)sender {
@@ -235,9 +235,9 @@
         
         
                cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
+        
         cell.textfield.delegate=self;
         cell.textfield.tag=indexPath.row;
-       
         
         if ([model.isreadonly isEqualToString:@"0"]) {
             cell.textfield.enabled=YES;
@@ -348,17 +348,28 @@
 //}
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
+   
+   LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
+//    if (model.datasource.length>0) {
+//        [self kindsDataSource:model];
+//        return NO;
+//    }
+//    
+//      self.textfield.tag=textField.tag;
+//    self.textfield=textField;
     
-    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
-    self.textfield= textField;
-    self.textfield.tag=textField.tag;
-    NSLog(@"<<<<<<<<<<<<<<<<%ld",(long)self.textfield.tag);
+    
+
+    
+    NSLog(@"<<<<<<<<<<<<<<<<%@",self.textfield);
     
 
     
     if ([model.sqldatatype isEqualToString:@"date"]){
-        [self addDatePickerView:self.textfield.tag date:textField.text field:textField];
-
+        
+        self.textfield.tag=textField.tag;
+        self.textfield=textField;
+      [self addDatePickerView:self.textfield.tag date:textField.text];
         return NO;
     }
     else
@@ -367,39 +378,92 @@
     }
 
 }
-
-- (void)addDatePickerView:(NSInteger)tag date:(NSString *)date field:(UITextField *)textf{
+//- (void)kindsDataSource:(LayoutModel *)model{
+//    NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+//    NSInteger tag= [self.mainLayoutArray indexOfObject:model];
+//    if (model.datasource.length != 0) {
+//        NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
+//        if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.DataVer : @"0.01"] && oldDataVer.length >0) {
+//            NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+//            [SVProgressHUD showWithStatus:nil maskType:2];
+//            [self fetchItemsData:str callbakc:^(NSArray *arr) {
+//                
+//                if (arr.count == 0) {
+//                    [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
+//                    [self requestKindsDataSource:model];
+//                }
+//                else{
+//                    [SVProgressHUD dismiss];
+//                    [self initItemView:arr tag:tag];
+//                }
+//                
+//            }];
+//        }
+//        else
+//        {
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length > 0 ? model.DataVer : @"0.01",@"dataVer", nil];
+//            [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
+//            [self requestKindsDataSource:model];
+//        }
+//        
+//    }
+//}
+//-(void)textFieldDidEndEditing:(UITextField *)textField
+//{
+////    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
+//    self.textfield=textField;
+//    
+//    
+//    self.textfield.tag=textField.tag;
+//    
+//    NSLog(@"<<<<<<<<<<<<<<<<%ld",(long)self.textfield.tag);
+//    
+//
+//}
+//- (void)addDatePickerView:(NSInteger)tag date:(NSString *)date field:(UITextField *)textf
+- (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
     if (!self.datePickerView) {
         self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
         [self.datePickerView setFrame:CGRectMake(0, self.view.frame.size.height - 218, self.view.frame.size.width, 218)];
     }
-    __block BianJiViewController *weakSelf = self;
+  
    self.datePickerView.tag = tag;
+    NSLog(@"dddddddddddd%ld",(long)tag);
     
-    self.datePickerView.selectDateCallBack = ^(NSString *date){
-      
-       LayoutModel *layout =[weakSelf.mainLayoutArray safeObjectAtIndex:tag];
+    __block BianJiViewController *weaker=self;
+   self.datePickerView.selectDateBack = ^(NSString *date){
+    
+       LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
        
         layout.text = date;
-        [weakSelf.mainLayoutArray removeObjectAtIndex:tag];
-        [weakSelf.mainLayoutArray insertObject:layout atIndex:tag];
+        NSLog(@"???????????????%@",layout.text);
+        
+        [weaker.mainLayoutArray removeObjectAtIndex:tag];
+        [weaker.mainLayoutArray insertObject:layout atIndex:tag];
 //        [weakSelf.mainLayoutArray setValue:date forKey:layout.fieldname];
-        weakSelf.textfield.text=date;
-        textf.text=date;
+//        textf.text=date;
+//        textf.text=date;
+        NSLog(@"00000000000000%@",date);
+//
+       
+        weaker.textfield.text=date;
         
-//        [weakSelf.mainData setValue:date forKey:weakSelf.textfield.text];
-        
-     
-        
-        
-//        [weakSelf.costLayoutArray2 setValue:date forKey:layout.fieldname];
-//        
-        
-        
-       [weakSelf.datePickerView closeView:nil];
-     
+//      weaker.textfield.text =tate;
       
-       [weakSelf.tableview reloadData];
+    
+    
+//        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
+//        weaker.textfield.text=date;
+//        weaker.textfield.text=textf.text;
+        
+        
+        NSLog(@"bbbbbbbbbbbb%@",weaker.textfield.text);
+        
+        
+       [weaker.datePickerView closeView:nil];
+    
+      
+      
 //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
         
         
@@ -408,7 +472,8 @@
        
        
 
-    };
+  };
+     [self.tableview reloadData];
     [self.view addSubview:self.datePickerView];
 }
 #pragma Textfield点击方法

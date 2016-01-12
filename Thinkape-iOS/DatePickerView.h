@@ -19,5 +19,6 @@
 @property (nonatomic,strong) NSString *date;
 
 @property (nonatomic,strong) void (^selectDateCallBack)(NSString *date);
+@property(nonatomic,strong)void(^selectDateBack)(NSString *date);
 
 @end

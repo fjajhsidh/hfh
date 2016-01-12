@@ -52,8 +52,8 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
     NSString *dateStr = [formatter stringFromDate:currentDate];
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    app.textdate=dateStr;
+    
+   
     
     if (self.selectDateCallBack) {
         self.selectDateCallBack(dateStr);

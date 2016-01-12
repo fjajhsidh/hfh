@@ -22,7 +22,10 @@
 @property(nonatomic,strong)NSString *mobiledefaultvalue;
 @property(nonatomic,strong)NSString *mobileeventbyauto;
 @property(nonatomic,strong)NSString *mobiledatasourcewhere;
+//实验用
 @property(nonatomic,strong)NSString *idfortext;
 @property(nonatomic,strong)NSString *text;
+@property(nonatomic,strong)NSString *idstr;
+@property(nonatomic,strong)NSString *nameStr;
 
 @end

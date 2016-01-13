@@ -80,7 +80,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.selectedion=1;
-    self.title=@"详情";
+    self.title=@"编辑详情";
     
     self.tableview.delegate=self;
     self.tableview.dataSource=self;

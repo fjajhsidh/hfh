@@ -20,6 +20,9 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KcV-pA-O6v">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="600" id="NEl-9K-yUK"/>
+                    </constraints>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ftK-lq-e06">
                     <rect key="frame" x="0.0" y="558" width="600" height="42"/>
@@ -54,13 +57,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="KcV-pA-O6v" secondAttribute="bottom" id="01P-mG-Pgk"/>
                 <constraint firstItem="ftK-lq-e06" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7h5-kK-ltw"/>
                 <constraint firstAttribute="trailing" secondItem="ftK-lq-e06" secondAttribute="trailing" id="9Bc-NI-JNr"/>
+                <constraint firstAttribute="trailing" secondItem="KcV-pA-O6v" secondAttribute="trailing" id="Irc-NT-nGb"/>
+                <constraint firstItem="KcV-pA-O6v" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="JWz-fb-kfT"/>
                 <constraint firstAttribute="bottom" secondItem="ftK-lq-e06" secondAttribute="bottom" id="MOV-0K-Sgj"/>
-                <constraint firstItem="KcV-pA-O6v" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="P3S-SI-lml"/>
-                <constraint firstAttribute="trailing" secondItem="KcV-pA-O6v" secondAttribute="trailing" id="Stk-VU-1la"/>
-                <constraint firstItem="KcV-pA-O6v" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="VCY-JC-YHf"/>
+                <constraint firstAttribute="bottom" secondItem="KcV-pA-O6v" secondAttribute="bottom" id="d5h-7C-RVy"/>
+                <constraint firstItem="KcV-pA-O6v" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hkE-md-Hl4"/>
             </constraints>
         </view>
     </objects>

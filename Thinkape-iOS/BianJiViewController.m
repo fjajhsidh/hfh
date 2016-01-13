@@ -59,8 +59,10 @@
 @property(nonatomic,strong)DatePickerView *datePickerView;
 @property(nonatomic,strong)NSMutableDictionary *XMLParameterDic;
 @property(nonatomic,strong)UITextField *textfield;
-@property(nonatomic,strong)NSString *textstring;
+@property(nonatomic,strong)UITextField *textstring;
+@property(nonatomic,strong)NSString *strtres;
 
+@property(nonatomic,assign)BOOL ishideto;
 
 @end
 
@@ -97,12 +99,22 @@
     self.XMLParameterDic=[NSMutableDictionary dictionary];
     
     self.textfield=[[UITextField alloc] init];
+    self.textstring=[[UITextField alloc] init];
     
-
+    if (self.kindsPickerView) {
+        self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
+        [self.kindsPickerView setFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+        __block BianJiViewController *weakSelf = self;
+        self.kindsPickerView.selectItemCallBack = ^(KindsModel *model){
+            
+            weakSelf.selectModel = model;
+           
+        };
+        [self.view addSubview:self.kindsPickerView];
+    }
 
 }
-
-- (IBAction)Cancel:(id)sender {
+ - (IBAction)Cancel:(id)sender {
 }
 - (IBAction)Save:(id)sender {
 //    [self requestEdithBillsType];
@@ -354,16 +366,27 @@
     
    
    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
-    self.textfield.tag=textField.tag;
-    self.textfield=textField;
-    if (model.datasource.length!=0&&![model.sqldatatype isEqualToString:@"date"]) {
-      
+   
+    if (model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]) {
+        self.textstring.tag=textField.tag;
+        self.textstring=textField;
+        if (self.ishideto==YES) {
+            self.textstring.text=textField.text;
+            NSLog(@"%%%%%%%%???????%@",self.textstring.text);
+            
+            
+        }
+        isSinglal =model.issingle;
+        
         [self kindsDataSource:model];
+        
         return NO;
     }else
         if ([model.sqldatatype isEqualToString:@"date"]){
         
-        
+            self.textfield.tag=textField.tag;
+            self.textfield=textField;
+            self.strtres=self.textfield.text;
       [self addDatePickerView:self.textfield.tag date:textField.text];
         return NO;
     }
@@ -374,20 +397,45 @@
 
 }
 - (void)kindsDataSource:(LayoutModel *)model{
-//    NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
-//    NSInteger tag= [self.mainLayoutArray indexOfObject:model];
-//   
-//    if (model.datasource.length !=0) {
-//         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
-    
-        [self requestKindsDataSource:model];
-        
-//    }
-    
-    
-    
+    NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+    NSInteger tag= [self.mainLayoutArray indexOfObject:model];
+//包含9999，containsString
+    if (model.datasource.length !=0) {
+         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
+        if ([oldDataVer isEqualToString:model.dataver>0 ?model.dataver:@"0.01"]&&oldDataVer.length>0) {
+            NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+            [SVProgressHUD showWithStatus:nil maskType:2];
+            
+            [self fetchItemsData:str callbakc:^(NSArray *arr) {
+                if (arr.count ==0) {
+                    [[CoreDataManager shareManager]updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.dataver.length >0 ? model.dataver:@"0.01",@"dataVer", nil]];
+                    [self requestKindsDataSource:model dataVer:model.dataver];
+                    
+                }
+                else
+                {
+                    [SVProgressHUD dismiss];
+                    [self initItemView:arr tag:tag];
+                    
+                }
+            }];
+            
+            
+            
+        }
+        else
+        {
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.dataver.length > 0 ? model.dataver : @"0.01",@"dataVer", nil];
+            [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
+            [self requestKindsDataSource:model dataVer:model.dataver];
+            
+        }
+
     }
-- (void)requestKindsDataSource:(LayoutModel *)model{
+    }
+- (void)requestKindsDataSource:(LayoutModel *)model dataVer:(NSString *)Dataver{
+    //model.dataver
+    //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
     NSInteger tag= [self.mainLayoutArray indexOfObject:model];
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
@@ -413,30 +461,33 @@
             showLoadingStatus:YES];
 }
 - (void)fetchItemsData:(NSString *)sql callbakc:(void (^)(NSArray *arr))callBack{
-    NSMutableArray *modelArr = [[NSMutableArray alloc] init];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray *arr =[NSArray arrayWithArray:[[CoreDataManager shareManager] fetchDataForTable:@"KindItem" sql:sql]];
-        for (NSManagedObject *obj in arr) {
-            KindsItemModel *model = [[KindsItemModel alloc] init];
-            model.name = [obj valueForKey:@"name"];
-            model.code = [obj valueForKey:@"code"];
-            model.datasource = [obj valueForKey:@"datasource"];
-            model.ID = [obj valueForKey:@"id"];
-            [modelArr addObject:model];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            callBack(modelArr);
+        NSMutableArray *modelArr = [[NSMutableArray alloc] init];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSArray *arr =[NSArray arrayWithArray:[[CoreDataManager shareManager] fetchDataForTable:@"KindItem" sql:sql]];
+            for (NSManagedObject *obj in arr) {
+                KindsItemModel *model = [[KindsItemModel alloc] init];
+                model.name = [obj valueForKey:@"name"];
+                model.code = [obj valueForKey:@"code"];
+                model.datasource = [obj valueForKey:@"datasource"];
+                model.ID = [obj valueForKey:@"id"];
+                [modelArr addObject:model];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                callBack(modelArr);
+            });
         });
-    });
-    
-    
-}
+        
+        
+    }
+
 - (void)initItemView:(NSArray *)arr tag:(NSInteger)tag{
     KindsItemsView *itemView;
     itemView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
     itemView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
     itemView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
     itemView.delegate = self;
+    itemView.isSingl=isSinglal;
+    
     itemView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(itemView.frame) / 2.0f);
     itemView.dataArray = arr;
 //    itemView.isSingl = isSinglal;
@@ -498,8 +549,8 @@
     
        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
        
-        layout.text = date;
-        NSLog(@"???????????????%@",layout.text);
+        layout.fieldname = date;
+        NSLog(@"???????????????%@",layout.fieldname);
         
         [weaker.mainLayoutArray removeObjectAtIndex:tag];
         [weaker.mainLayoutArray insertObject:layout atIndex:tag];
@@ -509,7 +560,7 @@
         NSLog(@"00000000000000%@",date);
 //
        
-        weaker.textfield.text=date;
+        weaker.strtres=date;
         
 //      weaker.textfield.text =tate;
       
@@ -520,7 +571,7 @@
 //        weaker.textfield.text=textf.text;
         
         
-        NSLog(@"bbbbbbbbbbbb%@",weaker.textfield.text);
+        NSLog(@"bbbbbbbbbbbb%@",weaker.strtres);
         
         
        [weaker.datePickerView closeView:nil];
@@ -1083,6 +1134,19 @@
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
 }
+- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
+    NSInteger tag = view.tag;
+    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
+    layoutModel.idstr=ID;
+    layoutModel.nameStr=name;
+    
+    [_mainLayoutArray removeObjectAtIndex:tag];
+    [_mainLayoutArray insertObject:layoutModel atIndex:tag];
+    [view closed];
+    self.textstring.text=name;
+    self.ishideto=YES;
+    [self.tableview reloadData];
+}
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
     NSString *idStr = @"";
     NSString *nameStr = @"";
@@ -1108,8 +1172,9 @@
     
 //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
 //    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
-    self.textfield.text=nameStr;
-    NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textfield);
+    self.textstring.text=nameStr;
+    self.ishideto =YES;
+    NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
     [self.tableview reloadData];
 }
 /*

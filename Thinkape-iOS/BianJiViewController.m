@@ -60,7 +60,8 @@
 @property(nonatomic,strong)NSMutableDictionary *XMLParameterDic;
 @property(nonatomic,strong)UITextField *textfield;
 @property(nonatomic,strong)UITextField *textstring;
-@property(nonatomic,strong)NSString *strtres;
+@property(nonatomic,strong)NSString *textfiece;
+@property(nonatomic,strong)NSMutableArray *arrytext;
 
 @property(nonatomic,assign)BOOL ishideto;
 
@@ -91,6 +92,7 @@
     _costData2 = [[NSMutableArray alloc] init];
     _pathFlow = [[NSMutableArray alloc] init];
     _selectModel=[[KindsModel alloc] init];
+    _arrytext=[NSMutableArray array];
     
     self.datestring=[[NSMutableArray alloc] init];
     [self requestDataSource];
@@ -98,7 +100,11 @@
     self.tableViewDic=[NSMutableDictionary dictionary];
     self.XMLParameterDic=[NSMutableDictionary dictionary];
     
-    self.textfield=[[UITextField alloc] init];
+    
+    
+    self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(0, 0, 172, 35)];
+    self.textfield.textAlignment=NSTextAlignmentCenter;
+    self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
     self.textstring=[[UITextField alloc] init];
     
     if (self.kindsPickerView) {
@@ -136,7 +142,8 @@
                           NSArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
                           _mainData = [dataArr safeObjectAtIndex:0];
                           
-                         
+                          [self.tableViewDic setObject:_mainData forKey:dataArr];
+                          
                           //                          [self addCommintBtn];
                           
                           [_costData2 addObjectsFromArray:[dataArr objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, _costLayoutArray2.count)]]];
@@ -249,12 +256,15 @@
         
         cell.leftlabel.text = [NSString stringWithFormat:@"%@:",model.name];
         
+     
+      cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
+        cell.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
         
-               cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
+        [_arrytext addObject:cell.textfield.text];
         
+       
         cell.textfield.delegate=self;
         cell.textfield.tag=indexPath.row;
-        
         if ([model.isreadonly isEqualToString:@"0"]) {
             cell.textfield.enabled=YES;
             
@@ -367,15 +377,15 @@
    
    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
    
+    
+    
+//    self.textstring.tag=textField.tag;
+//    self.textstring=textField;
+    NSIndexPath *path =[self.tableview indexPathForSelectedRow];
+    BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
     if (model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]) {
-        self.textstring.tag=textField.tag;
-        self.textstring=textField;
-        if (self.ishideto==YES) {
-            self.textstring.text=textField.text;
-            NSLog(@"%%%%%%%%???????%@",self.textstring.text);
-            
-            
-        }
+        
+        
         isSinglal =model.issingle;
         
         [self kindsDataSource:model];
@@ -384,10 +394,31 @@
     }else
         if ([model.sqldatatype isEqualToString:@"date"]){
         
+           
             self.textfield.tag=textField.tag;
-            self.textfield=textField;
-            self.strtres=self.textfield.text;
+            if (textField.tag==1) {
+                 self.textfield.tag=textField.tag;
+                 self.textfield=textField;
+               
+            }else
+            {
+                self.textfield.tag=textField.tag;
+                self.textfield=textField;
+                
+            }
+           
+//            self.textfield.font=[UIFont systemFontOfSize:13];
+            
+            
+
+            if (self.textfield.text !=textField.text) {
+                NSLog(@"22222222222222");
+            }
+            
       [self addDatePickerView:self.textfield.tag date:textField.text];
+           
+            
+            
         return NO;
     }
     else
@@ -396,6 +427,7 @@
    
 
 }
+
 - (void)kindsDataSource:(LayoutModel *)model{
     NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
     NSInteger tag= [self.mainLayoutArray indexOfObject:model];
@@ -549,29 +581,37 @@
     
        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
        
-        layout.fieldname = date;
+       layout.fieldname = date;
         NSLog(@"???????????????%@",layout.fieldname);
-        
-        [weaker.mainLayoutArray removeObjectAtIndex:tag];
-        [weaker.mainLayoutArray insertObject:layout atIndex:tag];
+       
+       [weaker.mainLayoutArray insertObject:layout atIndex:tag];
+       
+       [weaker.mainLayoutArray removeObjectAtIndex:tag];
+       
+       
+       
+       
+       //       [weaker.tableViewDic removeObjectForKey:layout.fieldname];
+//       [weaker.tableViewDic setObject:date forKey:layout.fieldname];
+       
 //        [weakSelf.mainLayoutArray setValue:date forKey:layout.fieldname];
 //        textf.text=date;
 //        textf.text=date;
         NSLog(@"00000000000000%@",date);
 //
        
-        weaker.strtres=date;
-        
-//      weaker.textfield.text =tate;
+      weaker.textfield.text=date;
       
-    
+       
+       
+     
     
 //        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
 //        weaker.textfield.text=date;
 //        weaker.textfield.text=textf.text;
         
         
-        NSLog(@"bbbbbbbbbbbb%@",weaker.strtres);
+      
         
         
        [weaker.datePickerView closeView:nil];
@@ -628,9 +668,15 @@
     else if (indexPath.row < _mainLayoutArray.count){
         LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
         rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
+        
+              rowHeight=self.textfield.frame.size.height;
+       
+       
+        
+        
     }
     else if(_mainLayoutArray.count == indexPath.row && _costLayoutArray2.count != 0 )
-        rowHeight = 80;
+        rowHeight = 90;
     
     else
     {
@@ -1151,6 +1197,8 @@
     NSString *idStr = @"";
     NSString *nameStr = @"";
     NSInteger tag = view.tag;
+    NSLog(@"ssssssssssss%ld",(long)tag);
+    
     LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
     int i = 0;
     for (KindsItemModel *model in arr) {
@@ -1163,18 +1211,21 @@
             nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
         }
         i++;
+        layoutModel.nameStr=nameStr;
+        layoutModel.idstr=idStr;
+        [_mainLayoutArray removeObjectAtIndex:tag];
+        [_mainLayoutArray insertObject:layoutModel atIndex:tag];
+        self.textfield.text=nameStr;
+        self.ishideto =YES;
+        NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
+        
     }
-    layoutModel.idstr=idStr;
-    layoutModel.nameStr=nameStr;
     
-   [_mainLayoutArray removeObjectAtIndex:tag];
-   [_mainLayoutArray insertObject:layoutModel atIndex:tag];
+   
     
-//    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
+  //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
 //    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
-    self.textstring.text=nameStr;
-    self.ishideto =YES;
-    NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
+   
     [self.tableview reloadData];
 }
 /*

@@ -54,6 +54,7 @@
 
 @property(weak,nonatomic)NSString * tuiHuiStr;
 @property(nonatomic)BOOL tuihui;
+@property(nonatomic,strong)NSString * leixing;
 @end
 
 @implementation BillsDetailViewController
@@ -117,26 +118,44 @@
 -(void)addRightNagationBar{
     AppDelegate *ap=[UIApplication sharedApplication].delegate;
     NSLog(@"转报销转借款%@",ap.zhuanStr);
-    if ([ap.danJu isEqualToString:@"未完成审批"]) {
-        if ([ap.flowstatus isEqualToString:@"未提交"]||[ap.flowstatus isEqualToString:@"已退回"]||[ap.flowstatus isEqualToString:@"已弃申"]) {
-            
-            
-            UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(item3Click:)];
-       //     self.navigationItem.rightBarButtonItems = @[item3];
-        }
-    }
+    NSLog(@"转报销转借款%@",self.leixing);
+//    if ([ap.danJu isEqualToString:@"未完成审批"]) {
+//        if ([ap.flowstatus isEqualToString:@"未提交"]||[ap.flowstatus isEqualToString:@"已退回"]||[ap.flowstatus isEqualToString:@"已弃申"]) {
+//            
+//            
+//            UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(item3Click:)];
+//       //     self.navigationItem.rightBarButtonItems = @[item3];
+//        }
+//    }
     
     
     if ([ap.zhuanStr isEqualToString:@"11"]) {
         if([ap.danJu isEqualToString:@"已完成审批"]){
-            UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"转报销" style:UIBarButtonItemStylePlain target:self action:@selector(item1Click:)];
             
-            UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转借款" style:UIBarButtonItemStylePlain target:self action:@selector(item2Click:)];
-            if (self.changeArr.count) {
-                self.navigationItem.rightBarButtonItems = @[item1, item2];
+            if ([self.leixing isEqualToString:@"差旅申请交通费明细"]) {
+                UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"转报销" style:UIBarButtonItemStylePlain target:self action:@selector(item1Click:)];
+                if (self.changeArr.count) {
+                    self.navigationItem.rightBarButtonItem = item1;}
+                }else if ([self.leixing isEqualToString:@"差旅申请借款明细"]){
                 
-                self.navigationController.navigationBar.titleTextAttributes=@{UITextAttributeTextColor:[UIColor whiteColor]};
-            }
+                    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转借款" style:UIBarButtonItemStylePlain target:self action:@selector(item2Click:)];
+                    if (self.changeArr.count) {
+                        self.navigationItem.rightBarButtonItem=item2;
+                        
+                        
+                    }
+
+                
+                }
+            
+//            UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"转报销" style:UIBarButtonItemStylePlain target:self action:@selector(item1Click:)];
+//            
+//            UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转借款" style:UIBarButtonItemStylePlain target:self action:@selector(item2Click:)];
+//            if (self.changeArr.count) {
+//                self.navigationItem.rightBarButtonItems = @[item1, item2];
+//                
+                
+            
         }
     }
     NSLog(@"changeArr%@",self.changeArr);
@@ -275,12 +294,22 @@
 - (void)requestDataSource{
     
     //ac=GetEditData&u=9&programid=130102&billid=28
-    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetEditData&u=%@&programid=%@&billid=%@",self.uid,self.programeId,self.billid]
-                   parameters:nil
+    
+    NSString * str=[NSString stringWithFormat:@"ac=GetEditData&u=%@&programid=%@&billid=%@",self.uid,self.programeId,self.billid];
+    
+    NSLog(@"意义%@",str);
+    [RequestCenter GetRequest:str                   parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
 
                           NSDictionary * mainLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"main"];
+                          NSLog(@"字典%@",mainLayout);
                           NSArray * costLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"details"];
+                          NSLog(@"数组%@",costLayout[0]);
+//
+                          self.leixing=[costLayout[0] objectForKey:@"name"];
+                          NSLog(@"类型%@",self.leixing);
+                          
+                          
                           [_mainLayoutArray addObjectsFromArray:[LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]]];
                           [_costLayoutArray addObjectsFromArray:[CostLayoutModel objectArrayWithKeyValuesArray:costLayout]];
                           

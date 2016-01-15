@@ -139,6 +139,8 @@
 
 - (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
     NSInteger tag = view.tag;
+    
+    NSLog(@"%@%@",name,ID);
     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:tag];
     [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
     [self.tableViewDic setObject:name forKey:layoutModel.key];

@@ -18,6 +18,9 @@
 
 @property (nonatomic,strong) NSArray *dataArray;
 @property (nonatomic,strong) void (^selectItem)(NSString *name ,NSString *ID);
+
+
+
 @property (nonatomic,weak) id <KindsItemsViewDelegate> delegate;
 @property (nonatomic , assign) BOOL isSingl;
 

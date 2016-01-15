@@ -20,4 +20,5 @@
 @property (nonatomic,strong) NSString *SqlDataType;
 @property (nonatomic , assign) BOOL IsMust;
 @property (nonatomic , assign) BOOL IsSingle;
+
 @end

@@ -118,6 +118,7 @@
         }else{
             model = [self.dataArray safeObjectAtIndex:indexPath.row];
         }
+        NSLog(@"啦啦%@%@",model.name ,model.ID);
         [self.delegate selectItem:model.name ID:model.ID view:self];
     }
     else

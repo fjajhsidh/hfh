@@ -430,6 +430,15 @@
 
 }
 
+
+//wo
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    //textField.text=mo
+    
+}
+
+
 - (void)kindsDataSource:(LayoutModel *)model{
     NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
     NSInteger tag= [self.mainLayoutArray indexOfObject:model];
@@ -467,6 +476,11 @@
 
     }
     }
+
+
+
+
+
 - (void)requestKindsDataSource:(LayoutModel *)model dataVer:(NSString *)Dataver{
     //model.dataver
     //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]

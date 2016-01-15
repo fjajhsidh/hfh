@@ -102,6 +102,7 @@
     return cell;
     
 }
+
 - (IBAction)safetosave:(id)sender {
    //    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:asd];
     

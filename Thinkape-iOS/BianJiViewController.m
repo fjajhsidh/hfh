@@ -102,7 +102,7 @@
     
     
     
-    self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(0, 0, 172, 35)];
+    self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
     self.textfield.textAlignment=NSTextAlignmentCenter;
     self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
     self.textstring=[[UITextField alloc] init];
@@ -374,7 +374,8 @@
 //}
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-   
+    self.tableview.bounces=NO;
+    
    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
    
     
@@ -668,8 +669,9 @@
     else if (indexPath.row < _mainLayoutArray.count){
         LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
         rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
+       
+        rowHeight= self.textfield.frame.size.height+15;
         
-              rowHeight=self.textfield.frame.size.height;
        
        
         

@@ -882,8 +882,8 @@
         [uploadButton addTarget:self action:@selector(uploadClick:) forControlEvents:UIControlEventTouchUpInside];
         [uploadButton setFrame:CGRectMake(10, SCREEN_HEIGHT - 120, SCREEN_WIDTH - 20, 30)];
         [self.view addSubview:uploadButton];
-//        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(buttontap)];
-//        self.navigationItem.rightBarButtonItem=item;
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(buttontap)];
+        self.navigationItem.rightBarButtonItem=item;
         self.tableViewBottomConstraint.constant = 135.0f;
         lastConstant = 135.0f;
     }

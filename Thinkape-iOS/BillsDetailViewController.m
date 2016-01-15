@@ -118,28 +118,29 @@
 -(void)addRightNagationBar{
     AppDelegate *ap=[UIApplication sharedApplication].delegate;
     NSLog(@"转报销转借款%@",ap.zhuanStr);
-    if ([ap.danJu isEqualToString:@"未完成审批"]) {
-        if ([ap.flowstatus isEqualToString:@"未提交"]||[ap.flowstatus isEqualToString:@"已退回"]||[ap.flowstatus isEqualToString:@"已弃申"]) {
-            
-            
-            UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(item3Click:)];
-       //     self.navigationItem.rightBarButtonItems = @[item3];
-        }
-    }
+    NSLog(@"转报销转借款%@",self.leixing);
+//    if ([ap.danJu isEqualToString:@"未完成审批"]) {
+//        if ([ap.flowstatus isEqualToString:@"未提交"]||[ap.flowstatus isEqualToString:@"已退回"]||[ap.flowstatus isEqualToString:@"已弃申"]) {
+//            
+//            
+//            UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(item3Click:)];
+//       //     self.navigationItem.rightBarButtonItems = @[item3];
+//        }
+//    }
     
     
     if ([ap.zhuanStr isEqualToString:@"11"]) {
         if([ap.danJu isEqualToString:@"已完成审批"]){
             
-            if (self.leixing=@"差旅申请交通费明细") {
+            if ([self.leixing isEqualToString:@"差旅申请交通费明细"]) {
                 UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"转报销" style:UIBarButtonItemStylePlain target:self action:@selector(item1Click:)];
                 if (self.changeArr.count) {
-                    self.navigationItem.rightBarButtonItems = @[item1];
-                }else if (self.leixing=@"差旅申请借款明细"){
+                    self.navigationItem.rightBarButtonItem = item1;}
+                }else if ([self.leixing isEqualToString:@"差旅申请借款明细"]){
                 
                     UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转借款" style:UIBarButtonItemStylePlain target:self action:@selector(item2Click:)];
                     if (self.changeArr.count) {
-                        self.navigationItem.rightBarButtonItems = @[item2];
+                        self.navigationItem.rightBarButtonItem=item2;
                         
                         
                     }
@@ -154,7 +155,7 @@
 //                self.navigationItem.rightBarButtonItems = @[item1, item2];
 //                
                 
-            }
+            
         }
     }
     NSLog(@"changeArr%@",self.changeArr);

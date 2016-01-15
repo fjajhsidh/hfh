@@ -15,6 +15,9 @@
 @property (weak, nonatomic) IBOutlet UIView *userView;
 @property (weak, nonatomic) IBOutlet UIView *passwordView;
 @property (strong, nonatomic) UIView *netView;
+@property(nonatomic,strong)NSUserDefaults *userdefault;
+@property(nonatomic,strong)NSString *usermessage;
+@property(nonatomic,strong)NSString *passwordmessage;
 @end
 
 @implementation LogineViewController
@@ -34,21 +37,69 @@
 {
     [super viewWillDisappear:animated];
     [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
+    
+    NSLog(@"44444444444444444444444%@",self.userText.text);
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self saveNsUserfaults];
+    [self readNsuserDefaults];
     textFiled_Y = 0;
     distance = 0.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHiden:) name:UIKeyboardWillHideNotification object:nil];
-    // Do any additional setup after loading the view from its nib.
+    
+    
+   
+    
+   
+//    if (self.userdefault!=0) {
+//        self.userText.text =[self.userdefault objectForKey:@"name"];
+   
+   
+    
+//
+        NSLog(@"+++++++++++++++++++++++++++++%@",self.passwordText.text);
+        
+//    }
 }
+
+//    
+//    self.usermessage=_userText.text;
+//    self.passwordmessage=_passwordText.text;
+//    
+//    if ([self.userText.text isEqualToString:self.passwordText.text]) {
+//        
+//    }
+
+    
+    // Do any additional setup after loading the view from its nib.
+
 - (IBAction)textFiledHideen:(id)sender {
     [_userText resignFirstResponder];
     [_passwordText resignFirstResponder];
+   
 }
-
+-(void)saveNsUserfaults
+{
+    NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];
+    if (self.userText.text!=0&&self.passwordText.text!=0) {
+        [userfaults setObject:self.userText.text forKey:@"name"];
+        [userfaults setObject:self.passwordText.text forKey:@"password"];
+        [userfaults synchronize];
+        
+    }
+    
+}
+-(void)readNsuserDefaults
+{
+    NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];
+    self.userText.text=[userfaults stringForKey:@"name"];
+    self.passwordText.text=[userfaults stringForKey:@"password"];
+    
+}
 #pragma mark -NSNotificationCenter
 
 - (void)keyboardShow:(NSNotification *)notification{
@@ -72,15 +123,25 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField == _userText) {
         textFiled_Y = _userView.frame.origin.y + textField.frame.size.height + 5;
+    
+       
+      
     }
     else if (textField == _passwordText){
         textFiled_Y = _passwordView.frame.origin.y + textField.frame.size.height + 5;
+        
     }
     
+  
+    
+    
+
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+      NSLog(@"-------------------------%@",self.userText.text);
     [textField resignFirstResponder];
     return YES;
 }
@@ -102,6 +163,7 @@
                        parameters:nil
                           success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                               NSDictionary *msgDic = [responseObject objectForKey:@"msg"];
+                             
                               AccountModel *account = [AccountModel objectWithKeyValues:msgDic];
                               [[DataManager shareManager] saveAccount:msgDic];
                               [SVProgressHUD dismiss];

@@ -39,7 +39,7 @@
 
 - (IBAction)logout:(UIButton *)sender {
    BOOL logout = [[DataManager shareManager] removeAccount];
-    [[DataManager shareManager] cleanLocalCache];
+  [[DataManager shareManager] cleanLocalCache];
     if (logout) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:nil];
         [self.navigationController popViewControllerAnimated:YES];

@@ -84,6 +84,8 @@
     
     [self.userImageView sd_setImageWithURL:[NSURL URLWithString:model.PicPath] placeholderImage:Default_Head_Image];
     self.userName.text = [NSString stringWithFormat:@"%@，欢迎您",model.Uname];
+    NSLog(@"2223333333333333333333333333%@",model.Uname);
+    
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyy年MM月dd日";

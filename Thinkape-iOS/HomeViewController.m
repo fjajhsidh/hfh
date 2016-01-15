@@ -134,16 +134,33 @@
                                  // break;
                               }
                               else if ([[dic objectForKey:@"ac"] isEqualToString:@"Msg"]) {
+                                  
+                                 
                                   tempBtn = self.myMsg;
+                                  if ([[dic objectForKey:@"num"]isEqualToString:@"0"]) {
+                                      text=@"";
+                                  }
+                                  else{
                                   text = [dic objectForKey:@"num"];
+                                  }
                               }
                               else if ([[dic objectForKey:@"ac"] isEqualToString:@"MyUnComplete"]){
                                   tempBtn = self.myUnDo;
+                                  if ([[dic objectForKey:@"num"]isEqualToString:@"0"]) {
+                                      text=@"";
+                                  }else
+                                  {
                                   text = [dic objectForKey:@"num"];
+                                  }
                               }
                               else if ([[dic objectForKey:@"ac"] isEqualToString:@"myWaiteApprove"]){
                                   tempBtn = self.myWaiteApprove;
+                                  if ([[dic objectForKey:@"num"]isEqualToString:@"0"]) {
+                                      text=@"";
+                                  }
+                                  else{
                                   text = [dic objectForKey:@"num"];
+                                  }
                               }
                               if (tempBtn) {
                                   JSBadgeView *view = (JSBadgeView *)[tempBtn viewWithTag:1024];
@@ -157,7 +174,7 @@
                           if (str.length == 0) {
                               str = @"审批中:元   待付款:元";
                           }
-                          self.status.text = str;
+                         self.status.text = str;
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           

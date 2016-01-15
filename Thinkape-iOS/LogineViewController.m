@@ -8,6 +8,8 @@
 
 #import "LogineViewController.h"
 #import "IQKeyboardManager.h"
+#import "AppDelegate.h"
+
 
 @interface LogineViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userText;
@@ -15,6 +17,10 @@
 @property (weak, nonatomic) IBOutlet UIView *userView;
 @property (weak, nonatomic) IBOutlet UIView *passwordView;
 @property (strong, nonatomic) UIView *netView;
+
+@property(strong,nonatomic)NSString * password;
+
+
 @end
 
 @implementation LogineViewController
@@ -28,6 +34,8 @@
     [super viewDidAppear:animated];
     _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
     [[IQKeyboardManager sharedManager] setEnable:NO];
+    
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -43,6 +51,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHiden:) name:UIKeyboardWillHideNotification object:nil];
     // Do any additional setup after loading the view from its nib.
+    self.userText.placeholder=@"请输入用户名";
+    self.passwordText.placeholder=@"请出入密码";
+    
+    [self readNSUserDefaults];
 }
 - (IBAction)textFiledHideen:(id)sender {
     [_userText resignFirstResponder];
@@ -116,7 +128,38 @@
         
     }
     
+    [self saveNSUserDefaults];
+
 }
+
+
+//wo保存用户名和密码到NSUserDefaults中
+-(void)saveNSUserDefaults{
+NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (self.userText.text.length!=0) {
+        if (self.passwordText.text!=0) {
+            
+            [userDefaults setObject:self.passwordText.text forKey:@"password"];
+            [userDefaults setObject:self.userText.text forKey:@"user"];
+            
+            [userDefaults synchronize];
+        }
+    }
+    
+
+
+
+}
+//wo提取NSUserDefaults中的用户名和密码
+-(void)readNSUserDefaults{
+    
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    self.userText.text=[userDefaultes stringForKey:@"user"];
+    self.passwordText.text=[userDefaultes stringForKey:@"password"];
+
+}
+
+
 
 - (IBAction)chooseNetSet:(UIButton *)sender {
     [_userText resignFirstResponder];

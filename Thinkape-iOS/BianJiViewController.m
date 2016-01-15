@@ -395,7 +395,8 @@
     }else
         if ([model.sqldatatype isEqualToString:@"date"]){
         
-           
+            [self readtoDb];
+            
             self.textfield.tag=textField.tag;
             if (textField.tag==1) {
                  self.textfield.tag=textField.tag;
@@ -630,11 +631,28 @@
   };
      [self.tableview reloadData];
     [self.view addSubview:self.datePickerView];
+    [self savetoDb];
+    NSLog(@"====================%@",self.textfield.text);
+    
+    
 }
 #pragma Textfield点击方法
 
 
-
+-(void)savetoDb
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (self.textfield.text.length!=0) {
+        [userDefaults setObject:self.textfield.text forKey:@"text"];
+        
+    }
+   }
+-(void)readtoDb
+{
+    NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+    self.textfield.text=[userdefault stringForKey:@"text"];
+    
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     CGFloat rowHeight = 0.0f;

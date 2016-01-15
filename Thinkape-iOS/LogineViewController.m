@@ -42,20 +42,21 @@
     [super viewWillDisappear:animated];
     [[IQKeyboardManager sharedManager] setEnable:_wasKeyboardManagerEnabled];
     
-    NSLog(@"44444444444444444444444%@",self.userText.text);
+  
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self saveNsUserfaults];
-    [self readNsuserDefaults];
+    
+    
     textFiled_Y = 0;
     distance = 0.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHiden:) name:UIKeyboardWillHideNotification object:nil];
+    [self saveNSUserDefaults];
     
-    
+    [self readNsuserDefaults];
    
     
    
@@ -86,17 +87,17 @@
     [_passwordText resignFirstResponder];
    
 }
--(void)saveNsUserfaults
-{
-    NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];
-    if (self.userText.text!=0&&self.passwordText.text!=0) {
-        [userfaults setObject:self.userText.text forKey:@"name"];
-        [userfaults setObject:self.passwordText.text forKey:@"password"];
-        [userfaults synchronize];
-        
-    }
-    
-}
+//-(void)saveNsUserfaults
+//{
+//    NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];
+//    if (self.userText.text!=0&&self.passwordText.text!=0) {
+//        [userfaults setObject:self.userText.text forKey:@"name"];
+//        [userfaults setObject:self.passwordText.text forKey:@"password"];
+//        [userfaults synchronize];
+//        
+//    }
+//    
+//}
 -(void)readNsuserDefaults
 {
     NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];

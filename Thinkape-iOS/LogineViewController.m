@@ -8,6 +8,8 @@
 
 #import "LogineViewController.h"
 #import "IQKeyboardManager.h"
+#import "AppDelegate.h"
+
 
 @interface LogineViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userText;
@@ -31,6 +33,8 @@
     [super viewDidAppear:animated];
     _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
     [[IQKeyboardManager sharedManager] setEnable:NO];
+    
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -178,7 +182,38 @@
         
     }
     
+    [self saveNSUserDefaults];
+
 }
+
+
+//wo保存用户名和密码到NSUserDefaults中
+-(void)saveNSUserDefaults{
+NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (self.userText.text.length!=0) {
+        if (self.passwordText.text!=0) {
+            
+            [userDefaults setObject:self.passwordText.text forKey:@"password"];
+            [userDefaults setObject:self.userText.text forKey:@"user"];
+            
+            [userDefaults synchronize];
+        }
+    }
+    
+
+
+
+}
+//wo提取NSUserDefaults中的用户名和密码
+-(void)readNSUserDefaults{
+    
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    self.userText.text=[userDefaultes stringForKey:@"user"];
+    self.passwordText.text=[userDefaultes stringForKey:@"password"];
+
+}
+
+
 
 - (IBAction)chooseNetSet:(UIButton *)sender {
     [_userText resignFirstResponder];

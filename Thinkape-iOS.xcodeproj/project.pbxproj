@@ -108,6 +108,7 @@
 		6A4B6E9A1C07521400663B7E /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4B6E981C07521400663B7E /* ChangePasswordViewController.m */; };
 		6A4B6E9B1C07521400663B7E /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A4B6E991C07521400663B7E /* ChangePasswordViewController.xib */; };
 		6A94AF591BFCC82C00967DCC /* StatementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94AF581BFCC82C00967DCC /* StatementViewController.m */; };
+		840475621C48D13400046F23 /* accountPassword.plist in Resources */ = {isa = PBXBuildFile; fileRef = 840475611C48D13400046F23 /* accountPassword.plist */; };
 		842114151C4254570076C467 /* report_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 842114141C4254570076C467 /* report_n.png */; };
 		8421141D1C4258390076C467 /* thinkape.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8421141C1C4258390076C467 /* thinkape.jpg */; };
 		842114201C4300710076C467 /* applyChangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8421141F1C4300710076C467 /* applyChangeModel.m */; };
@@ -298,6 +299,7 @@
 		6A94AF571BFCC82C00967DCC /* StatementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatementViewController.h; sourceTree = "<group>"; };
 		6A94AF581BFCC82C00967DCC /* StatementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatementViewController.m; sourceTree = "<group>"; };
 		6EEA067B9991BA68EB9D43E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		840475611C48D13400046F23 /* accountPassword.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = accountPassword.plist; sourceTree = "<group>"; };
 		842114141C4254570076C467 /* report_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_n.png; sourceTree = "<group>"; };
 		8421141C1C4258390076C467 /* thinkape.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thinkape.jpg; sourceTree = "<group>"; };
 		8421141E1C4300710076C467 /* applyChangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = applyChangeModel.h; sourceTree = "<group>"; };
@@ -738,6 +740,7 @@
 				4EE56B441AD3C54700D34CDD /* Main.storyboard */,
 				4EE56B471AD3C54700D34CDD /* Images.xcassets */,
 				4EE56B491AD3C54700D34CDD /* LaunchScreen.xib */,
+				840475611C48D13400046F23 /* accountPassword.plist */,
 				4EE56B3A1AD3C54700D34CDD /* Supporting Files */,
 				6A3371171C0058D800A5B0D5 /* UIImage+SKPImage.h */,
 				6A3371181C0058D800A5B0D5 /* UIImage+SKPImage.m */,
@@ -915,6 +918,7 @@
 				1F6D8D001C3B6FD200496AF1 /* no_image.9.png in Resources */,
 				4EE56B4B1AD3C54700D34CDD /* LaunchScreen.xib in Resources */,
 				4EB23B921B5C9D2B001DD240 /* Icon-60@3x.png in Resources */,
+				840475621C48D13400046F23 /* accountPassword.plist in Resources */,
 				4EB5C2881B4A5D220056D310 /* search_bg_blank@2x.png in Resources */,
 				6A4B6E9B1C07521400663B7E /* ChangePasswordViewController.xib in Resources */,
 				4EB23B981B5CA2FA001DD240 /* lauch-480@2x.png in Resources */,

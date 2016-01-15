@@ -26,5 +26,7 @@
 //wo  单据是否完成
 @property(strong,nonatomic)NSString * flowstatus;
 
+
+@property(strong,nonatomic)NSString * password;
 @end
 

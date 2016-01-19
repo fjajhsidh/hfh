@@ -3,10 +3,29 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "__47-[BianJiViewController addDatePickerView:date:]_block_invoke:BianJiViewController.m">
+         contextName = "-[MixiViewController tableView:cellForRowAtIndexPath:]:MixiViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[MixiViewController textFieldShouldBeginEditing:]:MixiViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "textField.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[MixiViewController tableView:numberOfRowsInSection:]:MixiViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "costatrraylost">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "-[BianJiViewController addDatePickerView:date:]:BianJiViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "__47-[BianJiViewController addDatePickerView:date:]_block_invoke:BianJiViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[BianJiViewController tableView:cellForRowAtIndexPath:]:BianJiViewController.m">

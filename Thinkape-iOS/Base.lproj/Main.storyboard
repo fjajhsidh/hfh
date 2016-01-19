@@ -931,7 +931,7 @@
         <!--未完成单据-->
         <scene sceneID="P5Q-2F-cQ7">
             <objects>
-                <viewController id="jmK-76-OYz" customClass="BillsListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BillsListView" id="jmK-76-OYz" customClass="BillsListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ICU-Op-aHh"/>
                         <viewControllerLayoutGuide type="bottom" id="xf7-Ka-k2g"/>
@@ -1254,7 +1254,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SwN-LJ-6xq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2626.5" y="314.5"/>
+            <point key="canvasLocation" x="2568.5" y="305.5"/>
         </scene>
         <!--Bills Detail View Controller-->
         <scene sceneID="Gu5-N0-lYD">
@@ -2696,6 +2696,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iPM-nN-eqo"/>
-        <segue reference="ArL-cg-Yb1"/>
+        <segue reference="7yF-0V-txM"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -22,6 +22,7 @@
 		1F78343D1C2923D300DDD1B5 /* BianjiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F78343B1C2923D300DDD1B5 /* BianjiTableViewCell.m */; };
 		1FB11E331C32AD69009D1F5F /* Bianjito.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB11E311C32AD69009D1F5F /* Bianjito.m */; };
 		1FB11E341C32AD69009D1F5F /* Bianjito.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FB11E321C32AD69009D1F5F /* Bianjito.xib */; };
+		1FC06BCE1C4DD4EA0076B4AB /* MiXimodel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC06BCD1C4DD4EA0076B4AB /* MiXimodel.m */; };
 		4E0076721AEA05D00092CAB7 /* ParentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0076711AEA05D00092CAB7 /* ParentsViewController.m */; };
 		4E00767C1AEA07600092CAB7 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E00767B1AEA07600092CAB7 /* HomeViewController.m */; };
 		4E0076801AEA07ED0092CAB7 /* CompanyNoticeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E00767F1AEA07ED0092CAB7 /* CompanyNoticeListViewController.m */; };
@@ -147,6 +148,8 @@
 		1FB11E301C32AD69009D1F5F /* Bianjito.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bianjito.h; sourceTree = "<group>"; };
 		1FB11E311C32AD69009D1F5F /* Bianjito.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bianjito.m; sourceTree = "<group>"; };
 		1FB11E321C32AD69009D1F5F /* Bianjito.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Bianjito.xib; sourceTree = "<group>"; };
+		1FC06BCC1C4DD4EA0076B4AB /* MiXimodel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiXimodel.h; sourceTree = "<group>"; };
+		1FC06BCD1C4DD4EA0076B4AB /* MiXimodel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiXimodel.m; sourceTree = "<group>"; };
 		4BD972AA8A05FE73285D78F1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E0076701AEA05D00092CAB7 /* ParentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentsViewController.h; sourceTree = "<group>"; };
 		4E0076711AEA05D00092CAB7 /* ParentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentsViewController.m; sourceTree = "<group>"; };
@@ -562,6 +565,8 @@
 				4EAFA35E1B15AD38000B0C23 /* CostLayoutModel.m */,
 				4E35D6F91B2151CA00A77624 /* HistoryModel.h */,
 				4E35D6FA1B2151CA00A77624 /* HistoryModel.m */,
+				1FC06BCC1C4DD4EA0076B4AB /* MiXimodel.h */,
+				1FC06BCD1C4DD4EA0076B4AB /* MiXimodel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1035,6 +1040,7 @@
 				4EC772C01B315D460060E709 /* KindsPickerView.m in Sources */,
 				4ED449381AEA32160047614F /* PFAdView.m in Sources */,
 				6A4B6E951C074F0300663B7E /* AboutViewController.m in Sources */,
+				1FC06BCE1C4DD4EA0076B4AB /* MiXimodel.m in Sources */,
 				4E1DB0EE1B253D9500333940 /* BillsLayoutViewCell.m in Sources */,
 				4E35D6F71B21491400A77624 /* HistoryViewCell.m in Sources */,
 				4ED98A5B1B2AB5330016CBD5 /* YPCGViewController.m in Sources */,

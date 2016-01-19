@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MixiViewController">
             <connections>
-                <outlet property="safete" destination="LDz-M5-cE5" id="CSd-5O-3U6"/>
                 <outlet property="tableview" destination="xgl-n7-da9" id="sQR-N6-5Xx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -18,51 +17,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xgl-n7-da9">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="599"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="375" id="H5o-Gh-aM7"/>
-                        <constraint firstAttribute="height" constant="573" id="R1h-l3-OOR"/>
-                    </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="fSr-Dk-Jey"/>
                         <outlet property="delegate" destination="-1" id="vRh-br-RoV"/>
                     </connections>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bKr-dX-Ce6">
-                    <rect key="frame" x="42" y="601" width="291" height="49"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LDz-M5-cE5">
-                            <rect key="frame" x="8" y="10" width="275" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="Mut-kP-Rit"/>
-                                <constraint firstAttribute="width" constant="275" id="dgl-6j-qkc"/>
-                            </constraints>
-                            <state key="normal" title="保存"/>
-                            <connections>
-                                <action selector="safetosave:" destination="-1" eventType="touchUpInside" id="hgX-63-iA2"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="LDz-M5-cE5" firstAttribute="leading" secondItem="bKr-dX-Ce6" secondAttribute="leading" constant="8" id="9rr-cd-euN"/>
-                        <constraint firstAttribute="bottom" secondItem="LDz-M5-cE5" secondAttribute="bottom" constant="9" id="ElH-Cc-8Wo"/>
-                        <constraint firstAttribute="height" constant="49" id="Lze-9o-amK"/>
-                        <constraint firstAttribute="trailing" secondItem="LDz-M5-cE5" secondAttribute="trailing" constant="8" id="Ohb-LY-wCk"/>
-                        <constraint firstAttribute="width" constant="291" id="hsm-Wb-UdE"/>
-                        <constraint firstItem="LDz-M5-cE5" firstAttribute="top" secondItem="bKr-dX-Ce6" secondAttribute="top" constant="10" id="ljp-3u-rz6"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="xgl-n7-da9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="RY9-m5-16P"/>
-                <constraint firstItem="xgl-n7-da9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WUP-SM-ACI"/>
-                <constraint firstAttribute="trailing" secondItem="xgl-n7-da9" secondAttribute="trailing" id="Yly-y0-hPs"/>
-                <constraint firstItem="bKr-dX-Ce6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="42" id="aK4-pY-XIH"/>
-                <constraint firstAttribute="bottom" secondItem="bKr-dX-Ce6" secondAttribute="bottom" constant="17" id="h17-d0-V4b"/>
-                <constraint firstAttribute="trailing" secondItem="bKr-dX-Ce6" secondAttribute="trailing" constant="42" id="h34-e0-au3"/>
+                <constraint firstItem="xgl-n7-da9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="2lH-3W-TMY"/>
+                <constraint firstAttribute="trailing" secondItem="xgl-n7-da9" secondAttribute="trailing" id="BcR-kk-9v0"/>
+                <constraint firstItem="xgl-n7-da9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="I20-Cs-zH8"/>
+                <constraint firstAttribute="bottom" secondItem="xgl-n7-da9" secondAttribute="bottom" constant="68" id="pRd-hH-kQi"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="163.5" y="252.5"/>

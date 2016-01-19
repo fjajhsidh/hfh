@@ -304,10 +304,10 @@
                           NSDictionary * mainLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"main"];
                           NSLog(@"字典%@",mainLayout);
                           NSArray * costLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"details"];
-                          NSLog(@"数组%@",costLayout[0]);
-//
-                          self.leixing=[costLayout[0] objectForKey:@"name"];
-                          NSLog(@"类型%@",self.leixing);
+//                          NSLog(@"数组%@",costLayout[0]);
+//wo
+//                          self.leixing=[costLayout[0] objectForKey:@"name"];
+                     //     NSLog(@"类型%@",self.leixing);
                           
                           
                           [_mainLayoutArray addObjectsFromArray:[LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]]];
@@ -315,9 +315,9 @@
                           
                           
                           //wo
-                          self.changeArr=[[NSMutableArray alloc] init];
-                          self.changeArr=[[responseObject objectForKey:@"msg"] objectForKey:@"btn"];
-                          
+//                          self.changeArr=[[NSMutableArray alloc] init];
+//                          self.changeArr=[[responseObject objectForKey:@"msg"] objectForKey:@"btn"];
+//                          
                           
                           
                           NSArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
@@ -335,7 +335,7 @@
                           [self.tableView reloadData];
                           [SVProgressHUD dismiss];
                           //wo
-                         [self addRightNagationBar];
+//                      [self addRightNagationBar];
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           
@@ -912,6 +912,8 @@
         [uploadButton setFrame:CGRectMake(10, SCREEN_HEIGHT - 120, SCREEN_WIDTH - 20, 30)];
         [self.view addSubview:uploadButton];
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(buttontap)];
+        [item setTintColor:[UIColor whiteColor]];
+        
         self.navigationItem.rightBarButtonItem=item;
         self.tableViewBottomConstraint.constant = 135.0f;
         lastConstant = 135.0f;

@@ -13,4 +13,5 @@
 @property (nonatomic,strong) NSString *photopath;
 @property (nonatomic,strong) NSString *TotalMoney;
 @property (nonatomic,strong) NSArray *fileds;
+
 @end

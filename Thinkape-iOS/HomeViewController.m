@@ -149,7 +149,8 @@
                               else if ([[dic objectForKey:@"ac"] isEqualToString:@"MyUnComplete"]){
                                   tempBtn = self.myUnDo;
                                   if ([[dic objectForKey:@"num"]isEqualToString:@"0"]) {
-                                      text=@"";
+                                    text=@"";
+                                      
                                   }else
                                   {
                                   text = [dic objectForKey:@"num"];

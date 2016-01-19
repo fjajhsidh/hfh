@@ -235,6 +235,13 @@
     return cell;
     
 }
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    
+    
+    
+    return YES;
+}
 -(void)tapsion:(UITapGestureRecognizer *)sender
 {
     Bianjiviewtableview *vc=[[Bianjiviewtableview alloc] init];

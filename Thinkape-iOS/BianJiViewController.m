@@ -35,10 +35,11 @@
 #import "Bianjito.h"
 #import "AppDelegate.h"
 #import "SDPhotoBrowser.h"
+#import "BillsListViewController.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (strong,nonatomic) NSMutableArray *mainLayoutArray; // 主表 布局视图
-@property (weak, nonatomic) IBOutlet UIView *smallview;
+
 @property (strong,nonatomic) NSMutableArray *costLayoutArray2;
 
 @property (strong,nonatomic) NSMutableArray *pathFlow; // 审批流程
@@ -81,7 +82,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.selectedion=1;
+  
+    UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
+    [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
+    [iconb addTarget:self action:@selector(pulltoreturn) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *back =[[UIBarButtonItem alloc] initWithCustomView:iconb];
+    self.navigationItem.leftBarButtonItem=back;
+    
+    
+    
     self.title=@"详情";
+    
     
     self.tableview.delegate=self;
     self.tableview.dataSource=self;
@@ -118,14 +130,28 @@
         };
         [self.view addSubview:self.kindsPickerView];
     }
+    
+    
+    
+        [self addFooterView];
 
 }
- - (IBAction)Cancel:(id)sender {
-}
-- (IBAction)Save:(id)sender {
-//    [self requestEdithBillsType];
-}
 
+-(void)pulltoreturn
+{
+//    BillsListViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BillsListView"];
+    NSArray *temArray =self.navigationController.viewControllers;
+    for (UIViewController *ter in temArray) {
+        if ([ter isKindOfClass:[BillsListViewController class]]) {
+              [self.navigationController popToViewController:ter animated:YES];
+        }
+    }
+    
+  
+//    
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//    
+}
 - (void)requestDataSource{
     
     //ac=GetEditData&u=9&programid=130102&billid=28
@@ -759,7 +785,7 @@
         [backBatn setFrame:CGRectMake(CGRectGetMaxX(sureBtn.frame) + 20, CGRectGetMinY(sureBtn.frame), btnWidth, 30)];
     }
     
-    //    lastConstant = self.tableViewBottomConstraint.constant;
+//        lastConstant = self.tableViewBottomConstraint.constant;
 }
 
 - (void)backVC{
@@ -1261,6 +1287,40 @@
 //    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
    
     [self.tableview reloadData];
+}
+-(void)addFooterView
+{
+    infoView = [[UIView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT - 50 - textFiledHeight, SCREEN_WIDTH - 20, 50 + textFiledHeight)];
+    infoView.backgroundColor = [UIColor whiteColor];
+    infoView.tag = 1024;
+    [self.view addSubview:infoView];
+    CGFloat btnWidth = (CGRectGetWidth(infoView.frame) - 30) / 2.0f;
+    sureBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [sureBtn setFrame:CGRectMake(10, CGRectGetMaxY(self.beizhuText.frame) + 10, btnWidth, 30)];
+    [sureBtn addTarget:self action:@selector(safefield) forControlEvents:UIControlEventTouchUpInside];
+    [sureBtn setBackgroundColor:[UIColor colorWithRed:0.314 green:0.816 blue:0.361 alpha:1.000]];
+    [sureBtn setTitle:@"保存" forState:UIControlStateNormal];
+    [sureBtn setTitleColor:[UIColor whiteColor]];
+    sureBtn.tag = 1025;
+    [infoView addSubview:sureBtn];
+    
+    backBatn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backBatn setFrame:CGRectMake(CGRectGetMaxX(sureBtn.frame) + 20, CGRectGetMinY(sureBtn.frame), btnWidth, 30)];
+    [backBatn addTarget:self action:@selector(canletouch) forControlEvents:UIControlEventTouchUpInside];
+    [backBatn setBackgroundColor:[UIColor colorWithRed:0.906 green:0.251 blue:0.357 alpha:1.000]];
+    [backBatn setTitle:@"取消" forState:UIControlStateNormal];
+    [backBatn setTitleColor:[UIColor whiteColor]];
+    sureBtn.tag = 1026;
+    [infoView addSubview:backBatn];
+}
+//保存文件
+-(void)safefield
+{
+    
+}
+-(void)canletouch
+{
+    
 }
 /*
 #pragma mark - Navigation

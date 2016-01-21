@@ -551,7 +551,7 @@
     
     self.tableview.bounces=NO;
     
-   LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
+   LayoutModel *model = [self.mainLayoutArray safeObjectAtIndex:textField.tag];
    
     NSLog(@"tag值：%ld",textField.tag);
     
@@ -571,29 +571,14 @@
     }else
         if ([model.sqldatatype isEqualToString:@"date"]){
         
-            [self readtoDb];
-            
-            self.textfield.tag=textField.tag;
-            if (textField.tag==1) {
-                 self.textfield.tag=textField.tag;
-                 self.textfield=textField;
-               
-            }else
-            {
-                self.textfield.tag=textField.tag;
-                self.textfield=textField;
-                
-            }
-           
+          
 //            self.textfield.font=[UIFont systemFontOfSize:13];
             
             
 
-            if (self.textfield.text !=textField.text) {
-                NSLog(@"22222222222222");
-            }
+           
             
-      [self addDatePickerView:self.textfield.tag date:textField.text];
+      [self addDatePickerView:textField.tag date:textField.text];
            
             
             
@@ -760,30 +745,18 @@
     
     __block BianJiViewController *weaker=self;
    self.datePickerView.selectDateBack = ^(NSString *date){
-    
+       NSInteger tag = weaker.datePickerView.tag;
        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
        
-       layout.fieldname = date;
-        NSLog(@"???????????????%@",layout.fieldname);
+      
+      
        
-       [weaker.mainLayoutArray insertObject:layout atIndex:tag];
+       [weaker.tableViewDic setObject:date forKey:layout.fieldname];
        
-       [weaker.mainLayoutArray removeObjectAtIndex:tag];
-       
-       
-       
-       
-       //       [weaker.tableViewDic removeObjectForKey:layout.fieldname];
-//       [weaker.tableViewDic setObject:date forKey:layout.fieldname];
-       
-//        [weakSelf.mainLayoutArray setValue:date forKey:layout.fieldname];
-//        textf.text=date;
-//        textf.text=date;
-        NSLog(@"00000000000000%@",date);
+
 //
        
-      weaker.textfield.text=date;
-      
+       
        
        
      
@@ -794,7 +767,7 @@
         
         
       
-        
+       
         
        [weaker.datePickerView closeView:nil];
     
@@ -803,16 +776,15 @@
 //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
         
         
-       
+       [weaker.tableview reloadData];
         
        
        
 
   };
-     [self.tableview reloadData];
+    
     [self.view addSubview:self.datePickerView];
-    [self savetoDb];
-    NSLog(@"====================%@",self.textfield.text);
+        NSLog(@"====================%@",self.textfield.text);
     
     
 }

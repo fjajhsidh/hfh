@@ -66,6 +66,11 @@
 
 @property(nonatomic,assign)BOOL ishideto;
 
+//wo
+
+
+
+
 @end
 
 @implementation BianJiViewController
@@ -81,6 +86,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+   
+    
     self.selectedion=1;
   
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
@@ -107,11 +116,12 @@
     _arrytext=[NSMutableArray array];
     
     self.datestring=[[NSMutableArray alloc] init];
-    [self requestDataSource];
+   
     //存右边栏数据的字典
-    self.tableViewDic=[NSMutableDictionary dictionary];
-    self.XMLParameterDic=[NSMutableDictionary dictionary];
+    self.tableViewDic=[[NSMutableDictionary alloc]init];
+    self.XMLParameterDic=[[NSMutableDictionary alloc]init];
     
+    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
     
     
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
@@ -131,7 +141,7 @@
         [self.view addSubview:self.kindsPickerView];
     }
     
-    
+    [self requestDataSource];
     
         [self addFooterView];
 
@@ -155,7 +165,10 @@
 - (void)requestDataSource{
     
     //ac=GetEditData&u=9&programid=130102&billid=28
-    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=EditData&u=%@&programid=%@&billid=%@",self.uid ,self.programeId,self.billid]
+    
+    NSString * str=[NSString stringWithFormat:@"ac=EditData&u=%@&programid=%@&billid=%@",self.uid ,self.programeId,self.billid];
+    NSLog(@"str:%@",str);
+    [RequestCenter GetRequest:str
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           
@@ -165,11 +178,18 @@
                           
                           [_mainLayoutArray addObjectsFromArray:l];
                           [_costLayoutArray2 addObjectsFromArray:[CostLayoutModel objectArrayWithKeyValuesArray:costLayout]];
-                          NSArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
+                          NSMutableArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
+                          NSLog(@"dataArr.count:%lu",dataArr.count);
+                          
                           _mainData = [dataArr safeObjectAtIndex:0];
                           
-                          [self.tableViewDic setObject:_mainData forKey:dataArr];
+                          self.tableViewDic=[NSMutableDictionary  dictionaryWithDictionary:_mainData[0]];
                           
+                     NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
+                          
+//                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
+//                          [self.tableViewDic setObject:_mainData forKey:dataArr];
+//                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
                           //                          [self addCommintBtn];
                           
                           [_costData2 addObjectsFromArray:[dataArr objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, _costLayoutArray2.count)]]];
@@ -211,6 +231,9 @@
                       }
             showLoadingStatus:YES];
 }
+
+#pragma mark-UITableViewDelegate
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     NSInteger number = 0;
@@ -254,10 +277,6 @@
     //    }
     return number;
 }
--(void)button{
-    NSLog(@"ascasc");
-}
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
@@ -273,7 +292,8 @@
     [subView removeFromSuperview];
     [subView1 removeFromSuperview];
     
-    self.tableViewDic = [_mainData safeObjectAtIndex:0];
+//    self.tableViewDic = [_mainData safeObjectAtIndex:0];
+//    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
     //    cell.lineViewHeight.constant = 0.5f;
     
     if (indexPath.row < _mainLayoutArray.count) {
@@ -281,9 +301,13 @@
         
         
         cell.leftlabel.text = [NSString stringWithFormat:@"%@:",model.name];
-        
-     
       cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
+        
+      //wo
+       
+         NSLog(@"model.fieldname的model：%@ self.tableViewDic的cell:%@",model.fieldname,self.tableViewDic);
+        
+        
         cell.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
         
         [_arrytext addObject:cell.textfield.text];
@@ -299,8 +323,6 @@
             
             cell.textfield.enabled=NO;
         }
-      
-        
         
         if ([model.fieldname isEqualToString:@"totalmoney"]) {
             //            cell.leftlabel.textColor = [UIColor hex:@"f23f4e"];
@@ -309,15 +331,6 @@
            
 //            
 //
-         
-         
-         
-        
-            
-         
-            
-          
-
        }
     
         else
@@ -378,37 +391,174 @@
     return cell;
     
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+
+
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CGFloat rowHeight = 0.0f;
+    
+    //    if (self.selectedIndex == 0) {
+    NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
+    if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count != 0){
+        NSInteger count = _imageArray.count + _uploadArr.count;
+        CGFloat speace = 15.0f;
+        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
+        int row;
+        if (count %3 == 0) {
+            row = count / 3;
+        }
+        else{
+            row = count / 3 + 1;
+        }
+        return (speace + imageWidth) * row + 10;
+    }
+    else if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count == 0 && [self isUnCommint]){
+        NSInteger count = _imageArray.count + _uploadArr.count;
+        CGFloat speace = 15.0f;
+        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
+        int row = count / 3 + 1;
+        return (speace + imageWidth) * row + 10;
+    }
+    //看看要不要删掉
+    //        else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
+    //           LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
+    //           rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
+    //        }
+    else if (indexPath.row < _mainLayoutArray.count){
+        LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
+        rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
+        
+        rowHeight= self.textfield.frame.size.height+15;
+        
+        
+        
+        
+        
+    }
+    else if(_mainLayoutArray.count == indexPath.row && _costLayoutArray2.count != 0 )
+        rowHeight = 90;
+    
+    else
+    {
+        rowHeight = 0;
+        
+    }
+    
+    
+    
+    
+    
+    return rowHeight;
+    
+}
+
+
+#pragma mark-KindsItemsViewDelegate点击弹出框传值过来
+
+- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
+    
+//    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
+//    
+//    
+//    cell.leftlabel.text = [NSString stringWithFormat:@"%@:",model.name];
+//    cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
+
+    NSInteger tag = view.tag;
+    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
+    NSLog(@"tag:%lu",tag);
+    NSLog(@"模型：%@",layoutModel);
+    NSLog(@"值和ID%@%@",name,ID);
+    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
+    NSLog(@"%@",layoutModel.fieldname);
+    NSString *str=[NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:layoutModel.name]];
+    NSLog(@"要%@",layoutModel.fieldname);
+    
+ 
+    NSLog(@"str:%@  self.tableViewDic:%@",str,self.tableViewDic);
+    
+    [self.tableViewDic setObject:name forKey:layoutModel.fieldname];
+    
+    NSLog(@"值键%@=%@",layoutModel.fieldname,layoutModel.name);
+    
+    //    layoutModel.idstr=ID;
+    //    layoutModel.nameStr=name;
+    //    [_mainLayoutArray removeObjectAtIndex:tag];
+    //    [_mainLayoutArray insertObject:layoutModel atIndex:tag];
+    
+    [view closed];
+    self.textstring.text=name;
+    self.ishideto=YES;
+    [self.tableview reloadData];
+}
+- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+    NSString *idStr = @"";
+    NSString *nameStr = @"";
+    NSInteger tag = view.tag;
+    NSLog(@"ssssssssssss%ld",(long)tag);
+    
+    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
+    int i = 0;
+    for (KindsItemModel *model in arr) {
+        if (i == 0) {
+            idStr = [NSString stringWithFormat:@"%@",model.ID];
+            nameStr = [NSString stringWithFormat:@"%@",model.name];
+        }
+        else{
+            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
+            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+        }
+        i++;
+        layoutModel.nameStr=nameStr;
+        layoutModel.idstr=idStr;
+        [_mainLayoutArray removeObjectAtIndex:tag];
+        [_mainLayoutArray insertObject:layoutModel atIndex:tag];
+        self.textfield.text=nameStr;
+        self.ishideto =YES;
+        NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
+        
+    }
+    
+    
+    
+    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
+    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
+    
+    [self.tableview reloadData];
+}
+
+
+
+
+
+
+
+
 -(void)aller
 {
     NSLog(@">>>>>>>");
 }
 
-//- (void)textFieldDidBeginEditing:(UITextField *)textField {
-//    
-//    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
-//    
-//
-//    if ([model.fieldname isEqualToString:@"billdate_show"]){
-//        [self addDatePickerView:textField.tag date:textField.text];
-//        return;
-//    }
-//    else
-//    {
-//       
-//    }
-//       
-//}
+
+#pragma mark-UItextFieldDelegate
+
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
     self.tableview.bounces=NO;
     
    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
    
-    
+    NSLog(@"tag值：%ld",textField.tag);
     
 //    self.textstring.tag=textField.tag;
 //    self.textstring=textField;
     NSIndexPath *path =[self.tableview indexPathForSelectedRow];
+    NSLog(@"path值：%@",path);
     BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
     if (model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]) {
         
@@ -460,7 +610,7 @@
 //wo
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     
-    //textField.text=mo
+    
     
 }
 
@@ -534,6 +684,7 @@
                       }
             showLoadingStatus:YES];
 }
+
 - (void)fetchItemsData:(NSString *)sql callbakc:(void (^)(NSArray *arr))callBack{
         NSMutableArray *modelArr = [[NSMutableArray alloc] init];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -564,7 +715,7 @@
     
     itemView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(itemView.frame) / 2.0f);
     itemView.dataArray = arr;
-//    itemView.isSingl = isSinglal;
+
     itemView.tag = tag;
     [self.view addSubview:itemView];
     [UIView animateWithDuration:1.0
@@ -579,6 +730,7 @@
                          
                      }];
 }
+
 - (void)saveItemsToDB:(NSArray *)arr callbakc:(void (^)(NSArray *modelArr))callBack{
     NSMutableArray *modelArr = [[NSMutableArray alloc] init];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -596,19 +748,7 @@
     });
     
 }
-//-(void)textFieldDidEndEditing:(UITextField *)textField
-//{
-////    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
-//    self.textfield=textField;
-//    
-//    
-//    self.textfield.tag=textField.tag;
-//    
-//    NSLog(@"<<<<<<<<<<<<<<<<%ld",(long)self.textfield.tag);
-//    
-//
-//}
-//- (void)addDatePickerView:(NSInteger)tag date:(NSString *)date field:(UITextField *)textf
+
 - (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
     if (!self.datePickerView) {
         self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
@@ -676,9 +816,9 @@
     
     
 }
-#pragma Textfield点击方法
+#pragma mark-本地化保存self.textfield.text
 
-
+//本地保存
 -(void)savetoDb
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -687,68 +827,11 @@
         
     }
    }
+//读取本地保存的数据
 -(void)readtoDb
 {
     NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
     self.textfield.text=[userdefault stringForKey:@"text"];
-    
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    CGFloat rowHeight = 0.0f;
-    
-    //    if (self.selectedIndex == 0) {
-    NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
-    if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count != 0){
-        NSInteger count = _imageArray.count + _uploadArr.count;
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
-        int row;
-        if (count %3 == 0) {
-            row = count / 3;
-        }
-        else{
-            row = count / 3 + 1;
-        }
-        return (speace + imageWidth) * row + 10;
-    }
-    else if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count == 0 && [self isUnCommint]){
-        NSInteger count = _imageArray.count + _uploadArr.count;
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
-        int row = count / 3 + 1;
-        return (speace + imageWidth) * row + 10;
-    }
-    //看看要不要删掉
-    //        else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
-    //           LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
-    //           rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
-    //        }
-    else if (indexPath.row < _mainLayoutArray.count){
-        LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
-        rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
-       
-        rowHeight= self.textfield.frame.size.height+15;
-        
-       
-       
-        
-        
-    }
-    else if(_mainLayoutArray.count == indexPath.row && _costLayoutArray2.count != 0 )
-        rowHeight = 90;
-    
-    else
-    {
-        rowHeight = 0;
-        
-    }
-    
-    
-    
-    
-    
-    return rowHeight;
     
 }
 - (void)didReceiveMemoryWarning {
@@ -1240,54 +1323,9 @@
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
 }
-- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
-    NSInteger tag = view.tag;
-    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
-    layoutModel.idstr=ID;
-    layoutModel.nameStr=name;
-    
-    [_mainLayoutArray removeObjectAtIndex:tag];
-    [_mainLayoutArray insertObject:layoutModel atIndex:tag];
-    [view closed];
-    self.textstring.text=name;
-    self.ishideto=YES;
-    [self.tableview reloadData];
-}
-- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
-    NSString *idStr = @"";
-    NSString *nameStr = @"";
-    NSInteger tag = view.tag;
-    NSLog(@"ssssssssssss%ld",(long)tag);
-    
-    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
-    int i = 0;
-    for (KindsItemModel *model in arr) {
-        if (i == 0) {
-            idStr = [NSString stringWithFormat:@"%@",model.ID];
-            nameStr = [NSString stringWithFormat:@"%@",model.name];
-        }
-        else{
-            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
-            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
-        }
-        i++;
-        layoutModel.nameStr=nameStr;
-        layoutModel.idstr=idStr;
-        [_mainLayoutArray removeObjectAtIndex:tag];
-        [_mainLayoutArray insertObject:layoutModel atIndex:tag];
-        self.textfield.text=nameStr;
-        self.ishideto =YES;
-        NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
-        
-    }
-    
-   
-    
-  //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
-//    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
-   
-    [self.tableview reloadData];
-}
+
+
+
 -(void)addFooterView
 {
     infoView = [[UIView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT - 50 - textFiledHeight, SCREEN_WIDTH - 20, 50 + textFiledHeight)];

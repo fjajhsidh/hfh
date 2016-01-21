@@ -118,7 +118,7 @@
         }else{
             model = [self.dataArray safeObjectAtIndex:indexPath.row];
         }
-        NSLog(@"啦啦%@%@",model.name ,model.ID);
+        NSLog(@"啦啦%@%=@%ld",model.name ,model.ID,self.tag);
         [self.delegate selectItem:model.name ID:model.ID view:self];
     }
     else

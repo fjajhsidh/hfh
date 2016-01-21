@@ -77,6 +77,8 @@
     self.XMLParameterDic = [[NSMutableDictionary alloc] init];
     self.tableViewDic = [[NSMutableDictionary alloc] init];
     
+     NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
+    
     if (self.type == 0) {
         UIButton *backBt = [UIButton buttonWithType:UIButtonTypeCustom];
         [backBt setImage:[UIImage imageNamed:@"right_item"] forState:UIControlStateNormal];
@@ -438,6 +440,8 @@
                           layoutModel.key = @"cagegory_c";
                           [self.layoutArray addObject:layoutModel];
                           [self.tableViewDic setObject:_editModel.cname forKey:layoutModel.key];
+                          
+                          
                           [self saveLayoutKindsToDB:dataDic callbakc:^{
                               [self.tableView reloadData];
                               [SVProgressHUD dismiss];
@@ -726,6 +730,8 @@
     else
         return 1;
 }
+
+
 
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
     // UIButton *imageView = (UIButton *)[bgView viewWithTag:index];

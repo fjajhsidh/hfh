@@ -87,14 +87,7 @@
     
     AppDelegate *appe = [UIApplication sharedApplication].delegate;
     self.dict2= appe.dict;
-    if (![[self.dict2 objectForKey:_layoutModel.fieldname]isEqualToString:@""]) {
-        [self.dict2 setObject:@"" forKey:_layoutModel.fieldname];
-        
-        
-        
-    }
-    
-//    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:_coster.fileds[0]];
+    //    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:_coster.fileds[0]];
     
     
    
@@ -595,12 +588,12 @@
     NSInteger tag = view.tag;
     
     NSLog(@"%@%@",name,ID);
-  _layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
+  _layoutModel = [self.costatrraylost safeObjectAtIndex:1];
 //    [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
 //    [self.tableViewDic setObject:name forKey:layoutModel.key];
     
     
-    [self.tableviewDic setObject:name forKey:_layoutModel.fieldname];
+    [self.dict2 setObject:name forKey:_layoutModel.fieldname];
     
     
     

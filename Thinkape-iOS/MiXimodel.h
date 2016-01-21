@@ -27,4 +27,5 @@
 @property(nonatomic,strong)NSString *idstr;
 @property(nonatomic,strong)NSString *nameStr;
 @property(nonatomic,strong)NSString *dataver;
+
 @end

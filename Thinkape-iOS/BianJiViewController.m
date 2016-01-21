@@ -492,8 +492,8 @@
     //    [_mainLayoutArray insertObject:layoutModel atIndex:tag];
     
     [view closed];
-    self.textstring.text=name;
-    self.ishideto=YES;
+//    self.textstring.text=name;
+//    self.ishideto=YES;
     [self.tableview reloadData];
 }
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
@@ -518,8 +518,8 @@
         layoutModel.idstr=idStr;
         [_mainLayoutArray removeObjectAtIndex:tag];
         [_mainLayoutArray insertObject:layoutModel atIndex:tag];
-        self.textfield.text=nameStr;
-        self.ishideto =YES;
+//        self.textfield.text=nameStr;
+//        self.ishideto =YES;
         NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
         
     }
@@ -560,7 +560,7 @@
     NSIndexPath *path =[self.tableview indexPathForSelectedRow];
     NSLog(@"path值：%@",path);
     BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
-    if (model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]) {
+    if (![model.datasource isEqualToString:@"0"]&&![model.sqldatatype isEqualToString:@"date"]) {
         
         
         isSinglal =model.issingle;
@@ -647,9 +647,17 @@
     //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
     NSInteger tag= [self.mainLayoutArray indexOfObject:model];
+    if ([model.datasource containsString:@"_code"]) {
+        
+      model.datasource =  [model.datasource stringByReplacingOccurrencesOfString:@"_code" withString:@""];
+        
+        
+    }
+    
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                          
                           id dataArr = [responseObject objectForKey:@"msg"];
                           if ([dataArr isKindOfClass:[NSArray class]]) {
                               [self saveItemsToDB:dataArr callbakc:^(NSArray *modelArr) {

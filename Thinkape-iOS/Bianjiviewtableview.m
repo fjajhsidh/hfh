@@ -48,6 +48,7 @@
     self.tableview.bounces=YES;
     self.imagedatarry=[NSMutableArray array];
     self.updatearry =[NSMutableArray array];
+    self.dict1 =[[NSMutableDictionary alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,19 +84,8 @@
 //       
 //             LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:cell.textlabel.tag-1];
 //            cell.textlabel.text=layoutModel.name;
-       
- 
-      
-     
-      
-    
-      
-      
-      
-      
-
-        
-//      cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+  
+        //      cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
 //        [cell.contentView addSubview:cell.textlabel];
         
     }
@@ -104,7 +94,7 @@
    cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
     NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
     //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
-   self.dict1 =[NSDictionary dictionary];
+   
     AppDelegate *app = [UIApplication sharedApplication].delegate;
     self.dict1=app.dict;
     

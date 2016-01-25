@@ -18,10 +18,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NOp-Bv-1TQ">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="596"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="614"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="596" id="9Gx-MW-dwq"/>
+                        <constraint firstAttribute="height" constant="614" id="w9Q-Fr-0jt"/>
                     </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="t20-Yv-ewe"/>
@@ -36,7 +36,7 @@
                             <state key="normal" title="保存"/>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.25098039215686274" green="0.79607843137254897" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="337" id="52L-r0-uAi"/>
                         <constraint firstAttribute="height" constant="37" id="Usf-3Y-Xds"/>
@@ -50,11 +50,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="jS0-fm-wjM" secondAttribute="trailing" constant="19" id="0Bj-bi-EUW"/>
-                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="4Ck-2F-MO3"/>
-                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4vP-DP-UqV"/>
-                <constraint firstAttribute="trailing" secondItem="NOp-Bv-1TQ" secondAttribute="trailing" id="RLY-gA-lre"/>
                 <constraint firstAttribute="bottom" secondItem="jS0-fm-wjM" secondAttribute="bottom" constant="8" id="WdJ-SQ-9a0"/>
                 <constraint firstItem="jS0-fm-wjM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="19" id="h6W-jo-7gs"/>
+                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hho-pp-5fJ"/>
+                <constraint firstAttribute="trailing" secondItem="NOp-Bv-1TQ" secondAttribute="trailing" id="me5-L7-US2"/>
+                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oGB-id-Gu2"/>
+                <constraint firstItem="jS0-fm-wjM" firstAttribute="top" secondItem="NOp-Bv-1TQ" secondAttribute="bottom" constant="8" id="plA-pN-nGh"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="293.5" y="222.5"/>

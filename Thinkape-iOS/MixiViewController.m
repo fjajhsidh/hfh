@@ -37,7 +37,7 @@
 @property(nonatomic,strong)NSMutableDictionary *tableviewDic;
 @property(nonatomic,strong)CostLayoutModel *coster;
 @property(nonatomic,strong)NSMutableArray *Tositoma;
-@property(nonatomic,strong)MiXimodel *layoutModel;
+
 
 @end
 
@@ -62,7 +62,7 @@
      self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
      _selectModel=[[KindsModel alloc] init];
     self.tableviewDic=[NSMutableDictionary dictionary];
-    _layoutModel=[[MiXimodel alloc] init];
+    
 //    self.tableviewDic = [NSMutableDictionary dictionaryWithDictionary:_costatrraylost];
     _coster=[self.costatrraylost safeObjectAtIndex:_index];
     self.Tositoma =_coster.fileds;
@@ -86,8 +86,8 @@
     [self.view addSubview:btn];
     
     AppDelegate *appe = [UIApplication sharedApplication].delegate;
-    self.dict2= appe.dict;
-    //    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:_coster.fileds[0]];
+//    self.dict2= appe.dict;
+   self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
     
     
@@ -123,12 +123,12 @@
 
 //    self.tableviewDic = [self.costarrdate safeObjectAtIndex:0];
 //    
-//    CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
+    CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
     
-//    MiXimodel *layoutModel =[model.fileds
-//                             safeObjectAtIndex:indexPath.row];
-    _layoutModel =[self.Tositoma
+    MiXimodel *layoutModel =[model.fileds
                             safeObjectAtIndex:indexPath.row];
+//    _layoutModel =[self.Tositoma
+//                            safeObjectAtIndex:indexPath.row];
     BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (!cell) {
@@ -137,15 +137,15 @@
    
     
    
-    cell.textlabel.text=[NSString stringWithFormat:@"%@",_layoutModel.name];
+    cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
     
    
     
-    if (_layoutModel.ismust) {
+    if (layoutModel.ismust) {
         cell.detailtext.placeholder=@"请输入不能为空";
         
     }
-    if ([_layoutModel.sqldatatype isEqualToString:@"number"]) {
+    if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
         cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
     }
     
@@ -160,7 +160,7 @@
     
 //    [self.dict2 removeObjectForKey:layoutModel.fieldname];
     
-    cell.detailtext.text =[self.dict2 objectForKey:_layoutModel.fieldname];
+    cell.detailtext.text =[self.dict2 objectForKey:layoutModel.fieldname];
     
 //    [self.tableviewDic setObject:cell.detailtext.text forKey:layoutModel.fieldname];
     
@@ -215,7 +215,7 @@
     
     CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     
-    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:4];
+    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
     [self.dict2 setObject:name forKey:layoutModel.fieldname];
@@ -227,28 +227,28 @@
     [view closed];
     [self.tableview reloadData];
 }
-- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
-    NSString *idStr = @"";
-    NSString *nameStr = @"";
-    NSInteger tag = view.tag;
-    MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
-    int i = 0;
-    for (KindsItemModel *model in arr) {
-        if (i == 0) {
-            idStr = [NSString stringWithFormat:@"%@",model.ID];
-            nameStr = [NSString stringWithFormat:@"%@",model.name];
-        }
-        else{
-            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
-            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
-        }
-        i++;
-    }
-    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
-    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
-    [self.tableview reloadData];
-}
-
+//- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+//    NSString *idStr = @"";
+//    NSString *nameStr = @"";
+//    NSInteger tag = view.tag;
+//    MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
+//    int i = 0;
+//    for (KindsItemModel *model in arr) {
+//        if (i == 0) {
+//            idStr = [NSString stringWithFormat:@"%@",model.ID];
+//            nameStr = [NSString stringWithFormat:@"%@",model.name];
+//        }
+//        else{
+//            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
+//            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+//        }
+//        i++;
+//    }
+//    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
+//    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
+//    [self.tableview reloadData];
+//}
+//
 
 
 
@@ -256,13 +256,9 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-//    self.tableview.bounces=NO;
-    
-//    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
-    self.tableview.bounces=NO;
-//    _coster =[self.costatrraylost safeObjectAtIndex:_index];
-   _layoutModel=[self.Tositoma safeObjectAtIndex:textField.tag];
-    
+  self.tableview.bounces=NO;
+    CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+    MiXimodel *model2 =[model.fileds safeObjectAtIndex:textField.tag];
     
     
     //    self.textstring.tag=textField.tag;
@@ -271,16 +267,16 @@
 //    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
     //model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]
     
-    if (![_layoutModel.datasource isEqualToString:@"0"]) {
+    if (![model2.datasource isEqualToString:@"0"]) {
         
         
-        isSinglal =_layoutModel.issingle;
+        isSinglal =model2.issingle;
 
-        [self kindsDataSource:_layoutModel];
+        [self kindsDataSource:model2];
         
         return NO;
     }else
-        if ([_layoutModel.sqldatatype isEqualToString:@"date"]){
+        if ([model2.sqldatatype isEqualToString:@"date"]){
             
 //         [self readtoDb];
             
@@ -318,15 +314,15 @@
 }
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-//   MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:textField.tag];
-     _layoutModel = [self.Tositoma safeObjectAtIndex:textField.tag];
+  MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:textField.tag];
+   
     //    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
     //        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
     //        textField.text = @"";
     //        _isHaven=NO;
     //    }
     
-    if (![self isPureInt:textField.text] && [_layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
+    if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
     }
@@ -374,7 +370,8 @@
     __block MixiViewController *weaker=self;
     self.datePickerView.selectDateCallBack = ^(NSString *date){
         NSInteger tag =weaker.datePickerView.tag;
-        _layoutModel =[weaker.costatrraylost safeObjectAtIndex:tag];
+           MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
+        
         
         
 //        layout.fieldname = date;
@@ -384,7 +381,7 @@
 //        
        
         
-        
+        [weaker.dict2 setObject:date forKey:layout.fieldname];
         
         
         //       [weaker.tableViewDic removeObjectForKey:layout.fieldname];
@@ -596,22 +593,22 @@
 //    NSLog(@"xmlStr : %@",returnStr);
 //    return returnStr;
 //}
-- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
-    NSInteger tag = view.tag;
-    
-    NSLog(@"%@%@",name,ID);
-  _layoutModel = [self.costatrraylost safeObjectAtIndex:1];
-//    [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
-//    [self.tableViewDic setObject:name forKey:layoutModel.key];
-    
-    
-    [self.dict2 setObject:name forKey:_layoutModel.fieldname];
-    
-    
-    
-       [view closed];
-    [self.tableview reloadData];
-}
+//- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
+//    NSInteger tag = view.tag;
+//    
+//    NSLog(@"%@%@",name,ID);
+//  _layoutModel = [self.costatrraylost safeObjectAtIndex:1];
+////    [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
+////    [self.tableViewDic setObject:name forKey:layoutModel.key];
+//    
+//    
+//    [self.dict2 setObject:name forKey:_layoutModel.fieldname];
+//    
+//    
+//    
+//       [view closed];
+//    [self.tableview reloadData];
+//}
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
     NSString *idStr = @"";
     NSString *nameStr = @"";
@@ -630,10 +627,10 @@
         i++;
     }
 //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
-  [self.dict2 setValue:nameStr forKey:_layoutModel.fieldname];
+  [self.dict2 setValue:nameStr forKey:layoutModel.fieldname];
     [self.tableview reloadData];
 }
-
+//
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

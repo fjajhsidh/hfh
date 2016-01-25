@@ -370,8 +370,12 @@
     __block MixiViewController *weaker=self;
     self.datePickerView.selectDateCallBack = ^(NSString *date){
         NSInteger tag =weaker.datePickerView.tag;
-           MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
+        NSIndexPath *index = [weaker.tableview indexPathForSelectedRow];
         
+        CostLayoutModel *model =[weaker.costatrraylost safeObjectAtIndex:index.row];
+        
+           MiXimodel *layout =[model.fileds safeObjectAtIndex:tag];
+    
         
         
 //        layout.fieldname = date;
@@ -416,12 +420,12 @@
         
         
         
+        [weaker.tableview reloadData];
         
         
         
         
     };
-    [self.tableview reloadData];
     [self.view addSubview:self.datePickerView];
 //    [self savetoDb];
     NSLog(@"====================%@",self.textfield.text);

@@ -252,15 +252,16 @@
         number = _mainLayoutArray.count + 1;
         
         if ([self isUnCommint]) {
-            number = _mainLayoutArray.count + 2;
-            
+//            number = _mainLayoutArray.count + 2;
+            number = _mainLayoutArray.count + 1;
             
         }
         
     }
     else
         
-        number = _mainLayoutArray.count + 2;
+//        number = _mainLayoutArray.count + 2;
+         number = _mainLayoutArray.count + 1;
     //                  }
     //            break;
     //        case 1:{
@@ -344,10 +345,10 @@
 //         [cell.rightButton setTitle:@"" forState:UIControlStateNormal];
 //        [cell.contentView addSubview:[self costScrollView]];
         cell.textfield.text=nil;
-        [cell.contentView addSubview:[self costScrollView]];
-        
+       
+     [cell.contentView addSubview:[self costScrollView]];
     }
-    
+   
     //注释看看删不删掉
     //            else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
     //                LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
@@ -368,9 +369,9 @@
             bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (SCREEN_WIDTH - 36) * 0.75)];
             bgView.tag = 204;
         }
-        AppDelegate *app =[UIApplication sharedApplication].delegate;
-        app.uptateimage=_uploadArr;
-        app.imagedate=_imageArray;
+//        AppDelegate *app =[UIApplication sharedApplication].delegate;
+//        app.uptateimage=_uploadArr;
+//        app.imagedate=_imageArray;
         
         NSInteger count = _imageArray.count + _uploadArr.count;
         CGFloat speace = 15.0f;
@@ -443,7 +444,7 @@
     }
     else if(_mainLayoutArray.count == indexPath.row && _costLayoutArray2.count != 0 )
         rowHeight = 90;
-    
+        
     else
     {
         rowHeight = 0;
@@ -925,7 +926,7 @@
             [btn setBackgroundImage:[_imageArray safeObjectAtIndex:i - _uploadArr.count] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 2024+ i;
-            [bgView addSubview:btn];
+//           [bgView addSubview:btn];
             
             if ([self isUnCommint]) {
                 UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -933,7 +934,7 @@
                 [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
                 deleteBtn.tag = 1024+ i;
                 [deleteBtn addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
-                [btn addSubview:deleteBtn];
+               [btn addSubview:deleteBtn];
             }
         }
         int btnCloum = count %3;
@@ -946,7 +947,7 @@
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
             [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
             [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
-            [bgView addSubview:addImage];
+//            [bgView addSubview:addImage];
         }
     }
     else{
@@ -957,7 +958,7 @@
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * 0, speace + (speace + imageWidth) * 0, imageWidth, imageWidth)];
             [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
             [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
-            [bgView addSubview:addImage];
+//            [bgView addSubview:addImage];
         }
         
     }

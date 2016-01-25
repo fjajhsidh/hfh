@@ -29,6 +29,9 @@
                                success:(void (^)(AFHTTPRequestOperation *operation, NSDictionary * responseObject))success
                                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                      showLoadingStatus:(BOOL)show;
-
-
++ (AFHTTPRequestOperation *)getRequest:(NSString *)URLString
+                            parameters:(NSString *)parameters
+                               success:(void (^)(AFHTTPRequestOperation *operation, NSMutableDictionary * responseObject))success
+                               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                     showLoadingStatus:(BOOL)show;
 @end

@@ -124,7 +124,7 @@ static CoreDataManager *manager = nil;
 }
 
 - (void)updateModelForTable:(NSString *)tableName sql:(NSString *)key data:(NSDictionary *)dic{
-    [_context reset];
+//    [_context reset];
     // 先查找需要更新的元素 然后替换
     NSManagedObject *model = [[self search:tableName sql:key context:_context] lastObject];
     if (model == nil) {

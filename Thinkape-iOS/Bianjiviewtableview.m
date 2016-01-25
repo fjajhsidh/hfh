@@ -20,7 +20,7 @@
 #import "UIImage+SKPImage.h"
 #import "CTAssetsPickerController.h"
 #import "Bianjito.h"
-@interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationBarDelegate,UIAlertViewDelegate>
+@interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationBarDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(nonatomic,assign)int countu;
 @property(nonatomic,strong)NSMutableArray *imagedatarry;
@@ -51,6 +51,9 @@
     self.imagedatarry=[NSMutableArray array];
     self.updatearry =[NSMutableArray array];
     self.dict1 =[[NSMutableDictionary alloc]init];
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    self.dict1 = [NSMutableDictionary dictionaryWithDictionary:app.dict];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -207,11 +210,16 @@
         NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
         //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
         
-        AppDelegate *app = [UIApplication sharedApplication].delegate;
-        self.dict1=app.dict;
+       
         
         cell.detailtext.text=[self.dict1 objectForKey:layoutModel.fieldname];
-        
+        cell.detailtext.delegate= self;
+        cell.detailtext.tag=indexPath.row;
+        if (cell.textlabel.text ==nil) {
+            self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
+            
+
+        }
 //        _updatearry=app.uptateimage;
 //        _imagedatarry=app.uptateimage;
         //
@@ -298,7 +306,7 @@
         
             
             
-            return cell;
+          return cell;
             
             
             
@@ -360,6 +368,7 @@
         int row = count / 3 + 1;
         return (speace + imageWidth) * row;
     }
+
    
 }
 

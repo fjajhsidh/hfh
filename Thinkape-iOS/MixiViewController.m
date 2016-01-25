@@ -90,7 +90,6 @@
     //    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:_coster.fileds[0]];
     
     
-   
     
     
 }
@@ -103,6 +102,9 @@
 {
     
 }
+
+#pragma mark-UItableViewDelegate
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
@@ -128,10 +130,9 @@
     _layoutModel =[self.Tositoma
                             safeObjectAtIndex:indexPath.row];
     BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
     if (!cell) {
         cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
-        
-        
     }
    
     
@@ -183,17 +184,7 @@
 //    }
 //    
     cell.detailtext.delegate=self;
-    
-//    NSInteger count = _imageArray.count + _uploadArr.count;
-//    CGFloat speace = 15.0f;
-//    CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
-//    int row = count / 3 + 1;
-//    //bgView.backgroundColor = [UIColor redColor];
-//    [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
-//    [bgView removeFromSuperview];
-//    [self addItems:bgView];
-    
-    
+
     if (cell.textlabel.text==nil) {
         cell.selectionStyle=UITableViewRowActionStyleNormal;
         
@@ -204,6 +195,65 @@
     return cell;
     
 }
+
+
+#pragma mark-KindsItemsViewDelegate
+
+- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
+    
+    //    NSInteger tag = view.tag;
+    //    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
+    //    NSString *str=[NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:layoutModel.name]];
+    //       [self.tableViewDic setObject:name forKey:layoutModel.fieldname];
+    //       [view closed];
+    //    self.textstring.text=name;
+    //    self.ishideto=YES;
+    //    [self.tableview reloadData];
+    
+    NSInteger tag = view.tag;
+    NSLog(@"%@=%@=%lu",name,ID,tag);
+    
+    CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+    
+    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:4];
+    NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
+    
+    [self.dict2 setObject:name forKey:layoutModel.fieldname];
+    
+    NSLog(@"字典：%@",self.dict2);
+    
+    
+    
+    [view closed];
+    [self.tableview reloadData];
+}
+- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+    NSString *idStr = @"";
+    NSString *nameStr = @"";
+    NSInteger tag = view.tag;
+    MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
+    int i = 0;
+    for (KindsItemModel *model in arr) {
+        if (i == 0) {
+            idStr = [NSString stringWithFormat:@"%@",model.ID];
+            nameStr = [NSString stringWithFormat:@"%@",model.name];
+        }
+        else{
+            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
+            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+        }
+        i++;
+    }
+    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
+    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
+    [self.tableview reloadData];
+}
+
+
+
+
+#pragma mark-UItextFieldDelegate
+
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
 //    self.tableview.bounces=NO;
@@ -508,44 +558,6 @@
 }
 
 
-//- (IBAction)safetosave:(id)sender {
-//   //    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:asd];
-//    
-////    NSString *sad=[NSString stringWithFormat:@"%@",cell.detailtext.text];
-//    
-//    
-////    cell.detailtext.text=[self.dict2 didChangeValueForKey:<#(nonnull NSString *)#>]
-////
-////    NSIndexPath *index =[self.tableview indexPathForSelectedRow];
-//    
-//    
-////    CostLayoutModel *models =[self.costatrraylost safeObjectAtIndex:_index ];
-////   MiXimodel *layout =[models.fileds objectAtIndex:_index];
-//////    AppDelegate *app =[UIApplication sharedApplication].delegate;
-//////    self.dict2=app.dict;
-////    AppDelegate *aler =[UIApplication sharedApplication].delegate;
-////    self.dict2=aler.dict;
-////    
-////    NSIndexPath *indexs =[self.tableview indexPathForSelectedRow];
-//    
-////    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:indexs];
-////    
-//    
-////    [self.dict2 newValueFromOldValue:cell.detailtext.text property:layout.fieldname];
-//    
-//    
-//    
-//    [self.navigationController popViewControllerAnimated:YES];
-//    
-//   
-////    [self.tableview reloadData];
-//    
-//   
-// 
-//    
-//    
-//    
-//}
 - (NSString *)uid{
     return [DataManager shareManager].uid;
 }

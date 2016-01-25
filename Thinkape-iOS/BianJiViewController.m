@@ -305,7 +305,7 @@
       cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
         
       //wo
-       
+       NSLog(@"细嗅编辑%@=%@",model.name,model.fieldname);
          NSLog(@"model.fieldname的model：%@ self.tableViewDic的cell:%@",model.fieldname,self.tableViewDic);
         
         
@@ -473,6 +473,7 @@
     NSInteger tag = view.tag;
     LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
     NSLog(@"tag:%lu",tag);
+    
     NSLog(@"模型：%@",layoutModel);
     NSLog(@"值和ID%@%@",name,ID);
     NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);

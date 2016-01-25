@@ -118,7 +118,10 @@
         }else{
             model = [self.dataArray safeObjectAtIndex:indexPath.row];
         }
-        NSLog(@"啦啦%@%=@%ld",model.name ,model.ID,self.tag);
+   //wo
+        KindsItemsView *view=[[KindsItemsView alloc]init];
+        
+        NSLog(@"啦啦%@=%@=%ld",model.name ,model.ID,view.tag);
         [self.delegate selectItem:model.name ID:model.ID view:self];
     }
     else

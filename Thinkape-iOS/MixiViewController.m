@@ -51,6 +51,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title=@"新增明细";
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)] ]
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     self.dict2 =[[NSMutableDictionary alloc] init];
@@ -99,9 +101,20 @@
     
     
     
-    
+    [self initDict2];
     
 }
+-(void)initDict2{
+    AppDelegate * app=[UIApplication sharedApplication].delegate;
+    
+    for (NSString * key in app.dict) {
+        [self.dict2 setObject:@"" forKey:key];
+    }
+
+
+
+}
+
 -(void)requestminxi
 {
     
@@ -167,21 +180,12 @@
 
 - (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
     
-    //    NSInteger tag = view.tag;
-    //    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
-    //    NSString *str=[NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:layoutModel.name]];
-    //       [self.tableViewDic setObject:name forKey:layoutModel.fieldname];
-    //       [view closed];
-    //    self.textstring.text=name;
-    //    self.ishideto=YES;
-    //    [self.tableview reloadData];
-    
-    NSInteger tag = view.tag;
+      NSInteger tag = view.tag;
     NSLog(@"%@=%@=%lu",name,ID,tag);
-    
+    NSLog(@"tag值%lu",self.textfield.tag);
     CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     
-    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:4];
+    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
     [self.dict2 setObject:name forKey:layoutModel.fieldname];
@@ -222,19 +226,11 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-//    self.tableview.bounces=NO;
-    
-//    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:textField.tag];
      CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+    NSLog(@"tag值：%lu",textField.tag);
+    
+    self.textfield.tag=textField.tag;
     MiXimodel *model2 =[model.fileds safeObjectAtIndex:textField.tag];
-    
-    
-    
-    //    self.textstring.tag=textField.tag;
-    //    self.textstring=textField;
-//    NSIndexPath *path =[self.tableview indexPathForSelectedRow];
-//    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
-    //model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]
     
     if (![model2.datasource isEqualToString:@"0"]) {
         
@@ -249,18 +245,9 @@
             
 //         [self readtoDb];
             
-            self.textfield.tag=textField.tag;
-            if (textField.tag==1) {
-                self.textfield.tag=textField.tag;
                 self.textfield=textField;
-                
-            }else
-            {
-                self.textfield.tag=textField.tag;
-                self.textfield=textField;
-                
-            }
             
+          
 //                        self.textfield.font=[UIFont systemFontOfSize:13];
 //            
             
@@ -337,11 +324,21 @@
     NSLog(@"dddddddddddd%ld",(long)tag);
     
     __block MixiViewController *weaker=self;
-    self.datePickerView.selectDateCallBack = ^(NSString *date){
+    self.datePickerView.selectDateBack = ^(NSString *date){
+        
+    //    NSInteger tag = weaker.datePickerView.tag;
+//        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
+//        
+//        [weaker.tableViewDic setObject:date forKey:layout.fieldname];
+//        
+//        [weaker.datePickerView closeView:nil];
+//        
+//        [weaker.tableview reloadData];
+        NSLog(@"数组%@",weaker.costatrraylost);
         
         MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
         
-        
+//        [weaker.dict2 setObject:date forKey:layout.fieldname];
         layout.fieldname = date;
         NSLog(@"???????????????%@",layout.fieldname);
         
@@ -364,28 +361,13 @@
         weaker.textfield.text=date;
         
         
-        
-        
-        
         //        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
         //        weaker.textfield.text=date;
         //        weaker.textfield.text=textf.text;
         
-        
-        
-        
-        
         [weaker.datePickerView closeView:nil];
         
-        
-        
         //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
-        
-        
-        
-        
-        
-        
         
     };
     [self.tableview reloadData];

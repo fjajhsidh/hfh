@@ -746,42 +746,18 @@
     
     __block BianJiViewController *weaker=self;
    self.datePickerView.selectDateBack = ^(NSString *date){
+    
        NSInteger tag = weaker.datePickerView.tag;
        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
        
-      
-      
+       NSLog(@"%@",date);
        
        [weaker.tableViewDic setObject:date forKey:layout.fieldname];
        
-
-//
-       
-       
-       
-       
-     
-    
-//        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
-//        weaker.textfield.text=date;
-//        weaker.textfield.text=textf.text;
-        
-        
-      
-       
-        
        [weaker.datePickerView closeView:nil];
     
-      
-      
-//        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
+        [weaker.tableview reloadData];
         
-        
-       [weaker.tableview reloadData];
-        
-       
-       
-
   };
     
     [self.view addSubview:self.datePickerView];

@@ -43,7 +43,7 @@
     [super viewDidLoad];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)forBarMetrics:UIBarMetricsDefault];
     
-    self.title=@"单据明细";
+    self.title=@"编辑明细";
     
     self.tableview.bounces=YES;
     self.imagedatarry=[NSMutableArray array];

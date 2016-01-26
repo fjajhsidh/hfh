@@ -112,9 +112,14 @@
     //http://27.115.23.126:3032/ashx/mobile.ashx?ac=GetMyWaiteApprove&u=1&ukey=abc&pi=0&ps=2
     p = 0;
     [self.dataArray removeAllObjects];
-    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p]
+    NSString *str = [NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p];
+    str =[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    [RequestCenter GetRequest:str
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                          
                           
                           NSDictionary *dataDic = [responseObject objectForKey:@"msg"];
                           [self.dataArray addObjectsFromArray:[StayApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];

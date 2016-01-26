@@ -252,15 +252,16 @@
         number = _mainLayoutArray.count + 1;
         
         if ([self isUnCommint]) {
-            number = _mainLayoutArray.count + 2;
-            
+//            number = _mainLayoutArray.count + 2;
+            number = _mainLayoutArray.count + 1;
             
         }
         
     }
     else
         
-        number = _mainLayoutArray.count + 2;
+//        number = _mainLayoutArray.count + 2;
+         number = _mainLayoutArray.count + 1;
     //                  }
     //            break;
     //        case 1:{
@@ -344,10 +345,10 @@
 //         [cell.rightButton setTitle:@"" forState:UIControlStateNormal];
 //        [cell.contentView addSubview:[self costScrollView]];
         cell.textfield.text=nil;
-        [cell.contentView addSubview:[self costScrollView]];
-        
+       
+     [cell.contentView addSubview:[self costScrollView]];
     }
-    
+   
     //注释看看删不删掉
     //            else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
     //                LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
@@ -368,9 +369,9 @@
             bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (SCREEN_WIDTH - 36) * 0.75)];
             bgView.tag = 204;
         }
-        AppDelegate *app =[UIApplication sharedApplication].delegate;
-        app.uptateimage=_uploadArr;
-        app.imagedate=_imageArray;
+//        AppDelegate *app =[UIApplication sharedApplication].delegate;
+//        app.uptateimage=_uploadArr;
+//        app.imagedate=_imageArray;
         
         NSInteger count = _imageArray.count + _uploadArr.count;
         CGFloat speace = 15.0f;
@@ -443,7 +444,7 @@
     }
     else if(_mainLayoutArray.count == indexPath.row && _costLayoutArray2.count != 0 )
         rowHeight = 90;
-    
+        
     else
     {
         rowHeight = 0;
@@ -493,8 +494,8 @@
     //    [_mainLayoutArray insertObject:layoutModel atIndex:tag];
     
     [view closed];
-    self.textstring.text=name;
-    self.ishideto=YES;
+//    self.textstring.text=name;
+//    self.ishideto=YES;
     [self.tableview reloadData];
 }
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
@@ -519,8 +520,8 @@
         layoutModel.idstr=idStr;
         [_mainLayoutArray removeObjectAtIndex:tag];
         [_mainLayoutArray insertObject:layoutModel atIndex:tag];
-        self.textfield.text=nameStr;
-        self.ishideto =YES;
+//        self.textfield.text=nameStr;
+//        self.ishideto =YES;
         NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
         
     }
@@ -561,7 +562,7 @@
     NSIndexPath *path =[self.tableview indexPathForSelectedRow];
     NSLog(@"path值：%@",path);
     BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
-    if (model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]) {
+    if (![model.datasource isEqualToString:@"0"]&&![model.sqldatatype isEqualToString:@"date"]) {
         
         
         isSinglal =model.issingle;
@@ -648,9 +649,17 @@
     //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
     NSInteger tag= [self.mainLayoutArray indexOfObject:model];
+    if ([model.datasource containsString:@"_code"]) {
+        
+      model.datasource =  [model.datasource stringByReplacingOccurrencesOfString:@"_code" withString:@""];
+        
+        
+    }
+    
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                          
                           id dataArr = [responseObject objectForKey:@"msg"];
                           if ([dataArr isKindOfClass:[NSArray class]]) {
                               [self saveItemsToDB:dataArr callbakc:^(NSArray *modelArr) {
@@ -894,7 +903,7 @@
             [btn setBackgroundImage:[_imageArray safeObjectAtIndex:i - _uploadArr.count] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 2024+ i;
-            [bgView addSubview:btn];
+//           [bgView addSubview:btn];
             
             if ([self isUnCommint]) {
                 UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -902,7 +911,7 @@
                 [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
                 deleteBtn.tag = 1024+ i;
                 [deleteBtn addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
-                [btn addSubview:deleteBtn];
+               [btn addSubview:deleteBtn];
             }
         }
         int btnCloum = count %3;
@@ -915,7 +924,7 @@
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
             [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
             [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
-            [bgView addSubview:addImage];
+//            [bgView addSubview:addImage];
         }
     }
     else{
@@ -926,7 +935,7 @@
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * 0, speace + (speace + imageWidth) * 0, imageWidth, imageWidth)];
             [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
             [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
-            [bgView addSubview:addImage];
+//            [bgView addSubview:addImage];
         }
         
     }

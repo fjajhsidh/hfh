@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableview2;
 @property(nonatomic,strong)UIAlertView *activer;
-
+@property(nonatomic,strong)NSDictionary *datar;
 @end
 
 @implementation Bianjito
@@ -54,6 +54,7 @@
     vc.index = _index;
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=self.costDataArr;
+    
     [self.navigationController pushViewController:vc animated:YES];
     
     
@@ -194,13 +195,15 @@
                 }
                 else{
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
-                    NSArray *dataArr = [_costDataArr safeObjectAtIndex:_index ];
-                    NSMutableDictionary *dataDic = [dataArr safeObjectAtIndex:indexPath.row - 2];
-                    AppDelegate *app =[UIApplication sharedApplication].delegate;
-                    app.dict=dataDic;
+                    NSMutableArray *dataArr = [_costDataArr safeObjectAtIndex:_index ];
+                   _datar = [dataArr safeObjectAtIndex:indexPath.row - 2];
                     
-                    label.text = [dataDic objectForKey:layoutModel.fieldname];
-                   
+                    
+                    label.text = [_datar objectForKey:layoutModel.fieldname];
+                    
+                    AppDelegate *app =[UIApplication sharedApplication].delegate;
+                   app.dict=_datar;
+                   //进入明细
                     UITapGestureRecognizer *taper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapsion:)];
                     taper.numberOfTouchesRequired=1;
                     [cell.contentView addGestureRecognizer:taper];

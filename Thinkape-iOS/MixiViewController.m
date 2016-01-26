@@ -25,15 +25,18 @@
 
 @interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
-@property (weak, nonatomic) IBOutlet UIButton *safete;
+
 @property(nonatomic,strong)NSMutableDictionary *dict2;
 //试验用
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomtrance;
+
 @property (strong, nonatomic) KindsModel *selectModel;
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
 @property(nonatomic,strong)UITextField *textfield;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toptrance;
+
 @property(nonatomic,strong)DatePickerView *datePickerView;
+@property(nonatomic,strong)NSMutableDictionary *tableviewDic;
+@property(nonatomic,strong)CostLayoutModel *coster;
+@property(nonatomic,strong)NSMutableArray *Tositoma;
 
 
 @end
@@ -47,7 +50,7 @@
     UIButton *backBatn;
     UIView *infoView;
     BOOL isSinglal;
-    CGFloat lastConstatant;
+   
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,14 +58,19 @@
     self.title=@"新增明细";
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)] ]
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-    self.dict2 =[[NSMutableDictionary alloc] init];
+   
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
      self.textfield.textAlignment=NSTextAlignmentCenter;
      self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
      _selectModel=[[KindsModel alloc] init];
-    textFiledHeight=0.0f;
-    self.bottomtrance.constant=50+textFiledHeight;
+    self.tableviewDic=[NSMutableDictionary dictionary];
     
+//    self.tableviewDic = [NSMutableDictionary dictionaryWithDictionary:_costatrraylost];
+    _coster=[self.costatrraylost safeObjectAtIndex:_index];
+    self.Tositoma =_coster.fileds;
+    
+   
+//
 //    self.bottomtrance.constant=;
     UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
@@ -79,26 +87,9 @@
     
     [self.view addSubview:btn];
     
-    self.bottomtrance.constant=lastConstatant;
- //wo
-    AppDelegate *app =[UIApplication sharedApplication].delegate;
-    
-    self.dict2=[NSMutableDictionary dictionaryWithDictionary:app.dict];
-    
-    
-    if (self.kindsPickerView) {
-        self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
-        [self.kindsPickerView setFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-        __block MixiViewController *weakSelf = self;
-        self.kindsPickerView.selectItemCallBack = ^(KindsModel *model){
-            
-            weakSelf.selectModel = model;
-            
-        };
-        [self.view addSubview:self.kindsPickerView];
-    }
-
-    
+    AppDelegate *appe = [UIApplication sharedApplication].delegate;
+//    self.dict2= appe.dict;
+   self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
     
     [self initDict2];
@@ -129,29 +120,38 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
-    return model.fileds.count;
+   
+//    CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
+    
+   
+    return  self.Tositoma.count;
+    
+    NSLog(@"返回的是哪个")
+    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
- CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     
-    NSLog(@"self.costatrraylost啦啦%@",self.costatrraylost);
-    MiXimodel *layoutModel =[model.fileds safeObjectAtIndex:indexPath.row];
-     NSLog(@"细嗅%@=%@",layoutModel.name,layoutModel.fieldname);
-    NSLog(@"细嗅=%lu",indexPath.row);
+
+//    self.tableviewDic = [self.costarrdate safeObjectAtIndex:0];
+//    
+    CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
     
+    MiXimodel *layoutModel =[model.fileds
+                            safeObjectAtIndex:indexPath.row];
+//    _layoutModel =[self.Tositoma
+//                            safeObjectAtIndex:indexPath.row];
     BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (!cell) {
         cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
     }
-    cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
    
     
-    //wo
-    cell.detailtext.text=[self.dict2 objectForKey:layoutModel.fieldname];
+   
+    cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
     
+   
     
     if (layoutModel.ismust) {
         cell.detailtext.placeholder=@"请输入不能为空";
@@ -161,7 +161,40 @@
         cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
     }
     
+//    NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
+//    value = value.length >0 ? value :@"";
+//    self.dict2 =[NSMutableDictionary dictionary];
+//    AppDelegate *acer =
+//    
+//    self.dict2=acer.dict;
+   
+//    layoutModel.fieldname=@"";
+    
+//    [self.dict2 removeObjectForKey:layoutModel.fieldname];
+    
+    cell.detailtext.text =[self.dict2 objectForKey:layoutModel.fieldname];
+    
+//    [self.tableviewDic setObject:cell.detailtext.text forKey:layoutModel.fieldname];
+    
+    
     cell.detailtext.tag=indexPath.row;
+ 
+    
+    
+  
+    
+    
+    
+//    if ([layoutModel.fieldname isEqualToString:@"itemid_show"]||[layoutModel.fieldname isEqualToString:@"costtypeid_show"]||[layoutModel.fieldname isEqualToString:@"memo"]) {
+//        cell.detailtext.placeholder=@"";
+//       
+//        
+//    }else
+//    {
+//        cell.detailtext.placeholder=@"不能为空";
+//        
+//    }
+//    
     cell.detailtext.delegate=self;
 
     if (cell.textlabel.text==nil) {
@@ -197,28 +230,28 @@
     [view closed];
     [self.tableview reloadData];
 }
-- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
-    NSString *idStr = @"";
-    NSString *nameStr = @"";
-    NSInteger tag = view.tag;
-    MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
-    int i = 0;
-    for (KindsItemModel *model in arr) {
-        if (i == 0) {
-            idStr = [NSString stringWithFormat:@"%@",model.ID];
-            nameStr = [NSString stringWithFormat:@"%@",model.name];
-        }
-        else{
-            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
-            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
-        }
-        i++;
-    }
-    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
-    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
-    [self.tableview reloadData];
-}
-
+//- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+//    NSString *idStr = @"";
+//    NSString *nameStr = @"";
+//    NSInteger tag = view.tag;
+//    MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
+//    int i = 0;
+//    for (KindsItemModel *model in arr) {
+//        if (i == 0) {
+//            idStr = [NSString stringWithFormat:@"%@",model.ID];
+//            nameStr = [NSString stringWithFormat:@"%@",model.name];
+//        }
+//        else{
+//            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
+//            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+//        }
+//        i++;
+//    }
+//    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
+//    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
+//    [self.tableview reloadData];
+//}
+//
 
 
 
@@ -252,11 +285,11 @@
 //            
             
             
-            if (self.textfield.text !=textField.text) {
-                NSLog(@"22222222222222");
-            }
+//            if (self.textfield.text !=textField.text) {
+//                NSLog(@"22222222222222");
+//            }
             
-            [self addDatePickerView:self.textfield.tag date:textField.text];
+            [self addDatePickerView:textField.tag date:textField.text];
             
             
             
@@ -270,8 +303,8 @@
 }
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-   MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:_index];
-    
+  MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:textField.tag];
+   
     //    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
     //        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
     //        textField.text = @"";
@@ -342,11 +375,15 @@
         layout.fieldname = date;
         NSLog(@"???????????????%@",layout.fieldname);
         
-        [weaker.costatrraylost insertObject:layout atIndex:tag];
         
+//        layout.fieldname = date;
+//        NSLog(@"???????????????%@",layout.fieldname);
+//        
+//        [weaker.costatrraylost insertObject:layout atIndex:tag];
+//        
        
         
-        
+        [weaker.dict2 setObject:date forKey:layout.fieldname];
         
         
         //       [weaker.tableViewDic removeObjectForKey:layout.fieldname];
@@ -358,7 +395,8 @@
         NSLog(@"00000000000000%@",date);
         //
         
-        weaker.textfield.text=date;
+//        [weaker.dict2 setObject:date forKey:layout.fieldname];
+        
         
         
         //        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
@@ -370,7 +408,6 @@
         //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
         
     };
-    [self.tableview reloadData];
     [self.view addSubview:self.datePickerView];
 //    [self savetoDb];
     NSLog(@"====================%@",self.textfield.text);
@@ -508,10 +545,78 @@
     return [DataManager shareManager].uid;
 }
 
-
-
-
-
+//- (NSString *)XMLParameter{
+//    NSMutableString *xmlStr = [NSMutableString string];
+//    int i = 0;
+//    for (LayoutModel *layoutModel in self.costarrdate) {
+//        AppDelegate *app =[UIApplication sharedApplication].delegate;
+//        self.dict2=app.dict;
+//      
+//        
+//        NSString *value = [self.dict2 newValueFromOldValue:_dexcel property:];
+//        
+//        if (layoutModel.ismust && value.length == 0) {
+//            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
+//            return nil;
+//        }
+//        if (i != 0 && value.length != 0) {
+//            if (i != self.costarrdate.count - 1) {
+//                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
+//                
+//            }
+//            else
+//            {
+//                [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.fieldname,value];
+//            }
+//        }
+//        //        else if (i != 0){
+//        //            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
+//        //            return nil;
+//        //        }
+//        i++;
+//    }
+//    NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
+//    NSLog(@"xmlStr : %@",returnStr);
+//    return returnStr;
+//}
+//- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
+//    NSInteger tag = view.tag;
+//    
+//    NSLog(@"%@%@",name,ID);
+//  _layoutModel = [self.costatrraylost safeObjectAtIndex:1];
+////    [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
+////    [self.tableViewDic setObject:name forKey:layoutModel.key];
+//    
+//    
+//    [self.dict2 setObject:name forKey:_layoutModel.fieldname];
+//    
+//    
+//    
+//       [view closed];
+//    [self.tableview reloadData];
+//}
+- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+    NSString *idStr = @"";
+    NSString *nameStr = @"";
+    NSInteger tag = view.tag;
+   MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:tag];
+    int i = 0;
+    for (KindsItemModel *model in arr) {
+        if (i == 0) {
+            idStr = [NSString stringWithFormat:@"%@",model.ID];
+            nameStr = [NSString stringWithFormat:@"%@",model.name];
+        }
+        else{
+            idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
+            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+        }
+        i++;
+    }
+//    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
+  [self.dict2 setValue:nameStr forKey:layoutModel.fieldname];
+    [self.tableview reloadData];
+}
+//
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

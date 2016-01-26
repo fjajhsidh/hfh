@@ -20,13 +20,15 @@
 #import "UIImage+SKPImage.h"
 #import "CTAssetsPickerController.h"
 #import "Bianjito.h"
-@interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate>
+@interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationBarDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(nonatomic,assign)int countu;
 @property(nonatomic,strong)NSMutableArray *imagedatarry;
 @property(nonatomic,strong)NSMutableArray *updatearry;
 @property (weak, nonatomic) IBOutlet UIButton *safetext;
 @property(nonatomic,strong)NSMutableDictionary *dict1;
+@property(nonatomic,strong)UITextField *textstring;
+@property(nonatomic,strong)UIButton *addImage;
 @end
 
 @implementation Bianjiviewtableview
@@ -46,9 +48,14 @@
     self.title=@"编辑明细";
     
     self.tableview.bounces=YES;
+    
+    
     self.imagedatarry=[NSMutableArray array];
     self.updatearry =[NSMutableArray array];
     self.dict1 =[[NSMutableDictionary alloc]init];
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    self.dict1 = [NSMutableDictionary dictionaryWithDictionary:app.dict];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,112 +67,340 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    
+    int number=0;
     CostLayoutModel *model = [self.costArray objectAtIndex:_indexto];
-    
-   
-    return model.fileds.count+2;
-   
-    
+    if (model.fileds.count!=0) {
+        number=model.fileds.count+1;
+    }
+       return number;
+
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-{
-    
-    
-    CostLayoutModel *model = [self.costArray safeObjectAtIndex:_indexto];
-    
-    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
-   
-    
-    BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
-//       
-//             LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:cell.textlabel.tag-1];
-//            cell.textlabel.text=layoutModel.name;
-  
-        //      cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
-//        [cell.contentView addSubview:cell.textlabel];
-        
-    }
-//     LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:indexPath.row];
-    
-   cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
-    NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
-    //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
-   
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    self.dict1=app.dict;
-    
-    cell.detailtext.text=[self.dict1 objectForKey:layoutModel.fieldname];
-    
-    _updatearry=app.uptateimage;
-    _imagedatarry=app.uptateimage;
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//{
 //    
-//    if (!bgView) {
-////         _imagedatarry.count + _updatearry.count
-//        NSInteger count =2;
-//        CGFloat speace = 15.0f;
-//        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
-//        int row = count / 3 + 1;
-//        bgView.backgroundColor = [UIColor redColor];
-//        [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
-////        [bgView removeFromSuperview];
-//        //    [self addItems:bgView];
-//        [cell.contentView addSubview:bgView];
+//    
+//    CostLayoutModel *model = [self.costArray safeObjectAtIndex:_indexto];
+//    
+//    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
+//   
+//    
+//    BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
+//    if (!cell) {
+//        cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
+////       
+////             LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:cell.textlabel.tag-1];
+////            cell.textlabel.text=layoutModel.name;
+//  
+//        //      cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+////        [cell.contentView addSubview:cell.textlabel];
+//        
 //    }
-    if (indexPath.row==model.fileds.count) {
-        [cell.textlabel removeFromSuperview];
+//    UIView *subView = [cell.contentView viewWithTag:203];
+//    UIView *subView1 = [cell.contentView viewWithTag:204];
+//    [subView removeFromSuperview];
+//    [subView1 removeFromSuperview];
+////     LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:indexPath.row];
+//    
+//   cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+//    NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
+//    //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
+//   
+//    AppDelegate *app = [UIApplication sharedApplication].delegate;
+//    self.dict1=app.dict;
+//    
+//    cell.detailtext.text=[self.dict1 objectForKey:layoutModel.fieldname];
+//    
+//    _updatearry=app.uptateimage;
+//    _imagedatarry=app.uptateimage;
+////    
+////    if (!bgView) {
+//////         _imagedatarry.count + _updatearry.count
+////        NSInteger count =2;
+////        CGFloat speace = 15.0f;
+////        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
+////        int row = count / 3 + 1;
+////        bgView.backgroundColor = [UIColor redColor];
+////        [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
+//////        [bgView removeFromSuperview];
+////        //    [self addItems:bgView];
+////        [cell.contentView addSubview:bgView];
+////    }
+//    if (indexPath.row==model.fileds.count) {
+//      [cell.textlabel removeFromSuperview];
+//        
+//        UIButton *button=[[UIButton alloc] initWithFrame:CGRectMake(80, 10, 30, 30)];
+//        [button setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+//       
+//        
+//        [button addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
+//       
+//        [cell.contentView addSubview:button];
+////        [self addItems:cell.contentView];
+//       
+//    }
+//    if (indexPath.row==model.fileds.count) {
+//        
+//        if (_updatearry != 0 || _imagedatarry.count != 0) {
+//            NSInteger count = _updatearry.count;
+//            CGFloat speace = 15.0f;
+//            CGFloat imageWidth = (SCREEN_WIDTH - 36 - 4*speace) / 3.0f;
+//            
+//            for (int i = 0; i < count; i++) {
+//                int cloum = i %3;
+//                int row = i / 3;
+//                UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//                [btn setFrame:CGRectMake(speace + (speace + imageWidth) * cloum, speace + (speace + imageWidth) * row, imageWidth, imageWidth)];
+//                NSString *url = [_updatearry safeObjectAtIndex:i];
+//                if ([self fileType:url] == 1) {
+//                    [btn setImage:[UIImage imageNamed:@"word"] forState:UIControlStateNormal];
+//                }
+//                else{
+//                    [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:url] forState:UIControlStateNormal];
+//                }
+//                btn.tag = 1024+ i;
+//                [btn addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
+//                [cell.contentView addSubview:btn];
+////                if ([self isUnCommint]) {
+//                    UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//                    [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
+//                    [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
+//                    deleteBtn.tag = 1024+ i;
+////                    [deleteBtn addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
+//                    [btn addSubview:deleteBtn];
+//                }
+////                
+//            }
+//     }
+//    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+//    
+//    return cell;
+//   
+//    }
+//    
+//
+//
+//    
+//    
+//    }
+#warning 实验用
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    {
         
-        UIButton *button=[[UIButton alloc] initWithFrame:CGRectMake(80, 10, 30, 30)];
-        [button setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
-       
-        [cell.contentView addSubview:button];
-//        [self addItems:cell.contentView];
-       
-    }
-    if (indexPath.row==model.fileds.count+1) {
         
-        if (_updatearry != 0 || _imagedatarry.count != 0) {
-            NSInteger count = _updatearry.count;
+        CostLayoutModel *model = [self.costArray safeObjectAtIndex:_indexto];
+        
+        LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
+        
+        
+        BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
+        if (!cell) {
+            cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
+           
+            
+            //
+            //             LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:cell.textlabel.tag-1];
+            //            cell.textlabel.text=layoutModel.name;
+            
+            //      cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+            //        [cell.contentView addSubview:cell.textlabel];
+            
+        }
+        UIView *subView = [cell.contentView viewWithTag:203];
+        UIView *subView1 = [cell.contentView viewWithTag:204];
+        [subView removeFromSuperview];
+        [subView1 removeFromSuperview];
+        //     LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:indexPath.row];
+        
+        cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+        
+        NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
+        //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
+        
+       
+        
+        cell.detailtext.text=[self.dict1 objectForKey:layoutModel.fieldname];
+        cell.detailtext.delegate= self;
+        cell.detailtext.tag=indexPath.row;
+        
+        
+     
+//        _updatearry=app.uptateimage;
+//        _imagedatarry=app.uptateimage;
+        //
+        //    if (!bgView) {
+        ////         _imagedatarry.count + _updatearry.count
+        //        NSInteger count =2;
+        //        CGFloat speace = 15.0f;
+        //        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
+        //        int row = count / 3 + 1;
+        //        bgView.backgroundColor = [UIColor redColor];
+        //        [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
+        ////        [bgView removeFromSuperview];
+        //        //    [self addItems:bgView];
+        //        [cell.contentView addSubview:bgView];
+        //    }
+        if (indexPath.row==model.fileds.count) {
+            
+            [cell.textlabel removeFromSuperview];
+            [cell.detailtext removeFromSuperview];
+//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+//            if (!cell) {
+//                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            }
+//            for (UIView *subView in cell.contentView.subviews) {
+//                [subView removeFromSuperview];
+//            }
+            NSInteger count = _imagedatarry.count;
             CGFloat speace = 15.0f;
-            CGFloat imageWidth = (SCREEN_WIDTH - 36 - 4*speace) / 3.0f;
+            CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
             
             for (int i = 0; i < count; i++) {
                 int cloum = i %3;
                 int row = i / 3;
                 UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [btn setFrame:CGRectMake(speace + (speace + imageWidth) * cloum, speace + (speace + imageWidth) * row, imageWidth, imageWidth)];
-                NSString *url = [_updatearry safeObjectAtIndex:i];
-                if ([self fileType:url] == 1) {
+                ImageModel *model = [_updatearry safeObjectAtIndex:i];
+                if ([self fileType:model.FilePath] == 1) {
                     [btn setImage:[UIImage imageNamed:@"word"] forState:UIControlStateNormal];
                 }
                 else{
-                    [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:url] forState:UIControlStateNormal];
+                    [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:model.FilePath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"ab_nav_bg"]];
                 }
                 btn.tag = 1024+ i;
                 [btn addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
                 [cell.contentView addSubview:btn];
-//                if ([self isUnCommint]) {
-                    UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
-                    [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
-                    deleteBtn.tag = 1024+ i;
-//                    [deleteBtn addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
-                    [btn addSubview:deleteBtn];
-                }
-//                
+                
+                UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
+                [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
+                deleteBtn.tag = 1024+ i;
+                [deleteBtn addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
+                [btn addSubview:deleteBtn];
             }
-     }
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
-    return cell;
-   
-    }
+            count += _imagedatarry.count;
+            for (int i = _imagedatarry.count; i < count; i++) {
+                int cloum = i %3;
+                int row = i / 3;
+                UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [btn setFrame:CGRectMake(speace + (speace + imageWidth) * cloum, speace + (speace + imageWidth) * row, imageWidth, imageWidth)];
+                [btn setBackgroundImage:[_imagedatarry safeObjectAtIndex:i - _updatearry.count] forState:UIControlStateNormal];
+                [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
+                btn.tag = 2024+ i;
+                [cell.contentView addSubview:btn];
+                
+                UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
+                [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
+                deleteBtn.tag = 2024+ i;
+                [deleteBtn addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
+                [btn addSubview:deleteBtn];
+                
+            }
 
+
+            int btnCloum = count %3;
+            int btnRow = count / 3;
+            cell.backgroundColor = [UIColor clearColor];
+            UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
+            [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
+            [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+            [addImage addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:addImage];
+        
+            
+             cell.selectionStyle=UITableViewCellSelectionStyleNone;
+          return cell;
+            
+            
+            
+            
+            
+            
+            
+                    }
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+ 
+        return cell;
+        
+    }
+    
+    
+    
+    
+    
 }
+- (void)deleteImage:(UIButton *)btn{
+    
+    if (btn.tag >=1024 && btn.tag < 2024) {
+        NSString *url = [_updatearry safeObjectAtIndex:btn.tag - 1024];
+        
+        NSString *imgid = [[url componentsSeparatedByString:@"?"] lastObject];
+        
+        
+        if (delteImageID.length == 0) {
+            delteImageID = [NSString stringWithFormat:@"%@",imgid];
+        }
+        else{
+            delteImageID = [NSString stringWithFormat:@"%@,%@",delteImageID,imgid];
+        }
+        [_updatearry removeObject:url];
+    }
+    else{
+        [_imagedatarry removeObjectAtIndex:btn.tag - 2024];
+        [self.tableview reloadData];
+    }
+    [self.tableview reloadData];
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    CostLayoutModel *model = [self.costArray safeObjectAtIndex:_indexto];
+    
+//    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
+//    
+    NSInteger height =0;
+    if (indexPath.row !=model.fileds.count) {
+        return 40;
+        _tableview.backgroundColor = [UIColor grayColor];
+        
+    }
+//    else
+    
+//    {
+   ;
+    NSIndexPath *index =[self.tableview indexPathForSelectedRow];
+    BijicellTableViewCell *cell = [self.tableview cellForRowAtIndexPath:index];
+    
+        if (indexPath.row!=model.fileds.count+1) {
+//            NSInteger count = _imagedatarry.count + _updatearry.count;
+            NSInteger count = _imagedatarry.count;
+            CGFloat speace = 15.0f;
+            CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
+//            int row = count / 3 + 1;
+            int row = count / 3+1;
+            height= (speace + imageWidth) * row;
+            NSLog(@"cell的高度%d",height);
+            
+//            return (speace + imageWidth) * row;
+        }
+ 
+//    }
+    return height;
+    
+}
+
+
+
+
+- (CGFloat )fixStr:(NSString *)str{
+    CGRect frame = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame) - 115, 99999) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil];
+    return  frame.size.height >=0 ? frame.size.height : 20;
+}
+
 //- (IBAction)safedate:(id)sender {
 //    
 //    
@@ -197,6 +432,8 @@
 //    
 //    
 //}
+#warning 试验用
+
 -(void)plusimage
 {
     UIActionSheet *actionsheet =[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"本地拍照",@"选取本地图片" ,nil];
@@ -223,7 +460,7 @@
     NSString *_encodedImageStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     return _encodedImageStr;
 }
-    - (NSInteger)fileType:(NSString *)fileName{
+- (NSInteger)fileType:(NSString *)fileName{
         NSArray *suffix = [fileName componentsSeparatedByString:@"."];
         NSString *type = [suffix lastObject];
         NSRange range = [type rangeOfString:@"png"];

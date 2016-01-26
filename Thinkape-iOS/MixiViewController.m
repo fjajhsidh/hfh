@@ -54,6 +54,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title=@"新增明细";
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)] ]
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
    
@@ -108,9 +110,9 @@
     for (NSString * key in app.dict) {
         [self.dict2 setObject:@"" forKey:key];
     }
-    
-    
-    
+
+
+
 }
 
 
@@ -235,18 +237,9 @@
 
 - (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
     
-    //    NSInteger tag = view.tag;
-    //    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
-    //    NSString *str=[NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:layoutModel.name]];
-    //       [self.tableViewDic setObject:name forKey:layoutModel.fieldname];
-    //       [view closed];
-    //    self.textstring.text=name;
-    //    self.ishideto=YES;
-    //    [self.tableview reloadData];
-    
-    NSInteger tag = view.tag;
+      NSInteger tag = view.tag;
     NSLog(@"%@=%@=%lu",name,ID,tag);
-    
+    NSLog(@"tag值%lu",self.textfield.tag);
     CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     
     MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:self.textfield.tag];
@@ -289,17 +282,12 @@
 #pragma mark-UItextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    
+     CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+    NSLog(@"tag值：%lu",textField.tag);
+    
     self.textfield.tag=textField.tag;
-  self.tableview.bounces=NO;
-    CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     MiXimodel *model2 =[model.fileds safeObjectAtIndex:textField.tag];
-    
-    
-    //    self.textstring.tag=textField.tag;
-    //    self.textstring=textField;
-//    NSIndexPath *path =[self.tableview indexPathForSelectedRow];
-//    BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
-    //model.datasource.length>0&&![model.sqldatatype isEqualToString:@"date"]
     
     if (![model2.datasource isEqualToString:@"0"]) {
         
@@ -365,14 +353,23 @@
     NSLog(@"dddddddddddd%ld",(long)tag);
     
     __block MixiViewController *weaker=self;
-    self.datePickerView.selectDateCallBack = ^(NSString *date){
-        NSInteger tag =weaker.datePickerView.tag;
-        NSIndexPath *index = [weaker.tableview indexPathForSelectedRow];
+    self.datePickerView.selectDateBack = ^(NSString *date){
         
-        CostLayoutModel *model =[weaker.costatrraylost safeObjectAtIndex:index.row];
+    //    NSInteger tag = weaker.datePickerView.tag;
+//        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
+//        
+//        [weaker.tableViewDic setObject:date forKey:layout.fieldname];
+//        
+//        [weaker.datePickerView closeView:nil];
+//        
+//        [weaker.tableview reloadData];
+        NSLog(@"数组%@",weaker.costatrraylost);
         
-           MiXimodel *layout =[model.fileds safeObjectAtIndex:tag];
-    
+        MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
+        
+//        [weaker.dict2 setObject:date forKey:layout.fieldname];
+        layout.fieldname = date;
+        NSLog(@"???????????????%@",layout.fieldname);
         
         
 //        layout.fieldname = date;
@@ -398,29 +395,13 @@
         
         
         
-        
-        
-        
         //        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
         //        weaker.textfield.text=date;
         //        weaker.textfield.text=textf.text;
         
-        
-        
-        
-        
         [weaker.datePickerView closeView:nil];
         
-        
-        
         //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
-        
-        
-        
-        [weaker.tableview reloadData];
-        
-        
-        
         
     };
     [self.view addSubview:self.datePickerView];

@@ -17,17 +17,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NOp-Bv-1TQ">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="614"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="614" id="w9Q-Fr-0jt"/>
-                    </constraints>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="t20-Yv-ewe"/>
-                        <outlet property="delegate" destination="-1" id="zo1-Jg-OT2"/>
-                    </connections>
-                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jS0-fm-wjM">
                     <rect key="frame" x="19" y="622" width="337" height="37"/>
                     <subviews>
@@ -46,16 +35,27 @@
                         <constraint firstItem="8f4-SL-Kma" firstAttribute="leading" secondItem="jS0-fm-wjM" secondAttribute="leading" constant="8" id="ryh-q1-2lV"/>
                     </constraints>
                 </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NOp-Bv-1TQ">
+                    <rect key="frame" x="0.0" y="62" width="375" height="552"/>
+                    <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="552" id="TH1-VK-Kuy"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="t20-Yv-ewe"/>
+                        <outlet property="delegate" destination="-1" id="zo1-Jg-OT2"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="jS0-fm-wjM" secondAttribute="trailing" constant="19" id="0Bj-bi-EUW"/>
+                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="62" id="2m2-fn-DCq"/>
                 <constraint firstAttribute="bottom" secondItem="jS0-fm-wjM" secondAttribute="bottom" constant="8" id="WdJ-SQ-9a0"/>
                 <constraint firstItem="jS0-fm-wjM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="19" id="h6W-jo-7gs"/>
-                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hho-pp-5fJ"/>
-                <constraint firstAttribute="trailing" secondItem="NOp-Bv-1TQ" secondAttribute="trailing" id="me5-L7-US2"/>
-                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oGB-id-Gu2"/>
-                <constraint firstItem="jS0-fm-wjM" firstAttribute="top" secondItem="NOp-Bv-1TQ" secondAttribute="bottom" constant="8" id="plA-pN-nGh"/>
+                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lbH-74-IKa"/>
+                <constraint firstItem="jS0-fm-wjM" firstAttribute="top" secondItem="NOp-Bv-1TQ" secondAttribute="bottom" constant="8" id="oWV-vz-VAq"/>
+                <constraint firstAttribute="trailing" secondItem="NOp-Bv-1TQ" secondAttribute="trailing" id="z1f-yB-hAT"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="293.5" y="222.5"/>

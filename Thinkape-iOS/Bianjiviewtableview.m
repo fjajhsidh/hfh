@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *safetext;
 @property(nonatomic,strong)NSMutableDictionary *dict1;
 @property(nonatomic,strong)UITextField *textstring;
-
+@property(nonatomic,strong)UIButton *addImage;
 @end
 
 @implementation Bianjiviewtableview
@@ -48,6 +48,8 @@
     self.title=@"单据明细";
     
     self.tableview.bounces=YES;
+    
+    
     self.imagedatarry=[NSMutableArray array];
     self.updatearry =[NSMutableArray array];
     self.dict1 =[[NSMutableDictionary alloc]init];
@@ -65,10 +67,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    
+    int number=0;
     CostLayoutModel *model = [self.costArray objectAtIndex:_indexto];
-   
-    return model.fileds.count+1;
+    if (model.fileds.count!=0) {
+        number=model.fileds.count+1;
+    }
+       return number;
 
 }
 
@@ -192,6 +196,8 @@
         BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
         if (!cell) {
             cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
+           
+            
             //
             //             LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:cell.textlabel.tag-1];
             //            cell.textlabel.text=layoutModel.name;
@@ -207,6 +213,7 @@
         //     LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:indexPath.row];
         
         cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+        
         NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
         //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
         
@@ -215,11 +222,9 @@
         cell.detailtext.text=[self.dict1 objectForKey:layoutModel.fieldname];
         cell.detailtext.delegate= self;
         cell.detailtext.tag=indexPath.row;
-        if (cell.textlabel.text ==nil) {
-            self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
-            
-
-        }
+        
+        
+     
 //        _updatearry=app.uptateimage;
 //        _imagedatarry=app.uptateimage;
         //
@@ -238,7 +243,7 @@
         if (indexPath.row==model.fileds.count) {
             
             [cell.textlabel removeFromSuperview];
-            
+            [cell.detailtext removeFromSuperview];
 //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
 //            if (!cell) {
 //                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
@@ -305,7 +310,7 @@
             [cell.contentView addSubview:addImage];
         
             
-            
+             cell.selectionStyle=UITableViewCellSelectionStyleNone;
           return cell;
             
             
@@ -316,7 +321,7 @@
             
                     }
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        
+ 
         return cell;
         
     }
@@ -357,20 +362,37 @@
     
 //    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
 //    
-
+    NSInteger height =0;
     if (indexPath.row !=model.fileds.count) {
         return 40;
-    }else
-    {
-        NSInteger count = _imagedatarry.count + _updatearry.count;
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
-        int row = count / 3 + 1;
-        return (speace + imageWidth) * row;
+        _tableview.backgroundColor = [UIColor grayColor];
+        
     }
-
-   
+//    else
+    
+//    {
+   ;
+    NSIndexPath *index =[self.tableview indexPathForSelectedRow];
+    BijicellTableViewCell *cell = [self.tableview cellForRowAtIndexPath:index];
+    
+        if (indexPath.row!=model.fileds.count+1) {
+            NSInteger count = _imagedatarry.count + _updatearry.count;
+            CGFloat speace = 15.0f;
+            CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
+            int row = count / 3 + 1;
+            height= (speace + imageWidth) * row;
+            NSLog(@"cell的高度%d",height);
+            
+//            return (speace + imageWidth) * row;
+        }
+ 
+//    }
+    return height;
+    
 }
+
+
+
 
 - (CGFloat )fixStr:(NSString *)str{
     CGRect frame = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame) - 115, 99999) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil];

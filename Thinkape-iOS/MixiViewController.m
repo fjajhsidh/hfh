@@ -255,7 +255,7 @@
 #pragma mark-UItextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    
+    self.textfield.tag=textField.tag;
   self.tableview.bounces=NO;
     CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     MiXimodel *model2 =[model.fileds safeObjectAtIndex:textField.tag];

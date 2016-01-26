@@ -101,7 +101,7 @@
     
     
     
-    self.title=@"详情";
+    self.title=@"编辑详情";
     
     
     self.tableview.delegate=self;
@@ -471,7 +471,7 @@
 //    cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
 
     NSInteger tag = view.tag;
-    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:tag];
+    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:self.textfield.tag];
     NSLog(@"tag:%lu",tag);
     
     NSLog(@"模型：%@",layoutModel);
@@ -552,7 +552,7 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
     self.tableview.bounces=NO;
-    
+    self.textfield.tag=textField.tag;
    LayoutModel *model = [self.mainLayoutArray safeObjectAtIndex:textField.tag];
    
     NSLog(@"tag值：%ld",textField.tag);

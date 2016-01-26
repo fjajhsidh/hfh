@@ -89,11 +89,19 @@
 //    self.dict2= appe.dict;
    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
-    
-    [self initDict2];
+    [self selectType];
     
 }
+-(void)selectType{
+    if ([self.selectAcceptType isEqualToString:@"add"]) {
+        self.title=@"新增明细";
+        [self initDict2];
+    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+    self.title=@"编辑明细";
+    }
 
+
+}
 -(void)initDict2{
     AppDelegate * app=[UIApplication sharedApplication].delegate;
     
@@ -112,8 +120,20 @@
 {
     
 }
+#pragma mark-提交
 -(void)savetolist
 {
+    
+        Bianjito * bianji=[[Bianjito alloc]init];
+    if ([self.selectAcceptType isEqualToString:@"add"]) {
+        bianji.acceptAddDict=self.dict2;
+    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+    
+        bianji.acceptEditorDict=self.dict2;
+    }
+    
+    
+    
     
 }
 
@@ -292,49 +312,19 @@
     }else
         if ([model2.sqldatatype isEqualToString:@"date"]){
             
-//         [self readtoDb];
-            
-//            self.textfield.tag=textField.tag;
-//            if (textField.tag==1) {
-//                self.textfield.tag=textField.tag;
-//                self.textfield=textField;
-//                
-//            }else
-//            {
-//                self.textfield.tag=textField.tag;
-//                self.textfield=textField;
-//                
-//            }
-//            
-//                        self.textfield.font=[UIFont systemFontOfSize:13];
-//            
-            
-            
-//            if (self.textfield.text !=textField.text) {
-//                NSLog(@"22222222222222");
-//            }
-            
             [self addDatePickerView:textField.tag date:textField.text];
-            
-            
-            
+      
             return NO;
         }
         else
             
             return YES;
     
-    
 }
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
   MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:textField.tag];
    
-    //    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
-    //        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-    //        textField.text = @"";
-    //        _isHaven=NO;
-    //    }
     
     if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
@@ -353,21 +343,14 @@
                 return NO;
             }
             
-            //            }
         }
     }
-    
-    
-    
-    
-//    [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
-//    [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
     
     
     return YES;
 }
 - (BOOL)isPureInt:(NSString*)string{
-    //  [NSScanner scannerWithString:string];
+    
     NSScanner* scan = [NSScanner scannerWithString:string];
     float val;
     return[scan scanFloat:&val] && [scan isAtEnd];

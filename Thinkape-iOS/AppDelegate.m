@@ -29,7 +29,7 @@
         [DataManager shareManager].webDomain = @"http://27.115.23.126:5032";
     }
     NSLog(@"path :%@",filePath);
-
+//嘻嘻嘻哈哈哈
     
 //    if (SYSTEM_VERSION_GREATER_THAN(@"7.0") && SYSTEM_VERSION_LESS_THAN(@"8.0")) {
 //        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor, nil]];

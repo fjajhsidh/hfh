@@ -316,6 +316,8 @@
        
         cell.textfield.delegate=self;
         cell.textfield.tag=indexPath.row;
+        cell.textfield.frame=CGRectMake((SCREEN_WIDTH-150)/2,0,SCREEN_WIDTH-50,40);
+        
         if ([model.isreadonly isEqualToString:@"0"]) {
             cell.textfield.enabled=YES;
             

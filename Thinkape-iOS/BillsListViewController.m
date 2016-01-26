@@ -84,6 +84,7 @@
                           
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                          NSLog(@"错误%@",error);
                           [self.tableView.header endRefreshing];
                       }
             showLoadingStatus:NO];

@@ -46,8 +46,19 @@ static RequestCenter *defaultCenter;
 //    NSString *publicParameters = [NSString stringWithFormat:@"s=%@&device=%d&os=%@&version=%@&app_id=%d&sig=%@&",URLString,2,IOS_VERSION,APP_VERSION,[DataManager shareManager].appID,[sig MD5]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    //wo
+//    NSSet *contentType = [NSSet setWithObjects:@"application/json", nil];
+//    [manager.responseSerializer setAcceptableContentTypes:contentType];
+    
+    
+    
     URLString = [NSString stringWithFormat:@"%@?%@",Web_Domain,URLString];
     NSLog(@"url : %@",URLString);
+    
+    
+    
     AFHTTPRequestOperation *operation = [manager GET:URLString
                                                                           parameters:nil
                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {

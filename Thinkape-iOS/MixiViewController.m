@@ -90,9 +90,23 @@
    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
     
+    [self initDict2];
+    
+}
+
+-(void)initDict2{
+    AppDelegate * app=[UIApplication sharedApplication].delegate;
+    
+    for (NSString * key in app.dict) {
+        [self.dict2 setObject:@"" forKey:key];
+    }
+    
     
     
 }
+
+
+
 
 -(void)requestminxi
 {

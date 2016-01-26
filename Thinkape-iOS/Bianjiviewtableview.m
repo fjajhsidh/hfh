@@ -376,10 +376,12 @@
     BijicellTableViewCell *cell = [self.tableview cellForRowAtIndexPath:index];
     
         if (indexPath.row!=model.fileds.count+1) {
-            NSInteger count = _imagedatarry.count + _updatearry.count;
+//            NSInteger count = _imagedatarry.count + _updatearry.count;
+            NSInteger count = _imagedatarry.count;
             CGFloat speace = 15.0f;
             CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
-            int row = count / 3 + 1;
+//            int row = count / 3 + 1;
+            int row = count / 3+1;
             height= (speace + imageWidth) * row;
             NSLog(@"cell的高度%d",height);
             
@@ -458,7 +460,7 @@
     NSString *_encodedImageStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     return _encodedImageStr;
 }
-    - (NSInteger)fileType:(NSString *)fileName{
+- (NSInteger)fileType:(NSString *)fileName{
         NSArray *suffix = [fileName componentsSeparatedByString:@"."];
         NSString *type = [suffix lastObject];
         NSRange range = [type rangeOfString:@"png"];

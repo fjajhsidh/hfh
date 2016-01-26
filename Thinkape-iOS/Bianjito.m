@@ -202,7 +202,7 @@
                     label.text = [_datar objectForKey:layoutModel.fieldname];
                     
                     AppDelegate *app =[UIApplication sharedApplication].delegate;
-//                    app.dict=_datar;
+                   app.dict=_datar;
                    //进入明细
                     UITapGestureRecognizer *taper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapsion:)];
                     taper.numberOfTouchesRequired=1;

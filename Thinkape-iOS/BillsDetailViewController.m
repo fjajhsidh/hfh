@@ -843,7 +843,7 @@
              else{
                  row = count / 3 + 1;
              }
-             return (speace + imageWidth) * row + 10;
+             return (speace + imageWidth) * row + 90;
         }
          else if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count == 0 && [self isUnCommint]){
              NSInteger count = _imageArray.count + _uploadArr.count;

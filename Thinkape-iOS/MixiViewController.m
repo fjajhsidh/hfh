@@ -99,7 +99,7 @@
 //    self.dict2= appe.dict;
    self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
-    [self selectType];
+//    [self selectType];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

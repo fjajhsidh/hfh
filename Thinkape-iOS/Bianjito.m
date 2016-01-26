@@ -36,25 +36,28 @@
     [imageview addTarget:self action:@selector(appcer) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *item =[[UIBarButtonItem alloc] initWithCustomView:imageview];
   
-    
-    
-   
-    
     self.navigationItem.rightBarButtonItem=item;
     
     itemWidth = 80;
     speace = 20;
     [self itemLength];
     [self layoutScroll];
+    
+    self.acceptAddDict=[[NSMutableDictionary alloc]init];
+    self.acceptEditorDict=[[NSMutableDictionary alloc]init];
+    self.arrayDict=[[NSMutableArray alloc]init];
+    
  
 }
 -(void)appcer
 {
+    
+    self.selectType=@"add";
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=self.costDataArr;
-    
+    vc.selectAcceptType=self.selectType;
     [self.navigationController pushViewController:vc animated:YES];
     
     
@@ -247,13 +250,28 @@
 }
 -(void)tapsion:(UITapGestureRecognizer *)sender
 {
-    Bianjiviewtableview *vc=[[Bianjiviewtableview alloc] init];
-    vc.costArray=self.costLayoutArray;
-    vc.costArr=self.costDataArr;
     
-    vc.indexto=_index;
     
+    
+    self.selectType=@"editor";
+    MixiViewController *vc =[[MixiViewController alloc] init];
+    vc.index = _index;
+    vc.costatrraylost=self.costLayoutArray;
+    vc.costarrdate=self.costDataArr;
+    vc.selectAcceptType=self.selectType;
     [self.navigationController pushViewController:vc animated:YES];
+    
+    
+//    self.selectType=@"editor";
+//    
+//   Bianjiviewtableview *vc=[[Bianjiviewtableview alloc] init];
+//    vc.costArray=self.costLayoutArray;
+//    vc.costArr=self.costDataArr;
+//    
+//    
+//    vc.indexto=_index;
+//    
+//    [self.navigationController pushViewController:vc animated:YES];
     
 }
 -(void)buttonaction

@@ -16,4 +16,11 @@
 @property(nonatomic,strong)NSMutableArray *imagedate;
 
 @property (nonatomic,assign) int index;
+//wo
+@property(nonatomic,strong) NSString * selectType;
+@property(nonatomic,strong)NSMutableDictionary * acceptAddDict;//新增明细接收的字典
+@property(nonatomic,strong)NSMutableDictionary * acceptEditorDict;//编辑明细接受的字典
+
+@property(nonatomic,strong)NSMutableArray * arrayDict;
+
 @end

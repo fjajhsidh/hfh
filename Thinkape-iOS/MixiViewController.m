@@ -620,7 +620,7 @@
 #pragma mark-UItextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    self.tableview.bounces=NO;
+//    self.tableview.bounces=NO;
      CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     NSLog(@"tag值：%lu",textField.tag);
     
@@ -654,6 +654,7 @@
    
     
     if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
+        
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
     }

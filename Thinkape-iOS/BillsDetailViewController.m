@@ -25,7 +25,7 @@
 #import "CTAssetsPickerController.h"
 #import "BianJiViewController.h"
 #import "applyChangeModel.h"
-
+#import <Photos/Photos.h>
 #import "AppDelegate.h"
 @interface BillsDetailViewController ()<SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate>{
     NSString *delteImageID;
@@ -1329,7 +1329,9 @@
 - (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index{
     if (browser.tag == 10) {
         NSLog(@"url %@",[_uploadArr objectAtIndex:index]);
+        
         NSString *model = [_uploadArr objectAtIndex:index];
+        
         return [NSURL URLWithString:model];
     }
     else
@@ -1364,7 +1366,10 @@
                                                   fauiler:^(NSError *error) {
                                                       
                                                   }];
+
+        
     }
+        
     else {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
         browser.tag = 10;

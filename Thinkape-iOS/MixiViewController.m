@@ -248,6 +248,8 @@
 //    layoutModel.fieldname=@"";
     
 //    [self.dict2 removeObjectForKey:layoutModel.fieldname];
+//    cell.detailtext.frame= CGRectMake((SCREEN_WIDTH-150)/2,0,300,40);
+ 
     
     cell.detailtext.text =[self.dict2 objectForKey:layoutModel.fieldname];
     
@@ -779,6 +781,7 @@
             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.dataver.length > 0 ? model.dataver : @"0.01",@"dataVer", nil];
             [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
             [self requestKindsDataSource:model dataVer:model.dataver];
+           
             
         }
         

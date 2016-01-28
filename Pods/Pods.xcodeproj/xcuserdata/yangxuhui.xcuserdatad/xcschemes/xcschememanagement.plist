@@ -4,125 +4,125 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>BFKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>CTAssetsPickerController-CTAssetsPickerController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CTAssetsPickerController.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JSBadgeView-JSBadgeView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>JSBadgeView.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>Pods-AFNetworking.xcscheme</key>
+		<key>MJExtension.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>Pods-BFKit.xcscheme</key>
+		<key>MJRefresh.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
-		</dict>
-		<key>Pods-CTAssetsPickerController.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
-		</dict>
-		<key>Pods-IQKeyboardManager.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
-		</dict>
-		<key>Pods-JSBadgeView.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
-		</dict>
-		<key>Pods-MJExtension.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
-		</dict>
-		<key>Pods-MJRefresh.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>10</integer>
-		</dict>
-		<key>Pods-SDWebImage.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>11</integer>
-		</dict>
-		<key>Pods-SVProgressHUD.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>12</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SVProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0DA24F05BC4B306A30392D6B</key>
+		<key>0E9A505DAD6880BE34F4D7F6D79C8A86</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>136A7EB6CDDAAF30254A0F31</key>
+		<key>1DE1890C8DFDFE91057EA8FEAEF9E91C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>14F6F3076944413EDC1CFFB2</key>
+		<key>3A1C74CE48CFDAB7D0B85CC77351E322</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1BFEEC5F61434846E77AF467</key>
+		<key>59F4FE93FB13399EFE1EC2088995E736</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>29508CD216BD69256F6C1E88</key>
+		<key>5D32D49EC1212257A23AD222F3ACF3B3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2960C9AC66049EAA4E912C94</key>
+		<key>66A6200191BC142524CCF52669E2C123</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2FA9F71177FF8B578E2417C6</key>
+		<key>71A84625298EBD5132326638BBCCC938</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>450E667F0B5FAFB1F8E85897</key>
+		<key>B2479B908A3525FF12724EF68C628FD7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5D0797D6552C930773DF97DC</key>
+		<key>BD6A1D359885E01DEF2C22185F787F19</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7650FD990191083AA46B24F0</key>
+		<key>E9E2BEF535A2B9B660E87B8545CA6C29</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>82D2FCB7BF5FB7ECB9D418EE</key>
+		<key>F6607542C777B17565177E84EAD5D49C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ABF0E5F5E3E680F4328B0B75</key>
+		<key>F9BA745385C848A988CCACB488F253E8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

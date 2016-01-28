@@ -1088,7 +1088,7 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     id class = [assets lastObject];
     for (ALAsset *set in assets) {
-        UIImage *image = [UIImage imageWithCGImage:[set thumbnail]];
+        UIImage *image = [UIImage imageWithCGImage:[set aspectRatioThumbnail]];
         [_imageArray addObject:image];
     }
     [self.tableview reloadData];

@@ -278,26 +278,14 @@
 {
 
     
-    NSIndexPath *indexpath=[self.tableview indexPathForSelectedRow];
- 
-    UITableViewCell *cell=(UITableViewCell *)[self.tableview cellForRowAtIndexPath:indexpath];
-    [self tableView:self.tableview didSelectRowAtIndexPath:indexpath];
     
-    [cell.textLabel removeFromSuperview];
-    [self.costDataArr removeObjectAtIndex:indexpath.row];
+    
+ 
+    [self.costDataArr removeAllObjects];
     [self.tableview reloadData];
     
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSIndexPath *indexpath=[self.tableview indexPathForSelectedRow];
-    UITableViewCell *cell=(UITableViewCell *)[self.tableview cellForRowAtIndexPath:indexpath];
-    
-    if (indexPath.row==0) {
-        [cell.textLabel removeFromSuperview];
-        [self.costDataArr removeObjectAtIndex:indexPath.row];
-        [self.tableview reloadData];
-    }}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         return 47.0f;

@@ -51,22 +51,16 @@
         return nil;
     }
 
-    // Ensure terminal slash for baseURL path, so that NSURL +URLWithString:relativeToURL: works as expected
     if ([[url path] length] > 0 && ![[url absoluteString] hasSuffix:@"/"]) {
         url = [url URLByAppendingPathComponent:@""];
     }
-
     self.baseURL = url;
-
     self.requestSerializer = [AFHTTPRequestSerializer serializer];
     self.responseSerializer = [AFJSONResponseSerializer serializer];
-
     self.securityPolicy = [AFSecurityPolicy defaultPolicy];
 
     self.reachabilityManager = [AFNetworkReachabilityManager sharedManager];
-
     self.operationQueue = [[NSOperationQueue alloc] init];
-
     self.shouldUseCredentialStorage = YES;
 
     return self;
@@ -140,7 +134,7 @@
                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithHTTPMethod:@"GET" URLString:URLString parameters:parameters success:success failure:failure];
-
+    
     [self.operationQueue addOperation:operation];
 
     return operation;
@@ -156,7 +150,9 @@
             success(requestOperation);
         }
     } failure:failure];
+    
 
+    
     [self.operationQueue addOperation:operation];
 
     return operation;

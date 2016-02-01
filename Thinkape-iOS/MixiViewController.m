@@ -61,7 +61,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title=@"新增明细";
+    
+    if ([self.selectAcceptType isEqualToString:@"add"]) {
+        self.title=@"新增明细";
+    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+    self.title=@"编辑明细";
+    }
+    
+    
+    
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)] ]
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
    
@@ -105,12 +113,12 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
+   // CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
     
     //    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
     //
     NSInteger height =0;
-    if (indexPath.row !=model.fileds.count) {
+    if (indexPath.row !=self.coster.fileds.count) {
         return 40;
         
         
@@ -177,15 +185,23 @@
 {
     
         Bianjito * bianji=[[Bianjito alloc]init];
-    if ([self.selectAcceptType isEqualToString:@"add"]) {
-        bianji.acceptAddDict=self.dict2;
-    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
     
-        bianji.acceptEditorDict=self.dict2;
-    }
+            if ([self.selectAcceptType isEqualToString:@"add"]) {
+                bianji.acceptAddDict=self.dict2;
+                NSLog(@"增%@",bianji.acceptAddDict);
+                
+            }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+                bianji.isEditor=YES;
+               // bianji.acceptEditorDict=self.dict2;
+                 NSLog(@"编辑%@",bianji.acceptEditorDict);
+                AppDelegate *app =[UIApplication sharedApplication].delegate;
+                app.acceptEditorDict=self.dict2;
+            }
+    
+    NSLog(@"=======%@",self.dict2);
     
     
-    
+    [self.navigationController pushViewController:bianji animated:YES ];
     
 }
 
@@ -211,9 +227,9 @@
 
 //    self.tableviewDic = [self.costarrdate safeObjectAtIndex:0];
 //    
-    CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
+   // CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
     
-    MiXimodel *layoutModel =[model.fileds
+    MiXimodel *layoutModel =[self.coster.fileds
                             safeObjectAtIndex:indexPath.row];
 //    _layoutModel =[self.Tositoma
 //                            safeObjectAtIndex:indexPath.row];
@@ -282,7 +298,7 @@
 //        
 //    }
     
-    if (indexPath.row==model.fileds.count) {
+    if (indexPath.row==self.coster.fileds.count) {
         [cell.textlabel removeFromSuperview];
         [cell.detailtext removeFromSuperview];
    
@@ -578,9 +594,9 @@
       NSInteger tag = view.tag;
     NSLog(@"%@=%@=%lu",name,ID,tag);
     NSLog(@"tag值%lu",self.textfield.tag);
-    CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+ //   CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     
-    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:self.textfield.tag];
+    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
     [self.dict2 setObject:name forKey:layoutModel.fieldname];
@@ -621,11 +637,11 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
 //    self.tableview.bounces=NO;
-     CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+  //   CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     NSLog(@"tag值：%lu",textField.tag);
     
     self.textfield.tag=textField.tag;
-    MiXimodel *model2 =[model.fileds safeObjectAtIndex:textField.tag];
+    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:textField.tag];
     
     if (![model2.datasource isEqualToString:@"0"]) {
         
@@ -649,17 +665,13 @@
 }
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
+     MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
 
-  MiXimodel *layoutModel = [self.costatrraylost safeObjectAtIndex:textField.tag];
-   
-    
     if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
         
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
     }
-    
-    
     
     if ([textField.text length]>0) {
         unichar single = [textField.text characterAtIndex:0];
@@ -670,11 +682,10 @@
                 textField.text=@"";
                 return NO;
             }
-            
         }
     }
-    
-    
+   
+    [self.dict2 setObject:textField.text forKey:layoutModel.fieldname];
     return YES;
 }
 - (BOOL)isPureInt:(NSString*)string{

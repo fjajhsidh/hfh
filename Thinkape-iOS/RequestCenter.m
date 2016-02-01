@@ -47,11 +47,9 @@ static RequestCenter *defaultCenter;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    
-    //wo
-//    NSSet *contentType = [NSSet setWithObjects:@"application/json", nil];
-//    [manager.responseSerializer setAcceptableContentTypes:contentType];
-    
+//    //wo解决JSON解析数据中的<null>问题
+//    ((AFJSONResponseSerializer *)manager.responseSerializer).removesKeysWithNullValues = YES;
+//    
     
     
     URLString = [NSString stringWithFormat:@"%@?%@",Web_Domain,URLString];
@@ -62,6 +60,7 @@ static RequestCenter *defaultCenter;
     AFHTTPRequestOperation *operation = [manager GET:URLString
                                                                           parameters:nil
                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                            
                                                                                  if ([responseObject isKindOfClass:[NSDictionary class]]){
                                                                                      NSDictionary *infoDic = (NSDictionary *)responseObject;
                                                                                      if([[infoDic objectForKey:@"error"] integerValue] == 0)
@@ -97,6 +96,7 @@ static RequestCenter *defaultCenter;
     NSFileManager *manager = [NSFileManager defaultManager];
     [manager createDirectoryAtPath:[NSString stringWithFormat:@"%@/Documents/cache/",NSHomeDirectory()] withIntermediateDirectories:NO attributes:nil error:nil];
     return [NSString stringWithFormat:@"%@/Documents/cache/%@",NSHomeDirectory(),self.currentFileName];
+    
 }
 
 - (NSString *)fileName:(NSString *)str{

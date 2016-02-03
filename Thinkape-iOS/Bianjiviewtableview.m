@@ -183,7 +183,7 @@
 //    
 //    
 //    }
-#warning 实验用
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     {
         
@@ -432,37 +432,7 @@
     return  frame.size.height >=0 ? frame.size.height : 20;
 }
 
-//- (IBAction)safedate:(id)sender {
-//    
-//    
-//    
-//    NSIndexPath *index =[self.tableview indexPathForSelectedRow];
-//    CostLayoutModel *model = [self.costArray safeObjectAtIndex:_indexto];
-//   BijicellTableViewCell *cell =[self.tableview cellForRowAtIndexPath:index];
-//  LayoutModel *layout =[model.fileds safeObjectAtIndex:index.row];
-//    NSArray *dataArr =[_costArr safeObjectAtIndex:index.row];
-//    self.dict1 =[dataArr safeObjectAtIndex:index.row];
-//    if ([layout.fieldname isEqualToString:@"leavedate"]) {
-//       
-////        cell.detailtext.text =[]
-//    }
-//    
-//    
-//    
-//    
-//    
-//       [self.tableview reloadData];
-// 
-//    
-//    [self.navigationController popViewControllerAnimated:YES];
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//}
+
 #warning 试验用
 
 -(void)plusimage

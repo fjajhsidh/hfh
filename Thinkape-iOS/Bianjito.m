@@ -20,14 +20,20 @@
 @end
 
 @implementation Bianjito
+
 {
     CGFloat width;
     CGFloat itemWidth;
     CGFloat speace;
 }
-- (void)viewDidLoad {
+-(void)viewDidAppear:(BOOL)animated
+{
+     NSLog(@"@@@@@@@@@@@@@@@@@@@@@@@@@@@编辑界面");
+  
+}
+- (void)viewDidLoad{
     [super viewDidLoad];
-    
+    NSLog(@"@@@@@@@@@@@@@@@@@@@@@@@@@@@编辑界面");
     self.title = @"明 细";
    
     UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];

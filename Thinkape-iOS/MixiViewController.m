@@ -176,13 +176,38 @@
 -(void)savetolist
 {
     
-        Bianjito * bianji=[[Bianjito alloc]init];
-    if ([self.selectAcceptType isEqualToString:@"add"]) {
-        bianji.acceptAddDict=self.dict2;
-    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+//    Bianjito *bianji=[[Bianjito alloc] init];
+//    if ([self.selectAcceptType isEqualToString:@"add"]) {
+//        bianji.acceptAddDict=self.dict2;
+//    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+//    
+//        bianji.acceptEditorDict=self.dict2;
+//    }
+//    AppDelegate *tiaozhuan =[UIApplication sharedApplication].delegate;
     
-        bianji.acceptEditorDict=self.dict2;
-    }
+    
+    
+    
+    Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    if ([self.selectAcceptType isEqualToString:@"add"]) {
+                bi.acceptAddDict=self.dict2;
+            }else if ([self.selectAcceptType isEqualToString:@"editor"]){
+        
+                bi.acceptEditorDict=self.dict2;
+            }
+    [self.navigationController popToViewController:bi animated:YES];
+    
+//    NSArray *temArray =self.navigationController.viewControllers;
+//    for (UIViewController *ter in temArray) {
+//        if ([ter isKindOfClass:[bi class] ]) {
+//            
+//            [self.navigationController parentViewController];
+//        }
+//        
+//        
+//    }
+    
+    
     
     
     

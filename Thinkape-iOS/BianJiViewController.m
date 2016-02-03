@@ -253,7 +253,7 @@
         
         if ([self isUnCommint]) {
 //            number = _mainLayoutArray.count + 2;
-            number = _mainLayoutArray.count + 1;
+            number = _mainLayoutArray.count + 2;
             
         }
         
@@ -261,7 +261,7 @@
     else
         
 //        number = _mainLayoutArray.count + 2;
-         number = _mainLayoutArray.count + 1;
+         number = _mainLayoutArray.count + 2;
     //                  }
     //            break;
     //        case 1:{
@@ -419,7 +419,7 @@
         else{
             row = count / 3 + 1;
         }
-        return (speace + imageWidth) * row + 10;
+        return (speace + imageWidth) * row + 90;
     }
     else if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count == 0 && [self isUnCommint]){
         NSInteger count = _imageArray.count + _uploadArr.count;
@@ -905,7 +905,7 @@
             [btn setBackgroundImage:[_imageArray safeObjectAtIndex:i - _uploadArr.count] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 2024+ i;
-//           [bgView addSubview:btn];
+          [bgView addSubview:btn];
             
             if ([self isUnCommint]) {
                 UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -926,7 +926,7 @@
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
             [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
             [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
-//            [bgView addSubview:addImage];
+            [bgView addSubview:addImage];
         }
     }
     else{
@@ -937,7 +937,7 @@
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * 0, speace + (speace + imageWidth) * 0, imageWidth, imageWidth)];
             [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
             [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
-//            [bgView addSubview:addImage];
+            [bgView addSubview:addImage];
         }
         
     }
@@ -1314,7 +1314,7 @@
 //保存文件
 -(void)safefield
 {
-    
+    [self uploadImage:0];
 }
 -(void)canletouch
 {

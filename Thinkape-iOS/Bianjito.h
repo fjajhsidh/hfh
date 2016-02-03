@@ -11,6 +11,7 @@
 
 @interface Bianjito : ParentsViewController
 @property (nonatomic,strong) NSMutableArray *costLayoutArray;
+
 @property (nonatomic,strong) NSMutableArray *costDataArr;
 @property(nonatomic,strong)NSMutableArray *updateimage;
 @property(nonatomic,strong)NSMutableArray *imagedate;
@@ -22,5 +23,11 @@
 @property(nonatomic,strong)NSMutableDictionary * acceptEditorDict;//编辑明细接受的字典
 
 @property(nonatomic,strong)NSMutableArray * arrayDict;
+
+@property(nonatomic)NSInteger backRow;
+
+@property(nonatomic)BOOL isEditor;
+
+@property (nonatomic,strong) NSMutableArray *acceptCostLayoutArray;
 
 @end

@@ -187,10 +187,6 @@
                           
                      NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
                           
-//                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
-//                          [self.tableViewDic setObject:_mainData forKey:dataArr];
-//                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
-                          //                          [self addCommintBtn];
                           
                           [_costData2 addObjectsFromArray:[dataArr objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, _costLayoutArray2.count)]]];
                           
@@ -292,11 +288,7 @@
     UIView *subView1 = [cell.contentView viewWithTag:204];
     [subView removeFromSuperview];
     [subView1 removeFromSuperview];
-    
-//    self.tableViewDic = [_mainData safeObjectAtIndex:0];
-//    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
-    //    cell.lineViewHeight.constant = 0.5f;
-    
+        
     if (indexPath.row < _mainLayoutArray.count) {
         LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
         
@@ -1219,13 +1211,19 @@
 
 -(void)costDetails:(UIButton *)btn
 {
-//    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
+
     Bianjito *vc = [[Bianjito alloc] init];
     
-    vc.costLayoutArray = self.costLayoutArray2;
-    vc.costDataArr = self.costData2;
-  
+    
     vc.index = btn.tag;
+    //wo
+    AppDelegate *app=[UIApplication sharedApplication].delegate;
+    app.costDataArr=self.costData2;
+    app.costLayoutArray=self.costLayoutArray2;
+    
+    
+//    vc.costLayoutArray = self.costLayoutArray2;
+//    vc.costDataArr = self.costData2;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

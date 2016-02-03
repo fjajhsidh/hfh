@@ -19,14 +19,22 @@
 @property(strong,nonatomic)NSString * tuiHuiYiJianStr;
 //wo  传值
 @property(strong,nonatomic)NSString * zhuanStr;
-//wo  单据是否完成
+
 @property(strong,nonatomic)NSString * danJu;
-//wo  单据是否完成
+
 @property(strong,nonatomic)NSString * editorState;
-//wo  单据是否完成
+
 @property(strong,nonatomic)NSString * flowstatus;
 
-
 @property(strong,nonatomic)NSString * password;
+
+@property(nonatomic,strong)NSMutableArray *costDataArr;
+@property(nonatomic,strong)NSMutableArray *costLayoutArray;
+
+
+@property(nonatomic,strong)NSMutableDictionary * acceptAddDict;//新增明细接收的字典
+@property(nonatomic,strong)NSMutableDictionary * acceptEditorDict;//编辑明细接受的字典
+
+
 @end
 

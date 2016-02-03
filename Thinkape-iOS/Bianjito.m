@@ -35,26 +35,63 @@
     [super viewDidLoad];
     NSLog(@"@@@@@@@@@@@@@@@@@@@@@@@@@@@编辑界面");
     self.title = @"明 细";
-   
-    UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    
-    [imageview setBackgroundImage:[UIImage imageNamed:@"jiaban_white.png"] forState:UIControlStateNormal];
-    [imageview addTarget:self action:@selector(appcer) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *item =[[UIBarButtonItem alloc] initWithCustomView:imageview];
-  
-    self.navigationItem.rightBarButtonItem=item;
     
     itemWidth = 80;
     speace = 20;
+   // self.acceptAddDict=[[NSMutableDictionary alloc]init];
+    self.acceptEditorDict=[[NSMutableDictionary alloc]init];
+    self.arrayDict=[[NSMutableArray alloc]init];
+  
+    //wo
+    AppDelegate *app=[UIApplication sharedApplication].delegate;
+    NSLog(@"987=%@=%@",app.costLayoutArray,app.costDataArr);
+    self.costLayoutArray = app.costLayoutArray;
+    self.costDataArr = app.costDataArr;
+    
+    [self addRightNavgation];
     [self itemLength];
     [self layoutScroll];
     
-    self.acceptAddDict=[[NSMutableDictionary alloc]init];
-    self.acceptEditorDict=[[NSMutableDictionary alloc]init];
-    self.arrayDict=[[NSMutableArray alloc]init];
+    self.navigationController.navigationBarHidden=NO;
     
- 
+    if (self.isEditor) {
+        self.index=1;
+    }
+    
 }
+-(void)addRightNavgation{
+    UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [imageview setBackgroundImage:[UIImage imageNamed:@"jiaban_white.png"] forState:UIControlStateNormal];
+    [imageview addTarget:self action:@selector(appcer) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *item =[[UIBarButtonItem alloc] initWithCustomView:imageview];
+    
+    self.navigationItem.rightBarButtonItem=item;
+
+
+
+
+
+
+}
+//-(void)saveUserDefaults{
+//    
+//    NSLog(@"%@",self.costLayoutArray[0]);
+//    
+//    
+//NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    [userDefaults setObject:self.costLayoutArray forKey:@"costLayoutArray"];
+//    [userDefaults synchronize];
+//    
+//}
+//
+//-(NSMutableArray *)readUserDefaults{
+//
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSMutableArray * arr=[userDefaults objectForKey:@"costLayoutArray"];
+//    
+//    return arr;
+//}
+
 -(void)appcer
 {
     
@@ -72,6 +109,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+//wo左下角的按钮
 - (void)layoutScroll{
     
     UIScrollView  *bottomScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80)];
@@ -166,12 +204,10 @@
             button.tag=i;
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
           
-           
-            [bgView addSubview:label];
+             [bgView addSubview:label];
             [bgView addSubview:button];
            
-            
-            if (indexPath.row == 1)
+             if (indexPath.row == 1)
             {
                 if (label.tag == 0) {
                     label.text = @"序号";
@@ -183,54 +219,44 @@
                     label.text = layoutModel.name;
                                    }
                 if (button.tag==1) {
-                  
                     [button setTitle:@"操作" forState:UIControlStateNormal];
-                 
-                    
                }
-             
-//                    else
-//                {
-//                    [button setTitle:@"删除" forState:UIControlStateNormal];
-//                    
-//                }
             }
             else
             {
                 if (label.tag == 0) {
-                   label.text = [NSString stringWithFormat:@"%d",indexPath.row - 1];
+                   label.text = [NSString stringWithFormat:@"%ld",indexPath.row - 1];
                    
-                    
                 }
                 else{
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
                     NSMutableArray *dataArr = [_costDataArr safeObjectAtIndex:_index ];
                    _datar = [dataArr safeObjectAtIndex:indexPath.row - 2];
                     
+                    AppDelegate *app =[UIApplication sharedApplication].delegate;
+                     app.dict=_datar;
+                    
+                    //wo
+                    if (self.isEditor) {
+                        _datar=app.acceptEditorDict;
+                    }
                     
                     label.text = [_datar objectForKey:layoutModel.fieldname];
-                    
-                    AppDelegate *app =[UIApplication sharedApplication].delegate;
-                   app.dict=_datar;
+                    NSLog(@"_datar====%@",_datar);
+                    NSLog(@"%@",label.text);
+                  
                    //进入明细
                     UITapGestureRecognizer *taper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapsion:)];
                     taper.numberOfTouchesRequired=1;
                     [cell.contentView addGestureRecognizer:taper];
-                    
-                   
-                }
+                 }
                 if (button.tag==1) {
                      [button setTitle:@"删除" forState:UIControlStateNormal];
                     [button addTarget:self action:@selector(buttonaction) forControlEvents:UIControlEventTouchUpInside];
                     [bgView addSubview:button];
                     
-                    
                 }
-               
-               
             }
-            
-            
         }
         [cell.contentView addSubview:bgView];
         
@@ -249,8 +275,6 @@
 }
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    
-    
     
     return YES;
 }
@@ -282,10 +306,6 @@
 }
 -(void)buttonaction
 {
-
-    
-    
-    
  
     [self.costDataArr removeAllObjects];
     [self.tableview reloadData];

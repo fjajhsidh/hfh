@@ -24,7 +24,7 @@
 @property (nonatomic,copy) void (^reloadData)();
 @property (nonatomic , copy) void (^callback)();
 @property(nonatomic,assign)int selectedion;//记录单据界面
-
+@property(nonatomic,assign)NSInteger type;
 
 
 @end

@@ -220,7 +220,7 @@
     NSLog(@"=======%@",self.dict2);
     
     
-    [self.navigationController pushViewController:bianji animated:YES ];
+//    [self.navigationController pushViewController:bianji animated:YES ];
     
 }
 

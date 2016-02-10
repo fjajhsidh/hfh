@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "682"
             endingLineNumber = "682"
-            landmarkName = "-textFieldShouldEndEditing:"
+            landmarkName = "-textFieldShouldBeginEditing:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "677"
             endingLineNumber = "677"
-            landmarkName = "-textFieldShouldEndEditing:"
+            landmarkName = "-textFieldShouldBeginEditing:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,8 +143,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "649"
             endingLineNumber = "649"
-            landmarkName = "-textFieldShouldBeginEditing:"
-            landmarkType = "5">
+            landmarkName = "@implementation MixiViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -159,8 +159,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "650"
             endingLineNumber = "650"
-            landmarkName = "-textFieldShouldBeginEditing:"
-            landmarkType = "5">
+            landmarkName = "@implementation MixiViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -175,8 +175,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "652"
             endingLineNumber = "652"
-            landmarkName = "-textFieldShouldBeginEditing:"
-            landmarkType = "5">
+            landmarkName = "@implementation MixiViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -223,7 +223,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
             endingLineNumber = "60"
-            landmarkName = "-appcer"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -239,7 +239,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "122"
             endingLineNumber = "122"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-layoutScroll"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -255,7 +255,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "124"
             endingLineNumber = "124"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-layoutScroll"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

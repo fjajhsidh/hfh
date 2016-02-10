@@ -1101,7 +1101,7 @@
     [browser show]; // 展示图片浏览器
 }
 
-
+   
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
     //    UIButton *imageView = (UIButton *)[bgView viewWithTag:index];
     if (browser.tag == 11) {
@@ -1299,7 +1299,7 @@
     [sureBtn setTitleColor:[UIColor whiteColor]];
     sureBtn.tag = 1025;
     [infoView addSubview:sureBtn];
-    
+        
     backBatn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBatn setFrame:CGRectMake(CGRectGetMaxX(sureBtn.frame) + 20, CGRectGetMinY(sureBtn.frame), btnWidth, 30)];
     [backBatn addTarget:self action:@selector(canletouch) forControlEvents:UIControlEventTouchUpInside];

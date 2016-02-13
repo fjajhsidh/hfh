@@ -704,7 +704,12 @@
             if (indexPath.row < _mainLayoutArray.count) {
                 LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
                 cell.titleLabel.text = [NSString stringWithFormat:@"%@:",model.name];
+                if([model.name containsString:@"<"]){
+                    cell.titleLabel.text=[self filterHTML:[NSString stringWithFormat:@"%@",model.name]];
+                
+                }
                 cell.contentLabel.text = [mainDataDic objectForKey:model.fieldname];
+                
                 cell.contentLabelHeight.constant = [self fixStr:[mainDataDic objectForKey:model.fieldname]];
                 if ([model.fieldname isEqualToString:@"totalmoney"]) {
                     cell.contentLabel.textColor = [UIColor hex:@"f23f4e"];
@@ -873,7 +878,22 @@
     return rowHeight;
     
 }
-
+-(NSString *)filterHTML:(NSString *)str
+{
+    NSScanner * scanner = [NSScanner scannerWithString:str];
+    NSString * text = nil;
+    while([scanner isAtEnd]==NO)
+    {
+        //找到标签的起始位置
+        [scanner scanUpToString:@"<" intoString:nil];
+        //找到标签的结束位置
+        [scanner scanUpToString:@">" intoString:&text];
+        //替换字符
+        str  =  [str  stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+    }
+    
+    return str;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.selectedIndex == 2) {
         NSMutableDictionary *dict = [_pathFlow objectAtIndex:indexPath.row];

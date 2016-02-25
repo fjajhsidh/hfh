@@ -34,7 +34,7 @@
 #import "DatePickerView.h"
 #import "Bianjito.h"
 #import "AppDelegate.h"
-#import "SDPhotoBrowser.h"
+
 #import "BillsListViewController.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
@@ -177,6 +177,7 @@
     
     NSString * str=[NSString stringWithFormat:@"ac=EditData&u=%@&programid=%@&billid=%@",self.uid ,self.programeId,self.billid];
     NSLog(@"数据错误str:%@%@",Web_Domain,str);
+    NSLog(@"数据请求%@-----------",str);
     [RequestCenter GetRequest:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -393,6 +394,7 @@
         //        [cell.contentView addSubview:[self costScrollView]];
         cell.textfield.text=nil;
         cell.textfield.placeholder= nil;
+        
         [cell.contentView addSubview:[self costScrollView]];
     }
     

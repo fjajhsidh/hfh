@@ -31,12 +31,18 @@
 #import <QuickLook/QLPreviewController.h>
 #import <QuickLook/QLPreviewItem.h>
 
-@interface SubmitApproveViewController () <KindsItemsViewDelegate,CTAssetsPickerControllerDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource>
+#import "CalculatorViewController.h"
+#import "calculatorView.h"
+
+#import "AppDelegate.h"
+
+@interface SubmitApproveViewController () <KindsItemsViewDelegate,CTAssetsPickerControllerDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,CalculatorResultDelegate>
 {
     NSString *delteImageID;
     NSString *sspid;
     BOOL commintBills;
     BOOL isSingal;
+    
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) KindsModel *selectModel;
@@ -49,10 +55,22 @@
 @property (strong, nonatomic) NSMutableArray *imagePaths;
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
 @property (strong, nonatomic) DatePickerView *datePickerView;
-
+@property(nonatomic,copy)NSString *dict;
+@property(nonatomic,copy)NSString *dict2;
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UIButton *commintBtn;
+
 @property(nonatomic,assign)BOOL isHaven;
+@property(nonatomic)NSInteger tagValue;
+
+
+
+
+@property(nonatomic,strong)NSMutableDictionary *cell_data;
+@property(nonatomic,strong)AFHTTPRequestOperationManager *manager;
+@property(nonatomic,strong)NSDictionary *respondict;
+@property(nonatomic,strong)CalculatorViewController *calculatorvc;
+@property(nonatomic,strong)calculatorView *calculator;
 
 @end
 
@@ -69,11 +87,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.manager =[AFHTTPRequestOperationManager manager];
+   
     _searchArray = [[NSMutableArray alloc] init];
     _selectModel = [[KindsModel alloc] init];
     _layoutArray = [[NSMutableArray alloc] initWithCapacity:0];
     _imagePaths = [[NSMutableArray alloc] initWithCapacity:0];
+    self.cell_data = [NSMutableDictionary dictionary];
     self.XMLParameterDic = [[NSMutableDictionary alloc] init];
     self.tableViewDic = [[NSMutableDictionary alloc] init];
     
@@ -106,8 +126,11 @@
         self.title = @"编辑草稿";
         [self requestEdithBillsType];
     }
-    
+   
+    self.calculatorvc=[[CalculatorViewController alloc]init];
+    self.calculatorvc.delegate=self;
 }
+
 
 /**
  *  初始化详细表单分类界面
@@ -164,6 +187,7 @@
         else{
             idStr = [NSString stringWithFormat:@"%@,%@",idStr,model.ID];
             nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,model.name];
+            
         }
         i++;
     }
@@ -212,8 +236,13 @@
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           [self.layoutArray removeAllObjects];
                           NSDictionary *dataDic = [[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"];
+                    
+                         
+                          
                           KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
-                          layoutModel.Name = @"类别";
+                         layoutModel.Name = @"类别";
+                         
+                       
                           self.newflag = [dataDic objectForKey:@"new"];
                           self.newflag = self.newflag.length > 0 ? self.newflag : @"yes";
                           [self.layoutArray addObject:layoutModel];
@@ -506,7 +535,13 @@
                 KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
                 [layoutModel setValuesForKeysWithDictionary:[dataDic objectForKey:key]];
                 layoutModel.key = key;
+               
+                
+               
+                
                 [self.layoutArray addObject:layoutModel];
+               
+                
                 if (self.type == 1) {
                     [self.tableViewDic setObject:layoutModel.Text forKey:layoutModel.key];
                     if (layoutModel.datasource.length != 0) {
@@ -598,8 +633,8 @@
     if (!_imagesArray) {
         _imagesArray = [[NSMutableArray alloc] initWithCapacity:0];
     }
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"本地相册", nil];
-    [sheet showInView:self.view];
+    UIActionSheet *sleep = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"本地相册", nil];
+    [sleep showInView:self.view];
     
     
 }
@@ -656,7 +691,7 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     id class = [assets lastObject];
     for (ALAsset *set in assets) {
-        UIImage *image = [UIImage imageWithCGImage:[set thumbnail]];
+        UIImage *image = [UIImage imageWithCGImage:[set aspectRatioThumbnail]];
         [_imagesArray addObject:image];
     }
     [self.tableView reloadData];
@@ -823,8 +858,33 @@
 
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    
+    self.tagValue=textField.tag;
     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+    
+    NSString * category=[NSString stringWithFormat:@"%@",layoutModel.Name];
+    NSLog(@"===%@",layoutModel.Name);
+    
+    if ([category rangeOfString:@"金额"].location !=NSNotFound) {
+        CGRect frame=CGRectMake(0,[UIScreen mainScreen].bounds.size.height-250 , [UIScreen mainScreen].bounds.size.width, 250);
+        self.calculatorvc.view.frame=frame;
+        textField.inputView=self.calculatorvc.view;
+        
+        //     [self addCalculator];
+        
+        
+        //        textField.inputView=self.calculatorvc.view;
+        //        AppDelegate * app=[UIApplication sharedApplication].delegate;
+        //        if (![app.calcultorResult isEqualToString:@"0"]) {
+        //            textField.text=app.calcultorResult;
+        //      }
+        
+    }else{
+        
+        [self.calculatorView removeFromSuperview];
+    }
+
+    
+    
     if (layoutModel.datasource.length > 0) {
         isSingal = layoutModel.IsSingle;
         [self kindsDataSource:layoutModel];
@@ -838,110 +898,7 @@
         return YES;
 }
 
-//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
-//        KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-//            if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
-//                [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-//                textField.text = @"";
-//
-//
-//               if ([textField.text length]>0) {
-//                            unichar single = [textField.text characterAtIndex:0];
-//                           if ((single>='0'&&single<='9')||single=='.') {
-//                               //数据格式正确
-//                                //首字母不能为0和小数点
-//                                if ([textField.text length]==0) {
-//                                   if (single=='.') {
-//                                       [SVProgressHUD showInfoWithStatus:@"第一个数字不能为小数点" ];
-//                                      textField.text=@"";
-//                                       return NO;
-//
-//                                   }
-//
-//                                    if (single=='0') {
-//                                       [SVProgressHUD showInfoWithStatus:@"第一个数字不能为0"];
-//                                       textField.text=@"";
-//                                        return NO;
-//                                   }
-//
-//                              }
-//
-//
-//
-//
-////           if ([textField.text length]>0) {
-////    unichar single = [textField.text characterAtIndex:0];
-////    if ((single>='0'&&single<='9')||single=='.') {
-////        //数据格式正确
-////        //首字母不能为0和小数点
-////        if ([textField.text length]==0) {
-////            if (single=='.') {
-////                [SVProgressHUD showInfoWithStatus:@"第一个数字不能为小数点" ];
-////                textField.text=@"";
-////                return NO;
-////
-////            }
-////
-////            if (single=='0') {
-////                [SVProgressHUD showInfoWithStatus:@"第一个数字不能为0"];
-////                textField.text=@"";
-////                return NO;
-////            }
-////
-////        }
-////
-////    }
-////
-////        else
-////        {
-////            [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
-////                  [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
-////        }
-////        return YES;
-////    }
 
-//    -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-//    {
-//        KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-//            if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
-//                [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-//                textField.text = @"";
-//
-//
-//
-//
-//            }
-//
-//    //    if ([textField.text rangeOfString:@"."].location==NSNotFound) {
-//    //
-//    //
-//    //    }
-//        if ([textField.text length]>0) {
-//            unichar single =[textField.text characterAtIndex:0];
-//            if ((single>='0'&&single<='9')||single=='.') {
-//                if ([textField.text length]==0) {
-//                    if (single=='.') {
-//                        [SVProgressHUD showInfoWithStatus:@"开头不能为小数点"];
-//                        textField.text=@"";
-//                        return NO;
-//                    }
-//    //                if (single=='0') {
-//    //                    [SVProgressHUD showInfoWithStatus:@"开头不能为0"];
-//    //                    textField.text=@"";
-//    //                    return NO;
-//    //                }
-//
-//                }
-//            }
-//        }
-//
-//
-//                [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
-//                [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
-//
-//            return YES;
-//}
-//
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
@@ -980,8 +937,23 @@
     [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
     [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
     
+    [self.calculatorView removeFromSuperview];
     
     return YES;
+}
+-(void)sender:(NSString *)str{
+    UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
+    if (![str isEqualToString:@"0"]) {
+        textField.text=str;
+    }
+    NSLog(@"-----%@",str);
+    
+    [textField resignFirstResponder];
+    
+}
+-(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.calculatorView removeFromSuperview];
+    
 }
 #pragma mark - UITableView Delegate && DataSource
 
@@ -992,17 +964,27 @@
     }
     else
         return self.layoutArray.count + 1;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+  
     if (indexPath.row != self.layoutArray.count) {
         KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:indexPath.row];
         NSString *cellID = @"cell";
         BillsLayoutViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         cell.category.text = [NSString stringWithFormat:@"%@:",layoutModel.Name];
-        cell.contentText.tag = indexPath.row;
+       cell.contentText.tag = indexPath.row;
+      
+        if(indexPath.row == 0){
+            
+        }else{
+            [self.cell_data setObject:cell.contentText forKey:layoutModel.key];
+        }
+        
+        
+        
         NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
         value = value.length >0 ? value :@"";
         NSLog(@"值%@",value);
@@ -1023,10 +1005,16 @@
                 cell.contentText.keyboardType =UIKeyboardTypeDecimalPad ;
             }
         }
+        [self setdefaults];
+
+       
+       
         return cell;
-    }
-    else
-    {
+    } else {
+        
+        
+       
+        
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
@@ -1090,8 +1078,244 @@
         [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
         [addImage addTarget:self action:@selector(showPickImageVC) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:addImage];
+//        [self Message];
+       
         return cell;
+       
     }
+    
+}
+
+-(void)setdefaults
+{
+    for (KindsLayoutModel *layout in self.layoutArray) {
+        if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
+            
+        }else {
+            
+          
+          
+         
+            
+        
+            
+           
+           
+            NSString *mober = layout.MobileSspDefaultValue;
+            
+            
+            NSString *mobel =[self str:mober];
+            @synchronized(self) {
+               
+                NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,mobel];
+                
+                
+                NSLog(@"默认值的接口=%@",defaults);
+               
+            
+                
+                
+                                AFHTTPRequestOperation *op = [self.manager POST:[[NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,mobel] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    self.respondict = responseObject;
+                    long error = [[self.respondict objectForKey:@"error"] integerValue];
+                    if (error==1) {
+                        NSString *msg =[self.respondict objectForKey:@"msg"];
+                        [self setdefaults];
+//                        [SVProgressHUD showErrorWithStatus:msg];
+                        
+                    }else
+                    {
+                        NSString *msg =[self.respondict objectForKey:@"msg"];
+                        NSArray *array =[msg componentsSeparatedByString:@";"];
+                        
+                        
+                        
+                        
+                        for (int i=0; i<[array count]; i++) {
+                            
+                            NSString *ster =  [array objectAtIndex:i];
+                            
+                            if(![ster isEqualToString:@""]){
+                                NSArray *arcer =[ster componentsSeparatedByString:@":"];
+                                NSString *t = [arcer objectAtIndex:1];
+                                NSArray *f_id = [[arcer objectAtIndex:0] componentsSeparatedByString:@"="];
+                                NSString *field =[[f_id objectAtIndex:0]stringByReplacingOccurrencesOfString:@"$" withString:@""];
+                                NSString *ids = [f_id objectAtIndex:1];
+                                
+                                NSLog(@"msg分割=%@",[array objectAtIndex:i] );
+                                
+                                [self.XMLParameterDic setObject:ids forKey:field];
+                                [self.tableViewDic setObject:t forKey:field];
+                                UITextField *tf =[[UITextField alloc] init];
+                                tf = [self.cell_data objectForKey:field];
+                                tf.text = t;
+                                
+                            }else{
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                }];
+                [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+                    NSLog(@"totle %lld",totalBytesWritten);
+                }];
+            }
+            NSLog(@"请求成功");
+                //[__lock unlock];
+                
+        }
+        
+        
+//
+       
+    }
+}
+//替换大括号字符串
+-(NSString *)str:(NSString *)mobel
+{
+    NSDictionary *icer =[NSDictionary dictionary];
+    NSDictionary *axz = [self fetchdata:icer];
+    NSDictionary *aler = [NSDictionary dictionary];
+    aler = [axz objectForKey:@"UserMsg"];
+    
+    NSString *idept ;
+    if ([aler objectForKey:@"#idepid"]!=nil ) {
+        idept = [aler objectForKey:@"#idepid"];
+    }else
+    {
+        idept = @"";
+    }
+    NSString *cdepname;
+    if ([aler objectForKey:@"#cdepname"]!=nil ) {
+        cdepname = [aler objectForKey:@"#cdepname"];
+    }else
+    {
+        cdepname = @"";
+    }
+    NSString *iroleid;
+    if ([aler objectForKey:@"#iroleid"]!=nil ) {
+        iroleid= [aler objectForKey:@"#iroleid"];
+    }else
+    {
+        iroleid = @"";
+    }
+    NSString *cdepcode;
+    if ([aler objectForKey:@"#cdepcode"]!=nil ) {
+        cdepcode = [aler objectForKey:@"#iroleid"];
+    }else
+    {
+        cdepcode = @"";
+    }
+    NSString *crolecode;
+    if ([aler objectForKey:@"#crolecode"]!=nil ) {
+        crolecode = [aler objectForKey:@"#crolecode"];
+    }else
+    {
+        crolecode = @"";
+    }
+    NSString *crolename;
+    if ([aler objectForKey:@"#crolename"]!=nil ) {
+        crolename = [aler objectForKey:@"#crolename"];
+    }else
+    {
+        crolename = @"";
+    }
+    NSString *cusercode;
+    if ([aler objectForKey:@"#cusercode"]!=nil ) {
+        cusercode = [aler objectForKey:@"#cusercode"];
+    }else
+    {
+        cusercode = @"";
+    }
+    NSString *cusername;
+    if ([aler objectForKey:@"#cusername"]!=nil ) {
+        cusername = [aler objectForKey:@"#cusername"];
+    }else
+    {
+        cusername = @"";
+    }
+   
+    if ([mobel containsString:@"{"]) {
+        
+        NSRange r = [mobel rangeOfString:@"{"];
+        int strat = r.location;
+        NSRange r2 = [mobel rangeOfString:@"}"];
+        int end = r2.location;
+        NSString *field =  [mobel substringWithRange:NSMakeRange(strat, end-strat+1)];
+        NSLog(@"r-----=%lu",(unsigned long)r2.location);
+       
+        
+        NSString *sss = [field stringByReplacingOccurrencesOfString:@"{" withString:@""];
+        sss = [sss stringByReplacingOccurrencesOfString:@"}" withString:@""];
+        
+        //UITextField *xt =[UITextField new];
+        //xt =[self.cell_data objectForKey:sss];
+        
+        NSString *sst ;
+        if ([self.XMLParameterDic objectForKey:sss] == nil) {
+            sst = @"";
+        }else{
+           sst = [self.XMLParameterDic objectForKey:sss];
+        }
+        
+        
+        mobel =[mobel stringByReplacingOccurrencesOfString:field withString:sst];
+        NSLog(@"mob = %@",mobel);
+        mobel = [mobel stringByReplacingOccurrencesOfString:@"{" withString:@""];
+        
+    }
+    
+    
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#idepid" withString:idept];
+    
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#cdepcode" withString:cdepcode];
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#cdepname" withString:cdepname];
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#iroleid" withString:iroleid];
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#crolecode" withString:crolecode];
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#crolename" withString:crolename];
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusercode" withString:cusercode];
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusername" withString:cusername];
+    
+   
+   
+    
+    return mobel;
+}
+-(NSDictionary *)fetchdata:(NSDictionary *)dict;
+{
+    dict =  [NSDictionary dictionaryWithContentsOfFile:[self filePath]];
+    return dict;
+}
+- (NSString *)filePath{
+    NSFileManager *manager = [NSFileManager defaultManager];
+    [manager createDirectoryAtPath:[NSString stringWithFormat:@"%@/Documents/Account/",NSHomeDirectory()] withIntermediateDirectories:NO attributes:nil error:nil];
+    NSString *filePath = [NSString stringWithFormat:@"%@/Documents/Account/account",NSHomeDirectory()];
+    return filePath;
+}
+//替换字符串
+-(NSString *)idept:(NSString *)Idept
+{
+    if ([Idept containsString:@"#"]) {
+        NSRange c =[Idept rangeOfString:@"#"];
+        int start = c.location;
+        NSRange b = [Idept rangeOfString:@"d"];
+        
+        int end = b.location;
+        NSString *field = [Idept substringWithRange:NSMakeRange(start, end-start+1)];
+//        AppDelegate *sdw = [UIApplication sharedApplication].delegate;
+//        NSString *sa= sdw.idept;
+        Idept =[Idept stringByReplacingOccurrencesOfString:field withString:@"2"];
+        NSLog(@"idept = %@",Idept);
+        
+        
+    }
+    return Idept;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

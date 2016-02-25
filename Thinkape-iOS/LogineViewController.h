@@ -9,8 +9,9 @@
 #import "ParentsViewController.h"
 #import "AccountModel.h"
 
+#import "Disembark.h"
 @interface LogineViewController : ParentsViewController <UIAlertViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic,strong) void (^logSuccess)(AccountModel *model);
-
+@property (nonatomic,strong) void (^diseSucces)(Disembark *deng);
 @end

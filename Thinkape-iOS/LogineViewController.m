@@ -9,8 +9,9 @@
 #import "LogineViewController.h"
 #import "IQKeyboardManager.h"
 #import "AppDelegate.h"
+#import "Disembark.h"
 
-
+#import "SubmitApproveViewController.h"
 @interface LogineViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
@@ -168,13 +169,29 @@
                        parameters:nil
                           success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                               NSDictionary *msgDic = [responseObject objectForKey:@"msg"];
-                             
+                              NSDictionary *usermsg = [msgDic objectForKey:@"UserMsg"];
                               AccountModel *account = [AccountModel objectWithKeyValues:msgDic];
+                              
+                              
+                             
+                              
+                              [[DataManager shareManager]saveAcont:usermsg];
+                              
                               [[DataManager shareManager] saveAccount:msgDic];
+                            
+                             NSDictionary *dier = [[DataManager shareManager] objectoftect:usermsg];
+                              NSDictionary *dicerv = [dier objectForKey:@"UserMsg"];
+                              AppDelegate *apper = [UIApplication sharedApplication].delegate;
+                             apper.idert =dicerv;
+                              
+                              
+                              
                               [SVProgressHUD dismiss];
                               if (self.logSuccess) {
                                   self.logSuccess(account);
                               }
+                             
+                              
                               [self dismissViewControllerAnimated:YES completion:nil];
                           }
                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {

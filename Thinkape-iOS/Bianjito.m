@@ -26,27 +26,23 @@
     CGFloat itemWidth;
     CGFloat speace;
 }
--(void)viewDidAppear:(BOOL)animated
-{
-     NSLog(@"@@@@@@@@@@@@@@@@@@@@@@@@@@@编辑界面");
-  
-}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
-    NSLog(@"@@@@@@@@@@@@@@@@@@@@@@@@@@@编辑界面");
+   
     self.title = @"明 细";
     
     itemWidth = 80;
     speace = 20;
    // self.acceptAddDict=[[NSMutableDictionary alloc]init];
-    self.acceptEditorDict=[[NSMutableDictionary alloc]init];
-    self.arrayDict=[[NSMutableArray alloc]init];
-  
-    //wo
-    AppDelegate *app=[UIApplication sharedApplication].delegate;
-    NSLog(@"987=%@=%@",app.costLayoutArray,app.costDataArr);
-    self.costLayoutArray = app.costLayoutArray;
-    self.costDataArr = app.costDataArr;
+//    self.acceptEditorDict=[[NSMutableDictionary alloc]init];
+//    self.arrayDict=[[NSMutableArray alloc]init];
+//  
+//    //wo
+//    AppDelegate *app=[UIApplication sharedApplication].delegate;
+//    NSLog(@"987=%@=%@",app.costLayoutArray,app.costDataArr);
+//    self.costLayoutArray = app.costLayoutArray;
+//    self.costDataArr = app.costDataArr;
     
     [self addRightNavgation];
     [self itemLength];
@@ -54,10 +50,10 @@
     
     self.navigationController.navigationBarHidden=NO;
     
-    if (self.isEditor) {
-        self.index=1;
-    }
-    
+//    if (self.isEditor) {
+//        self.index=1;
+//    }
+//    
 }
 -(void)addRightNavgation{
     UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
@@ -231,15 +227,16 @@
                 else{
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
                     NSMutableArray *dataArr = [_costDataArr safeObjectAtIndex:_index ];
+                    
                    _datar = [dataArr safeObjectAtIndex:indexPath.row - 2];
                     
                     AppDelegate *app =[UIApplication sharedApplication].delegate;
                      app.dict=_datar;
                     
-                    //wo
-                    if (self.isEditor) {
-                        _datar=app.acceptEditorDict;
-                    }
+//                    //wo
+//                    if (self.isEditor) {
+//                        _datar=app.acceptEditorDict;
+//                    }
                     
                     label.text = [_datar objectForKey:layoutModel.fieldname];
                     NSLog(@"_datar====%@",_datar);

@@ -47,7 +47,15 @@ static AccountModel *accountModel = nil;
 - (void)saveAccount:(NSDictionary *)accountDic{
     [accountDic writeToFile:[self filePath] atomically:YES];
 }
-
+-(void)saveAcont:(NSDictionary *)accuontDic
+{
+    [accuontDic writeToFile:[self fileP] atomically:YES];
+}
+-(NSDictionary *)objectoftect:(NSDictionary *)disemark
+{
+    disemark = [NSDictionary dictionaryWithContentsOfFile:[self filePath]];
+    return disemark;
+}
 - (AccountModel *)account{
     
     if (accountModel == nil) {
@@ -75,7 +83,13 @@ static AccountModel *accountModel = nil;
     NSString *filePath = [NSString stringWithFormat:@"%@/Documents/Account/account",NSHomeDirectory()];
     return filePath;
 }
-
+-(NSString *)fileP
+{
+    NSFileManager *manager = [NSFileManager defaultManager];
+     [manager createDirectoryAtPath:[NSString stringWithFormat:@"%@/Documents/Account/",NSHomeDirectory()] withIntermediateDirectories:NO attributes:nil error:nil];
+    NSString *filePath = [NSString stringWithFormat:@"%@/Documents/Account/disebark",NSHomeDirectory()];
+    return filePath;
+}
 - (BOOL)removeAccount{
     NSFileManager *mananger = [NSFileManager defaultManager];
     BOOL logout = [mananger removeItemAtPath:[self filePath] error:nil];

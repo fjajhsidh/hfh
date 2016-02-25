@@ -20,7 +20,8 @@
 - (BOOL )removeAccount;
 - (NSString *)webDomainUrl;
 - (void)saveAccount:(NSDictionary *)accountDic;
-
+-(NSDictionary *)objectoftect:(NSDictionary *)disemark;
+-(void)saveAcont:(NSDictionary *)accuontDic;
 - (void)cleanLocalCache;
 
 @end

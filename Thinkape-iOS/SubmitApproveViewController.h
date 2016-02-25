@@ -14,7 +14,7 @@
 @property (nonatomic,assign) NSInteger type; // 页面属性。0：新建随手记 1：草稿编辑页面。Default：0
 @property (nonatomic,strong) CGModel *editModel;
 @property (nonatomic , strong) NSString *sspid;
-
+@property (nonatomic , strong) UIView * calculatorView;
 @property (nonatomic , copy) void (^callback)();
 
 @end

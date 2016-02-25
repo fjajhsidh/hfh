@@ -11,7 +11,7 @@
 #import "LogineViewController.h"
 #import "AboutViewController.h"
 #import "ChangePasswordViewController.h"
-
+#import "FanKuiSViewController.h"
 @interface SettingViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -21,10 +21,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.dataArray addObject:@"关于"];
+    [self.dataArray addObject:@"关于思凯普"];
     [self.dataArray addObject:@"清除缓存"];
     [self.dataArray addObject:@"修改密码"];
-
+    [self.dataArray addObject:@"建议反馈"];
+   
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     // Do any additional setup after loading the view.
@@ -79,7 +80,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         AboutViewController *about = [[AboutViewController alloc] init];
-        about.title = @"关于";
+        about.title = @"关于思凯普";
         [self.navigationController pushViewController:about animated:YES];
         return;
     }
@@ -90,6 +91,10 @@
     else if (indexPath.row == 2){
         ChangePasswordViewController *changePassword = [[ChangePasswordViewController alloc] init];
         [self.navigationController pushViewController:changePassword animated:YES];
+    }
+    if (indexPath.row==3) {
+        FanKuiSViewController *fan = [FanKuiSViewController new];
+        [self.navigationController pushViewController:fan animated:YES];
     }
 }
 

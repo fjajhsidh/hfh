@@ -6,12 +6,7 @@
          contextName = "-[MixiViewController tableView:cellForRowAtIndexPath:]:MixiViewController.m">
       </ContextState>
       <ContextState
-         contextName = "-[MixiViewController textFieldShouldBeginEditing:]:MixiViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "textField.tag">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[SubmitApproveViewController setdefaults]:SubmitApproveViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[MixiViewController tableView:numberOfRowsInSection:]:MixiViewController.m">
@@ -22,10 +17,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "-[MixiViewController textFieldShouldBeginEditing:]:MixiViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "textField.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[SubmitApproveViewController tableView:cellForRowAtIndexPath:]:SubmitApproveViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[BianJiViewController addDatePickerView:date:]:BianJiViewController.m">
       </ContextState>
       <ContextState
+         contextName = "__42-[SubmitApproveViewController setdefaults]_block_invoke_2:SubmitApproveViewController.m">
+      </ContextState>
+      <ContextState
          contextName = "__47-[BianJiViewController addDatePickerView:date:]_block_invoke:BianJiViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "__42-[SubmitApproveViewController setdefaults]_block_invoke:SubmitApproveViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[BianJiViewController tableView:cellForRowAtIndexPath:]:BianJiViewController.m">
@@ -34,6 +51,9 @@
                value = "cell.textfield.tag">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__64-[AFHTTPRequestOperation setCompletionBlockWithSuccess:failure:]_block_invoke49:AFHTTPRequestOperation.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

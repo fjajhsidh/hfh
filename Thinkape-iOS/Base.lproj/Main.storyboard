@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--随手记-->
+        <!--随手报-->
         <scene sceneID="Tyx-68-GcG">
             <objects>
                 <viewController storyboardIdentifier="EditCGVC" automaticallyAdjustsScrollViewInsets="NO" id="JJd-C0-6OI" customClass="SubmitApproveViewController" sceneMemberID="viewController">
@@ -115,7 +115,7 @@
                             <constraint firstItem="hlz-3G-fXg" firstAttribute="leading" secondItem="4vi-7Q-dk7" secondAttribute="trailing" constant="15" id="xzs-Lj-Hvi"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="随手记" id="Lg5-Iz-NTU"/>
+                    <navigationItem key="navigationItem" title="随手报" id="Lg5-Iz-NTU"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="commintBtn" destination="hlz-3G-fXg" id="fjv-X3-Fnq"/>
@@ -371,7 +371,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="KkG-Cr-Sva" secondAttribute="height" multiplier="2:1" id="KoT-a0-6iM"/>
                                 </constraints>
-                                <state key="normal" title="随手记">
+                                <state key="normal" title="随手报">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>

@@ -33,7 +33,7 @@
 @interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate,UIActionSheetDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
-@property(nonatomic,strong)NSMutableDictionary *dict2;
+
 //试验用
 
 @property (strong, nonatomic) KindsModel *selectModel;
@@ -115,12 +115,10 @@
    
     
     [self.view addSubview:btn];
-     Bianjito *bi = [Bianjito new];
     
-  AppDelegate *appe = [UIApplication sharedApplication].delegate;
 //    self.dict2= appe.dict;
-    
-         self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
+    AppDelegate *appe = [UIApplication sharedApplication].delegate;
+      self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
    
 
@@ -249,7 +247,7 @@
 //    
    // CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
     
-    MiXimodel *layoutModel =[self.coster.fileds
+    MiXimodel *layoutModel =[self.Tositoma
                             safeObjectAtIndex:indexPath.row];
     
     //    _layoutModel =[self.Tositoma
@@ -293,7 +291,7 @@
     
 //    }else
 //    if ([self.selectAcceptType isEqualToString:@"editor"]){
-    
+   
     cell.detailtext.text= [self.dict2 objectForKey:layoutModel.fieldname];
     
     if ([layoutModel.sqldatatype isEqualToString:@"number"]) {

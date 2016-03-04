@@ -14,7 +14,7 @@
 @property(nonatomic,strong)NSMutableArray *costarrdate;
 @property(nonatomic,strong)NSString *dexcel;
 
-
+@property(nonatomic,strong)NSMutableDictionary *dict2;
 //wo
 @property(nonatomic,strong)NSString * selectAcceptType;
 

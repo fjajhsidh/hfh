@@ -18,7 +18,7 @@
 @property(nonatomic,strong)UIAlertView *activer;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
-
+@property(nonatomic,assign)NSInteger  objectindex;
 @end
 
 @implementation Bianjito
@@ -186,7 +186,7 @@
         title.font = [UIFont systemFontOfSize:15];
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
-
+        
         
         [bgView addSubview:title];
         
@@ -204,7 +204,7 @@
             }
             else
                
-                label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
+            label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:13];
             label.tag = i;
@@ -223,17 +223,21 @@
              {
                 if (label.tag == 0) {
                     label.text = @"序号";
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
                 }
                 else
                 {
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
-                    label.text = layoutModel.name;
+                    
+                         label.text = layoutModel.name;
+                 
+                    
                     
                 }
                 if (button.tag==1) {
                     [button setTitle:@"操作" forState:UIControlStateNormal];
                }
+                 
             }
             else
             {
@@ -241,43 +245,51 @@
                    label.text = [NSString stringWithFormat:@"%ld",indexPath.row - 1];
                    
                 }
+             
                 else{
                  
-                    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
-                  
-//                    NSMutableArray *dataArr = [_costDataArr safeObjectAtIndex:_index];
-                   NSMutableArray *dataArr = _costDataArr[0];
+//                    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
+                  LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
+                   
                     
-
-                    _datar = [dataArr safeObjectAtIndex:indexPath.row-2];
+                    
+                        
+                    
+                    NSMutableArray *dataArr = [_costDataArr safeObjectAtIndex:_index];
+                  
+                    
+                        //判断传值是否经过传值而过来的字典
+                  _datar = [dataArr safeObjectAtIndex:indexPath.row-2];
+                
+                  
+                
                     
                     if (_index==0) {
-                        //判断传值是否经过传值而过来的字典
-                        if (self.editstart==YES) {
+                        
+                    
+                    if (self.editstart==YES) {
+                        
+                        
+                        //   _costDataArr[0][indexPath.row-2]
+                        
+                        _datar = self.editnew;
+                        
+                        
+                        
+                    }
+                    else {
+                        if (self.isstrart==YES) {
                             
-                            
-                            //   _costDataArr[0][indexPath.row-2]
-                            
-                            
-                            //                            [_costDataArr[0] replaceObjectAtIndex:indexPath.row-2 withObject:self.editnew];
-                            
-                            //                          _datar = [dataArr safeObjectAtIndex:indexPath.row-2];
-                           
-                            _datar = self.editnew;
-                            
-                        }
-                        else {
-                            if (self.isstrart==YES) {
-                                
-                                _datar = self.editxiao;
-                            }
+                            _datar = self.editxiao;
                         }
                     }
-
-//                     _datar = dataArr[indexPath.row-2];
+                
+                    }
+                    
                    
-                  
-                         label.text = [_datar objectForKey: layoutModel.fieldname];
+                   
+                    
+                    
                   
                     
                    
@@ -287,10 +299,12 @@
                   
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
-                    AppDelegate *app =[UIApplication sharedApplication].delegate;
-                  
-                        app.dict=_datar;
                     
+                    
+                 
+                    
+                      label.text = [_datar objectForKey:layoutModel.fieldname];
+                  
                    //                    //wo
 //                    if (self.editstart==YES) {
 //                        _datar=self.editnew;
@@ -299,7 +313,14 @@
 //                    label.text = [_datar objectForKey:layoutModel.fieldname];
 //                    NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
-                   
+                    AppDelegate *app =[UIApplication sharedApplication].delegate;
+                    
+                    
+                    NSMutableArray *dataArrs = [_costDataArr safeObjectAtIndex:_index];
+                    
+                    NSMutableDictionary *dic =[dataArr safeObjectAtIndex:indexPath.row];
+                    
+                    app.dict=dic;
                    //进入明细
 //                    UITapGestureRecognizer *taper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapsion:)];
 //                    taper.numberOfTouchesRequired=1;
@@ -332,45 +353,23 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
+    if (indexPath.row==1||indexPath.row==0) {
+        return;
+    }
+    
     
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=_costDataArr;
-    vc.selectAcceptType=self.selectType;
-    [self.navigationController pushViewController:vc animated:YES];
-    
-}
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    
-    return YES;
-}
--(void)tapsion:(UITapGestureRecognizer *)sender
-{
-    
-    
+  
+
    
-    MixiViewController *vc =[[MixiViewController alloc] init];
-    vc.index = _index;
-    vc.costatrraylost=self.costLayoutArray;
-    vc.costarrdate=self.costDataArr;
-    vc.selectAcceptType=self.selectType;
     [self.navigationController pushViewController:vc animated:YES];
     
-    
-//    self.selectType=@"editor";
-//    
-//   Bianjiviewtableview *vc=[[Bianjiviewtableview alloc] init];
-//    vc.costArray=self.costLayoutArray;
-//    vc.costArr=self.costDataArr;
-//    
-//    
-//    vc.indexto=_index;
-//    
-//    [self.navigationController pushViewController:vc animated:YES];
-    
 }
+
+
 -(void)buttonaction
 {
  

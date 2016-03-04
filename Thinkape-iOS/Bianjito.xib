@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Bianjito">
             <connections>
+                <outlet property="scrollview" destination="Iur-Jc-6SY" id="ImZ-B5-d3R"/>
                 <outlet property="tableview" destination="eR2-cu-c9Z" id="IIl-T1-zCP"/>
                 <outlet property="tableview2" destination="rKc-ZP-IWJ" id="suB-GS-GxW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

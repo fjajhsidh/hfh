@@ -27,7 +27,12 @@
 @property(nonatomic)NSInteger backRow;
 
 @property(nonatomic)BOOL isEditor;
+@property(nonatomic,assign)BOOL editstart;
 
 @property (nonatomic,strong) NSMutableArray *acceptCostLayoutArray;
+@property(nonatomic,strong)NSMutableDictionary *datar;
+@property(nonatomic,strong)NSMutableDictionary *editnew;
+@property(nonatomic,assign)BOOL isstrart;
+@property(nonatomic,strong)NSMutableDictionary *editxiao;
 
 @end

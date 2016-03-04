@@ -23,6 +23,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8f4-SL-Kma">
                             <rect key="frame" x="8" y="4" width="321" height="30"/>
                             <state key="normal" title="保存"/>
+                            <connections>
+                                <action selector="savetext:" destination="-1" eventType="touchUpInside" id="lCm-QS-K5i"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.25098039215686274" green="0.79607843137254897" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>

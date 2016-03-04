@@ -171,10 +171,10 @@
         NSArray *array2 = [_costDataArr safeObjectAtIndex:_index ];
         return array2.count + 2;
     }
-    if (self.selecter==1) {
-        NSArray *array = [_costDataArr2 safeObjectAtIndex:_index2];
-        return array.count + 2;
-    }
+//    if (self.selecter==1) {
+//        NSArray *array = [_costDataArr2 safeObjectAtIndex:_index2];
+//        return array.count + 2;
+//    }
     return nil;
 }
 

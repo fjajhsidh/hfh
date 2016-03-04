@@ -460,12 +460,7 @@
     
     return str;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
-    
-    
-}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -555,14 +550,10 @@
     [self.XMLParameterDic setObject:ID forKey:[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_id"]];
     NSLog(@"值键%@=%@",layoutModel.fieldname,layoutModel.name);
     
-    //    layoutModel.idstr=ID;
-    //    layoutModel.nameStr=name;
-    //    [_mainLayoutArray removeObjectAtIndex:tag];
-    //    [_mainLayoutArray insertObject:layoutModel atIndex:tag];
+  
     
     [view closed];
-    //    self.textstring.text=name;
-    //    self.ishideto=YES;
+    
     [self.tableview reloadData];
 }
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
@@ -753,8 +744,8 @@
         
         
     }
-    
-    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
+    NSString *datesoure =[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource];
+    [RequestCenter GetRequest:datesoure
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           

@@ -862,7 +862,7 @@
     }
     else
     {
-        rowHeight = 70.0f;
+        rowHeight = 90.0f;
     }
 
     return rowHeight;

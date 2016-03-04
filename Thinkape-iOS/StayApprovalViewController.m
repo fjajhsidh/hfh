@@ -247,7 +247,9 @@
             cell.markImage.hidden = YES;
             cell.selectBtn.hidden = YES;
             cell.flowStatue.hidden = NO;
-            cell.category.text = model.pagename;
+          cell.category.text = model.pagename;
+            
+
             cell.time.text = model.opdate;
             cell.name.text = [NSString stringWithFormat:@"%@  %@",model.submituser,model.deptid];
             cell.money.text = [NSString stringWithFormat:@"￥%@",model.billmoney];

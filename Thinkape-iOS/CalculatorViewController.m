@@ -489,14 +489,22 @@
     char s[1000];
     strcpy(s, [string UTF8String]);
     unsigned long l = strlen(s)-1;
-    while (s[l]=='0')
-    {
-        l--;
+    if([string containsString:@"."]){
+        while (s[l]=='0')
+        {
+            
+            l--;
+        }
+        
     }
+    
+    
     if(s[l]=='.')
         l--;
+    
     s[l+1]='\0';
     NSMutableString *str = [[NSMutableString alloc] initWithUTF8String:s];
+    
     return str;
 }
 

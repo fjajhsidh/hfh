@@ -718,17 +718,17 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3m-TF-l6S">
                                                             <rect key="frame" x="12" y="10" width="351" height="25"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="青岛项目支持" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KLK-QK-Ywu">
-                                                                    <rect key="frame" x="8" y="5" width="185" height="17"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-04-25 " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="goR-en-Q0g">
                                                                     <rect key="frame" x="232" y="5" width="111" height="17"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="111" id="KdV-sY-WyE"/>
                                                                     </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="青岛项目支持" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KLK-QK-Ywu">
+                                                                    <rect key="frame" x="8" y="5" width="185" height="17"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -2695,7 +2695,7 @@
         <image name="search_white" width="20" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iPM-nN-eqo"/>
-        <segue reference="7yF-0V-txM"/>
+        <segue reference="vYZ-wD-m7k"/>
+        <segue reference="ArL-cg-Yb1"/>
     </inferredMetricsTieBreakers>
 </document>

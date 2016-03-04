@@ -1229,7 +1229,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jsz.thinkape;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "175b8c75-15b5-47fd-9350-890784dd2128";
+				PROVISIONING_PROFILE = "415ce6e2-899f-44a3-acd5-08d3f7af2065";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = asdsda;

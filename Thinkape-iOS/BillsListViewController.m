@@ -169,6 +169,7 @@
     cell.billNum.text = model.billno;
     cell.billPrice.text = [NSString stringWithFormat:@"￥%@",model.billmoney];
     cell.billName.text = model.pagename;
+    
     cell.billTime.text = model.opdate;
     cell.nameLabel.text = [NSString stringWithFormat:@"%@  %@",model.uid,model.deptid];
     cell.billProcess.text = model.flowstatus.length > 0 ? model.flowstatus : @"";

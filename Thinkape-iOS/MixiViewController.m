@@ -23,6 +23,7 @@
 #import "DatePickerView.h"
 #import "MiXimodel.h"
 #import "CTToastTipView.h"
+
 #import <QuickLook/QLPreviewItem.h>
 #import <QuickLook/QLPreviewController.h>
 #import "UIImage+SKPImage.h"
@@ -46,6 +47,10 @@
 @property(nonatomic,strong)NSMutableArray *updateImage;
 @property(nonatomic,strong)NSMutableArray *imageupdate;
 @property(nonatomic,strong)NSMutableDictionary *dicz;
+@property(nonatomic,strong)NSMutableDictionary *datemeory;
+@property(nonatomic,strong)NSMutableDictionary *add;
+@property(nonatomic,strong)NSMutableDictionary *editor;
+@property(nonatomic,assign)BOOL issee;
 @end
 
 @implementation MixiViewController
@@ -59,17 +64,22 @@
     BOOL isSinglal;
    
 }
+-(NSMutableDictionary *)datemeory
+{
+    if (!_datemeory) {
+        _datemeory =[NSMutableDictionary dictionary];
+    }
+    return _datemeory;
+}
+-(NSMutableDictionary *)dicz
+{
+    if (!_dicz) {
+        _dicz=[NSMutableDictionary dictionary];
+    }
+    return _dicz;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    if ([self.selectAcceptType isEqualToString:@"add"]) {
-        self.title=@"新增明细";
-    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
-    self.title=@"编辑明细";
-    }
-    
-    
     
 //    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)] ]
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
@@ -84,6 +94,7 @@
     
 //    self.tableviewDic = [NSMutableDictionary dictionaryWithDictionary:_costatrraylost];
     _coster=[self.costatrraylost safeObjectAtIndex:_index];
+    
     self.Tositoma =_coster.fileds;
     
    
@@ -101,15 +112,18 @@
     [btn setBackgroundColor:[UIColor colorWithRed:0.70 green:0.189 blue:0.213 alpha:1.000]];
     [btn addTarget:self action:@selector(savetolist) forControlEvents:UIControlEventTouchUpInside];
     
+   
     
     [self.view addSubview:btn];
+     Bianjito *bi = [Bianjito new];
     
   AppDelegate *appe = [UIApplication sharedApplication].delegate;
 //    self.dict2= appe.dict;
-
-   self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
+    
+         self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
+    
    
-    self.dicz = [NSMutableDictionary dictionary];
+
     
 //    [self selectType];
     
@@ -134,16 +148,15 @@
     //    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:indexPath.row];
     //
     NSInteger height =0;
-    if (indexPath.row !=self.coster.fileds.count) {
+    if (indexPath.row != self.coster.fileds.count) {
         return 40;
         
         
     }
-    //    else
-    
-    //    {
-  else
-  {
+  
+    else
+  
+    {
      
           //            NSInteger count = _imagedatarry.count + _updatearry.count;
           NSInteger count = _imageupdate.count;
@@ -189,43 +202,21 @@
 #pragma mark-提交
 -(void)savetolist
 {
-    
-//    Bianjito *bianji=[[Bianjito alloc] init];
-//    if ([self.selectAcceptType isEqualToString:@"add"]) {
-//        bianji.acceptAddDict=self.dict2;
-//    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
-//    
-//        bianji.acceptEditorDict=self.dict2;
-//    }
-//    AppDelegate *tiaozhuan =[UIApplication sharedApplication].delegate;
-    
-    
-    
-    
-    Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-//    if ([self.selectAcceptType isEqualToString:@"add"]) {
-//                bi.acceptAddDict=self.dict2;
-//            }else if ([self.selectAcceptType isEqualToString:@"editor"]){
-//        
-//                bi.acceptEditorDict=self.dict2;
-//            }
-//   
-    
    
-  
+    Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    
+//     [ _costarrdate replaceObjectAtIndex:0 withObject:self.dict2];
+    
+    if (bi.index==0) {
+         bi.editstart = YES;
+         bi.editnew=self.dict2;
+    }else
+    {
+       bi.isstrart = YES;
+        bi.editxiao=self.dict2;
+    }
+    
     [self.navigationController popToViewController:bi animated:YES];
-    
-//    NSArray *temArray =self.navigationController.viewControllers;
-//    for (UIViewController *ter in temArray) {
-//        if ([ter isKindOfClass:[bi class] ]) {
-//            
-//            [self.navigationController parentViewController];
-//        }
-//        
-//        
-//    }
-    
-    
     
     NSLog(@"=======%@",self.dict2);
     
@@ -260,8 +251,10 @@
     
     MiXimodel *layoutModel =[self.coster.fileds
                             safeObjectAtIndex:indexPath.row];
-//    _layoutModel =[self.Tositoma
+    
+    //    _layoutModel =[self.Tositoma
 //                            safeObjectAtIndex:indexPath.row];
+    
     BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (!cell) {
@@ -269,33 +262,39 @@
     }
    
     
-  
+   
     cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
     
     
 //    cell.detailtext.text =[self.dict2 objectForKey:layoutModel.fieldname];
-    if ([self.selectAcceptType isEqualToString:@"add"]) {
-       
-       cell.detailtext.text= [self.dicz objectForKey:layoutModel.fieldname];
-       
-    }else if ([self.selectAcceptType isEqualToString:@"editor"]){
-        cell.detailtext.text= [self.dict2 objectForKey:layoutModel.fieldname];
-        
-        if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
-            cell.detailtext.text= @"";
-        }
-        
-           }
+//    if ([self.selectAcceptType isEqualToString:@"add"]) {
+//        
+//       
+//             cell.detailtext.text= [self.add objectForKey:layoutModel.fieldname];
+//             
+//       
+//        if (layoutModel.ismust) {
+//            
+//            cell.detailtext.placeholder=@"请输入不能为空";
+//            
+//        }else
+//        {
+//            cell.detailtext.text= @"";
+//        }
+//        if ([layoutModel.fieldname isEqualToString:@"billmoney"]) {
+//            cell.detailtext.text = @"";
+//        }
+//        if ([layoutModel.fieldname isEqualToString:@"ybmoney"]) {
+//            cell.detailtext.text=@"";
+//        
+//        }
+//        
+//        [_dicz setObject:cell.detailtext.text forKey:layoutModel.fieldname];
     
-    if (layoutModel.ismust) {
-        
-        cell.detailtext.placeholder=@"请输入不能为空";
-        
-    }else
-    {
-        cell.detailtext.text= @"";
-    }
-
+//    }else
+//    if ([self.selectAcceptType isEqualToString:@"editor"]){
+    
+    cell.detailtext.text= [self.dict2 objectForKey:layoutModel.fieldname];
     
     if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
         cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
@@ -318,14 +317,7 @@
     
 //    [self.tableviewDic setObject:cell.detailtext.text forKey:layoutModel.fieldname];
     
-    
-   
- 
-    
-    
-  
-    
-    
+
     
 //    if ([layoutModel.fieldname isEqualToString:@"itemid_show"]||[layoutModel.fieldname isEqualToString:@"costtypeid_show"]||[layoutModel.fieldname isEqualToString:@"memo"]) {
 //        cell.detailtext.placeholder=@"";
@@ -336,9 +328,9 @@
 //        cell.detailtext.placeholder=@"不能为空";
 //        
 //    }
-//    
+//
     cell.detailtext.delegate=self;
-     cell.detailtext.tag=indexPath.row;
+    cell.detailtext.tag=indexPath.row;
     
 //    if (cell.textlabel.text==nil) {
 //        cell.selectionStyle=UITableViewRowActionStyleNormal;
@@ -366,14 +358,8 @@
     }
   
     cell.selectionStyle=UITableViewCellAccessoryNone;
-    
-    
-    
+
     return cell;
-    
-    
-    
-   
     
 }
 - (CGFloat )fixStr:(NSString *)str{
@@ -517,13 +503,16 @@
 //    [user setObject:self.dict2  forKey:@"fale"];
 //    
 //    [user synchronize];
-    NSDictionary *dic =@{@"sda":self.dict2};
-    [dic writeToFile:[self filePath] atomically:YES];
+  
+        NSDictionary *dic =@{@"sda":self.dict2};
+        [dic writeToFile:[self filePath] atomically:YES];
+   
+ 
     
 }
 -(void)toerror
 {
-    NSDictionary *dic =@{@"xingbian":self.dicz};
+    NSDictionary *dic =@{@"xingbian":self.add};
     [dic writeToFile:[self filePaths] atomically:YES];
     
 }
@@ -545,7 +534,7 @@
 -(void)readnew
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePaths]];
-    self.dicz = [dic objectForKey:@"xingbian"];
+    self.add = [dic objectForKey:@"xingbian"];
     
 }
 - (NSInteger)fileType:(NSString *)fileName{
@@ -695,7 +684,7 @@
     
     NSLog(@"字典：%@",self.dict2);
     
-   
+    
     
     [view closed];
     [self.tableview reloadData];
@@ -733,21 +722,21 @@
     NSLog(@"tag值：%lu",textField.tag);
     
     self.textfield.tag=textField.tag;
-    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:textField.tag];
-    
-    if (![model2.datasource isEqualToString:@"0"]) {
+   MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:textField.tag];
+
+    if (![model2.datasource isEqualToString:@"0"]&&![model2.sqldatatype isEqualToString:@"date"]) {
         
         
         isSinglal =model2.issingle;
 
         [self kindsDataSource:model2];
-        
+         [self.dict2 setObject:textField.text forKey:model2.fieldname];
         return NO;
     }else
         if ([model2.sqldatatype isEqualToString:@"date"]){
             
             [self addDatePickerView:textField.tag date:textField.text];
-      
+            [self.dict2 setObject:textField.text forKey:model2.fieldname];
             return NO;
         }
         else
@@ -793,8 +782,7 @@
         [self.datePickerView setFrame:CGRectMake(0, self.view.frame.size.height - 218, self.view.frame.size.width, 218)];
     }
     
-    self.datePickerView.tag = tag;
-    NSLog(@"dddddddddddd%ld",(long)tag);
+   
     
     __block MixiViewController *weaker=self;
     self.datePickerView.selectDateBack = ^(NSString *date){
@@ -811,44 +799,15 @@
         
         MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
         
-//        [weaker.dict2 setObject:date forKey:layout.fieldname];
-        layout.fieldname = date;
-        NSLog(@"???????????????%@",layout.fieldname);
+       [weaker.dict2 setObject:date forKey:layout.fieldname];
         
-        
-//        layout.fieldname = date;
-//        NSLog(@"???????????????%@",layout.fieldname);
-//        
-//        [weaker.costatrraylost insertObject:layout atIndex:tag];
-//        
-       
-        
-//        [weaker.dict2 setObject:date forKey:layout.fieldname];
-        [weaker.dict2 setValue:date forKey:layout.fieldname];
-        
-        //       [weaker.tableViewDic removeObjectForKey:layout.fieldname];
-        //       [weaker.tableViewDic setObject:date forKey:layout.fieldname];
-        
-        //        [weakSelf.mainLayoutArray setValue:date forKey:layout.fieldname];
-        //        textf.text=date;
-        //        textf.text=date;
-        NSLog(@"00000000000000%@",date);
-        //
-        
-//        [weaker.dict2 setObject:date forKey:layout.fieldname];
-        
-        
-        
-        //        NSLog(@"aaaaaaaaaaaaaaaa%@",textf.text);
-        //        weaker.textfield.text=date;
-        //        weaker.textfield.text=textf.text;
         
         [weaker.datePickerView closeView:nil];
         
-        //        weakSelf.datestring = [NSMutableArray arrayWithObject:weakSelf.datetext];
-        
-    };
+           };
+    [self.tableview reloadData];
     [self.view addSubview:self.datePickerView];
+    
 //    [self savetoDb];
     NSLog(@"====================%@",self.textfield.text);
     
@@ -1055,6 +1014,7 @@
     }
 //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
   [self.dict2 setValue:nameStr forKey:layoutModel.fieldname];
+    
     [self.tableview reloadData];
 }
 //

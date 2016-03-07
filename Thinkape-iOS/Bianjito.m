@@ -18,7 +18,8 @@
 @property(nonatomic,strong)UIAlertView *activer;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
-@property(nonatomic,assign)NSInteger  objectindex;
+@property(nonatomic,strong)NSMutableArray *dataArr;
+
 @end
 
 @implementation Bianjito
@@ -41,15 +42,7 @@
     
     itemWidth = 80;
     speace = 20;
-   // self.acceptAddDict=[[NSMutableDictionary alloc]init];
-//    self.acceptEditorDict=[[NSMutableDictionary alloc]init];
-//    self.arrayDict=[[NSMutableArray alloc]init];
-//  
-//    //wo
-//    AppDelegate *app=[UIApplication sharedApplication].delegate;
-//    NSLog(@"987=%@=%@",app.costLayoutArray,app.costDataArr);
-//    self.costLayoutArray = app.costLayoutArray;
-//    self.costDataArr = app.costDataArr;
+  
     
     [self addRightNavgation];
     [self itemLength];
@@ -59,10 +52,9 @@
     if (self.editstart==YES) {
         [self.tableview reloadData];
     }
-//    if (self.isEditor) {
-//        self.index=1;
-//    }
-//    
+    self.editnew = [NSMutableDictionary dictionary];
+    
+
 }
 -(void)addRightNavgation{
     UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
@@ -78,39 +70,15 @@
 
 
 }
-//-(void)saveUserDefaults{
-//    
-//    NSLog(@"%@",self.costLayoutArray[0]);
-//    
-//    
-//NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    [userDefaults setObject:self.costLayoutArray forKey:@"costLayoutArray"];
-//    [userDefaults synchronize];
-//    
-//}
-//
-//-(NSMutableArray *)readUserDefaults{
-//
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSMutableArray * arr=[userDefaults objectForKey:@"costLayoutArray"];
-//    
-//    return arr;
-//}
+
 
 -(void)appcer
 {
     
-//    self.selectType=@"add";
-//    MixiViewController *vc =[[MixiViewController alloc] init];
-//    vc.index = _index;
-//    vc.costatrraylost=self.costLayoutArray;
-//    vc.costarrdate=self.costDataArr;
-//    vc.selectAcceptType=self.selectType;
     Bianjiviewtableview *vc =[Bianjiviewtableview new];
     vc.indexto = _index;
     vc.costArray=self.costLayoutArray;
     vc.costArr=self.costDataArr;
-    
     [self.navigationController pushViewController:vc animated:YES];
     
     
@@ -128,13 +96,11 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setFrame:CGRectMake(i*(60 + 35), 10, 57, 57)];
         [btn addTarget:self action:@selector(costDetail:) forControlEvents:UIControlEventTouchUpInside];
-//        [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:model.photopath] forState:UIControlStateNormal];
         [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photopath]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"ab_nav_bg.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             
         }];
         btn.tag = i;
         [bottomScroll addSubview:btn];
-        
         UILabel *totleMoney = [[UILabel alloc] initWithFrame:CGRectMake(0, 37, 57, 15)];
         totleMoney.textColor = [UIColor whiteColor];
         totleMoney.font = [UIFont systemFontOfSize:15];
@@ -209,14 +175,13 @@
             label.font = [UIFont systemFontOfSize:13];
             label.tag = i;
             label.textColor = [UIColor colorWithHexString:@"333333"];
-//       
+       
            button=[[UIButton alloc] initWithFrame:CGRectMake(bgView.frame.origin.x-speace+(itemWidth+speace)*(i-1)-10, 8, itemWidth, 15)];
 //            button.font=[UIFont systemFontOfSize:13];
             button.titleLabel.font = [UIFont systemFontOfSize:13];
             button.tag=i;
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-          
-             [bgView addSubview:label];
+            [bgView addSubview:label];
             [bgView addSubview:button];
            
              if (indexPath.row == 1)
@@ -229,12 +194,15 @@
                 {
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
                     
-                         label.text = layoutModel.name;
+                    
+                    label.text = layoutModel.name;
                  
                     
                     
                 }
+      
                 if (button.tag==1) {
+                    
                     [button setTitle:@"操作" forState:UIControlStateNormal];
                }
                  
@@ -248,20 +216,13 @@
              
                 else{
                  
-//                    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
+
                   LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
-                   
+                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                    //判断传值是否经过传值而过来的字典
+                 
                     
-                    
-                        
-                    
-                    NSMutableArray *dataArr = [_costDataArr safeObjectAtIndex:_index];
-                  
-                    
-                        //判断传值是否经过传值而过来的字典
-                  _datar = [dataArr safeObjectAtIndex:indexPath.row-2];
-                
-                  
                 
                     
                     if (_index==0) {
@@ -269,13 +230,15 @@
                     
                     if (self.editstart==YES) {
                         
-                        
-                        //   _costDataArr[0][indexPath.row-2]
-                        
-                        _datar = self.editnew;
-                        
-                        
-                        
+                        if (indexPath.row==_indexRowss) {
+                            _datar = self.editnew;
+                        }
+                           
+                            
+                     
+                       
+                    
+               
                     }
                     else {
                         if (self.isstrart==YES) {
@@ -302,30 +265,11 @@
                     
                     
                  
+                 
+                    label.text = [_datar objectForKey:layoutModel.fieldname];
                     
-                      label.text = [_datar objectForKey:layoutModel.fieldname];
-                  
-                   //                    //wo
-//                    if (self.editstart==YES) {
-//                        _datar=self.editnew;
-//                    }
-//                    
-//                    label.text = [_datar objectForKey:layoutModel.fieldname];
-//                    NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
-                    AppDelegate *app =[UIApplication sharedApplication].delegate;
-                    
-                    
-                    NSMutableArray *dataArrs = [_costDataArr safeObjectAtIndex:_index];
-                    
-                    NSMutableDictionary *dic =[dataArr safeObjectAtIndex:indexPath.row];
-                    
-                    app.dict=dic;
-                   //进入明细
-//                    UITapGestureRecognizer *taper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapsion:)];
-//                    taper.numberOfTouchesRequired=1;
-//                    [cell.contentView addGestureRecognizer:taper];
-                    
+
                  }
                 if (button.tag==1) {
                      [button setTitle:@"删除" forState:UIControlStateNormal];
@@ -350,21 +294,22 @@
     return cell;
     
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
     if (indexPath.row==1||indexPath.row==0) {
         return;
     }
-    
-    
+    AppDelegate *app =[UIApplication sharedApplication].delegate;
+    _indexRow = indexPath.row-2;
+  
+    _datar = [_dataArr safeObjectAtIndex:_indexRow];
+    app.dict=_datar;
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=_costDataArr;
-  
-
-   
     [self.navigationController pushViewController:vc animated:YES];
     
 }

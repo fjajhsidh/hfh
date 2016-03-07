@@ -964,9 +964,10 @@
 }
 -(void)sender:(NSString *)str{
     UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
-    if (![str isEqualToString:@"0"]) {
-        textField.text=str;
-    }
+//    if (![str isEqualToString:@"0"]) {
+//        textField.text=str;
+//    }
+    textField.text=str;
     NSLog(@"-----%@",str);
     
     [textField resignFirstResponder];

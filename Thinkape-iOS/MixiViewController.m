@@ -81,7 +81,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)] ]
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
    
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
@@ -91,15 +90,9 @@
     self.tableviewDic=[NSMutableDictionary dictionary];
     _imageupdate=[NSMutableArray array];
     _updateImage=[NSMutableArray array];
-    
-//    self.tableviewDic = [NSMutableDictionary dictionaryWithDictionary:_costatrraylost];
     _coster=[self.costatrraylost safeObjectAtIndex:_index];
-    
     self.Tositoma =_coster.fileds;
-    
-   
-//
-//    self.bottomtrance.constant=;
+
     UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
     
@@ -172,20 +165,7 @@
     
     
     
-//    if (indexPath.row!=model.fileds.count+1) {
-//        //            NSInteger count = _imagedatarry.count + _updatearry.count;
-//        NSInteger count = _imageupdate.count;
-//        CGFloat speace = 15.0f;
-//        CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
-//        //            int row = count / 3 + 1;
-//        int row = count / 3+1;
-//        height= (speace + imageWidth) * row;
-//        NSLog(@"cell的高度%d",height);
-//        
-//        //            return (speace + imageWidth) * row;
-//    }
-    
-    //    }
+
     return height;
     
 }
@@ -206,8 +186,11 @@
 //     [ _costarrdate replaceObjectAtIndex:0 withObject:self.dict2];
     
     if (bi.index==0) {
-         bi.editstart = YES;
-         bi.editnew=self.dict2;
+        
+        bi.editstart=YES;
+        bi.indexRowss =bi.indexRow;
+        
+        bi.editnew=self.dict2;
     }else
     {
        bi.isstrart = YES;
@@ -514,21 +497,7 @@
     [dic writeToFile:[self filePaths] atomically:YES];
     
 }
--(void)readto
-{
-//    NSIndexPath *indexPath =[self.tableview indexPathForSelectedRow];
-//    
-//    MiXimodel *layoutModel =[self.coster.fileds
-//                             safeObjectAtIndex:indexPath.row];
-    
-    
-//    NSUserDefaults *user =[NSUserDefaults standardUserDefaults];
-//   self.dict2  =[user objectForKey:@"fale"];
-    NSMutableDictionary *dic =[NSMutableDictionary  dictionaryWithContentsOfFile:[self filePath]];
-    self.dict2 = [dic objectForKey:@"sda"];
-   
-    
-}
+
 -(void)readnew
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePaths]];
@@ -677,9 +646,9 @@
     MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
-   [self.dict2 setValue:name forKey:layoutModel.fieldname];
+
    
-    
+    [self.dict2 setObject:name forKey:layoutModel.fieldname];
     NSLog(@"字典：%@",self.dict2);
     
     
@@ -764,8 +733,8 @@
         }
     }
    
-//    [self.dict2 setObject:textField.text forKey:layoutModel.fieldname];
-    [self.dict2 setValue:textField.text forKey:layoutModel.fieldname];
+
+    [self.dict2 setObject:textField.text forKey:layoutModel.fieldname];
     return YES;
 }
 - (BOOL)isPureInt:(NSString*)string{
@@ -942,57 +911,6 @@
 - (NSString *)uid{
     return [DataManager shareManager].uid;
 }
-
-//- (NSString *)XMLParameter{
-//    NSMutableString *xmlStr = [NSMutableString string];
-//    int i = 0;
-//    for (LayoutModel *layoutModel in self.costarrdate) {
-//        AppDelegate *app =[UIApplication sharedApplication].delegate;
-//        self.dict2=app.dict;
-//      
-//        
-//        NSString *value = [self.dict2 newValueFromOldValue:_dexcel property:];
-//        
-//        if (layoutModel.ismust && value.length == 0) {
-//            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
-//            return nil;
-//        }
-//        if (i != 0 && value.length != 0) {
-//            if (i != self.costarrdate.count - 1) {
-//                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
-//                
-//            }
-//            else
-//            {
-//                [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.fieldname,value];
-//            }
-//        }
-//        //        else if (i != 0){
-//        //            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
-//        //            return nil;
-//        //        }
-//        i++;
-//    }
-//    NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
-//    NSLog(@"xmlStr : %@",returnStr);
-//    return returnStr;
-//}
-//- (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
-//    NSInteger tag = view.tag;
-//    
-//    NSLog(@"%@%@",name,ID);
-//  _layoutModel = [self.costatrraylost safeObjectAtIndex:1];
-////    [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
-////    [self.tableViewDic setObject:name forKey:layoutModel.key];
-//    
-//    
-//    [self.dict2 setObject:name forKey:_layoutModel.fieldname];
-//    
-//    
-//    
-//       [view closed];
-//    [self.tableview reloadData];
-//}
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
     NSString *idStr = @"";
     NSString *nameStr = @"";
@@ -1010,9 +928,8 @@
         }
         i++;
     }
-//    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
-  [self.dict2 setValue:nameStr forKey:layoutModel.fieldname];
-    
+
+    [self.dict2 setObject:nameStr forKey:layoutModel.fieldname];
     [self.tableview reloadData];
 }
 //

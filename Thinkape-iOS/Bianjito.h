@@ -34,5 +34,6 @@
 @property(nonatomic,strong)NSMutableDictionary *editnew;
 @property(nonatomic,assign)BOOL isstrart;
 @property(nonatomic,strong)NSMutableDictionary *editxiao;
-
+@property(nonatomic,assign)NSInteger indexRow;
+@property(nonatomic,assign)NSInteger indexRowss;
 @end

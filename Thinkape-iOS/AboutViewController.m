@@ -11,7 +11,6 @@
 
 @interface AboutViewController ()
 
-
 {
     
     UIScrollView *_myScrollView;
@@ -96,7 +95,6 @@
     
     
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

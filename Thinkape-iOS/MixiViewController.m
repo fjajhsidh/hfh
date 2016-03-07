@@ -109,14 +109,13 @@
     
     [self.view addSubview:btn];
     
-//    self.dict2= appe.dict;
     AppDelegate *appe = [UIApplication sharedApplication].delegate;
       self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
     
    
 
     
-//    [self selectType];
+
     
 }
 -(NSString *)filePath{
@@ -183,12 +182,12 @@
    
     Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
     
-//     [ _costarrdate replaceObjectAtIndex:0 withObject:self.dict2];
+
     
     if (bi.index==0) {
         
         bi.editstart=YES;
-        bi.indexRowss =bi.indexRow;
+       
         
         bi.editnew=self.dict2;
     }else

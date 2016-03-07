@@ -28,6 +28,7 @@
     CGFloat width;
     CGFloat itemWidth;
     CGFloat speace;
+    UILabel *label;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -52,7 +53,7 @@
     if (self.editstart==YES) {
         [self.tableview reloadData];
     }
-    self.editnew = [NSMutableDictionary dictionary];
+   
     
 
 }
@@ -162,7 +163,7 @@
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 0, width, 50)];
         bgView.tag = 304;
         for (int i = 0; i < model.fileds.count + 1; i++) {
-            UILabel *label;
+//            UILabel *label;
             UIButton *button;
             if (i == 0 ) {
                 label = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 40, 15)];
@@ -219,7 +220,10 @@
 
                   LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
                     _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                   
                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                    
+                   
                     //判断传值是否经过传值而过来的字典
                  
                     
@@ -229,23 +233,31 @@
                         
                     
                     if (self.editstart==YES) {
+                        //通过我的点的行数，值就会带到那行
+                       if (indexPath.row==_indexRow+2) {
+                          
+                        _datar = self.editnew;
                         
-                        if (indexPath.row==_indexRowss) {
-                            _datar = self.editnew;
+                        label.text = [_datar objectForKey:layoutModel.fieldname];
+                        
+                        
+                        
                         }
+                        else
+                       {
+                       
+                         
+                        label.text = [_datar objectForKey:layoutModel.fieldname];
                            
-                            
+                       }
+                    
+                    
                      
                        
                     
                
                     }
-                    else {
-                        if (self.isstrart==YES) {
-                            
-                            _datar = self.editxiao;
-                        }
-                    }
+                
                 
                     }
                     
@@ -264,9 +276,11 @@
                     NSLog(@"%@",label.text);
                     
                     
+                    if (self.editstart==NO||self.isstrart==NO) {
+                         label.text = [_datar objectForKey:layoutModel.fieldname];
+                    }
                  
-                 
-                    label.text = [_datar objectForKey:layoutModel.fieldname];
+                   
                     
                     NSLog(@"%@",label.text);
 
@@ -294,22 +308,78 @@
     return cell;
     
 }
-
+-(void)saveto
+{
+    NSDictionary *dic =@{@"sda":_datar};
+    [dic writeToFile:[self filePath] atomically:YES];
+}
+-(void)readtodate
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
+   _datar= [dic objectForKey:@"sda"];
+}
+-(NSString *)filePath{
+    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"su.txt"];
+    NSLog(@"文件夹位置%@",filePath);
+    return filePath;
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+   
   
     if (indexPath.row==1||indexPath.row==0) {
         return;
     }
+    
+   
+        
+ 
+
+    
     AppDelegate *app =[UIApplication sharedApplication].delegate;
-    _indexRow = indexPath.row-2;
-  
-    _datar = [_dataArr safeObjectAtIndex:_indexRow];
-    app.dict=_datar;
+   
+//    _datar = [_dataArr safeObjectAtIndex:_indexRow];
+//    if (self.editstart==YES) {
+//    _datar=self.self.editnew;
+//     app.dict = _datar;
+//    }else
+//    {
+//     app.dict=_datar;
+//    }
+    
+        
+     _indexRow = indexPath.row-2;
+    if (indexPath.row == _indexRow+2) {
+        
+        if (self.editstart==NO) {
+            
+            app.dict = _datar;
+        }
+        if (self.editstart==YES) {
+            app.dict = _datar;
+        }
+       
+    }
+    else
+    {
+        if (self.editstart==NO) {
+            
+            app.dict = _datar;
+        }
+        if (self.editstart==YES) {
+            app.dict = _datar;
+        }
+    }
+ 
+
+
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
+   
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=_costDataArr;
+    
     [self.navigationController pushViewController:vc animated:YES];
     
 }

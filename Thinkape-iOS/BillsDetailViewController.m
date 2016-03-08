@@ -924,7 +924,7 @@
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(buttontap)];
         [item setTintColor:[UIColor whiteColor]];
         
-        self.navigationItem.rightBarButtonItem=item;
+       self.navigationItem.rightBarButtonItem=item;
         self.tableViewBottomConstraint.constant = 135.0f;
         lastConstant = 135.0f;
     }

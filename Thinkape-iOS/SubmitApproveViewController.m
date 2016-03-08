@@ -63,9 +63,6 @@
 
 @property(nonatomic)NSInteger tagValue;
 
-
-
-
 @property(nonatomic,strong)NSMutableDictionary *cell_data;
 @property(nonatomic,strong)AFHTTPRequestOperationManager *manager;
 @property(nonatomic,strong)NSDictionary *respondict;
@@ -109,12 +106,15 @@
         [backBt addTarget:self action:@selector(editItem) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithCustomView:backBt];
         self.navigationItem.rightBarButtonItem = back;
+        
+        // 码下面选择器的界面：
         if (!self.kindsPickerView) {
             self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
             [self.kindsPickerView setFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
             __block SubmitApproveViewController *weakSelf = self;
             self.kindsPickerView.selectItemCallBack = ^(KindsModel *model){
                 weakSelf.selectModel = model;
+                //请求“随手报”页面的数据
                 [weakSelf billDetails];
             };
             [self.view addSubview:self.kindsPickerView];
@@ -212,7 +212,7 @@
 #pragma mark - Request Methods
 
 /**
- *  请求表单分类信息
+ *  请求表单分类信息（pickView的内容：请求出来二维数组用来展示信息）
  */
 - (void)requestBillsType{
     //http://27.115.23.126:3032/ashx/mobilenew.ashx?ac=GetSspBillType&u=1
@@ -220,6 +220,7 @@
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetSspBillType&u=%@",self.uid]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                          
                           [self.dataArray removeAllObjects];
                           NSDictionary *dataDic = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
                           NSArray *reqArr = [KindsModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"req"]];
@@ -239,8 +240,9 @@
 }
 
 /**
- *  请求 表单信息
+ *  请求 表单信息（选择了不同的信息，点确定调用这个去请求不同的数据）
  */
+
 - (void)billDetails{
     //http://27.115.23.126:3032/ashx/mobilenew.ashx?ac=GetSspGridField&u=9&programid=130102&gridmainid=130102
     
@@ -272,10 +274,13 @@
     
 }
 
+
 /**
  *  根据版本号检测是否需要重新从服务器上请求数据
  *
  */
+
+
 - (void)kindsDataSource:(KindsLayoutModel *)model{
     NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
     NSInteger tag= [self.layoutArray indexOfObject:model];
@@ -311,6 +316,7 @@
  *  请求 详细数据分类
  *
  */
+
 - (void)requestKindsDataSource:(KindsLayoutModel *)model{
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
     NSInteger tag= [self.layoutArray indexOfObject:model];
@@ -330,12 +336,16 @@
                               [SVProgressHUD dismiss];
                           }
                           
+                      
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           
                       }
             showLoadingStatus:YES];
 }
+
+
+
 
 - (void)saveBills:(NSString *)ac{
     NSString *xmlParameter = [self XMLParameter];
@@ -416,6 +426,7 @@
 }
 
 - (void)uploadImage:(NSString *)theSspid ac:(NSString *)ac inde:(NSInteger)index{
+    
     NSString *fbyte = @"";  //图片bate64
     NSString *sspID = [NSString stringWithFormat:@"%@",theSspid];
     if(_type == 1 && [self.newflag isEqualToString:@"no"]){
@@ -434,6 +445,7 @@
     }
     NSLog(@"str : %@",str);
     [SVProgressHUD showWithMaskType:2];
+    
     [[AFHTTPRequestOperationManager manager] POST:str
                                        parameters:fbyte.length == 0 ? nil :@{@"FByte":fbyte}
                                           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -548,8 +560,6 @@
                 KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
                 [layoutModel setValuesForKeysWithDictionary:[dataDic objectForKey:key]];
                 layoutModel.key = key;
-               
-                
                
                 
                 [self.layoutArray addObject:layoutModel];
@@ -687,6 +697,7 @@
     
 }
 
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -696,6 +707,7 @@
     image = [image fixOrientation:image];
     [_imagesArray addObject:image];
     [self.tableView reloadData];
+    
 }
 
 
@@ -810,9 +822,11 @@
     __block SubmitApproveViewController *weakSelf = self;
     self.datePickerView.tag = tag;
     
+    
     if (date.length != 0) {
         self.datePickerView.date = date;
     }
+    
     
     self.datePickerView.selectDateCallBack = ^(NSString *date){
         NSInteger tag = weakSelf.datePickerView.tag;
@@ -868,8 +882,6 @@
 
 #pragma mark - TextFieldDelegate
 
-
-
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     self.tagValue=textField.tag;
     self.textfield.tag = textField.tag;
@@ -892,19 +904,19 @@
         //            textField.text=app.calcultorResult;
         //      }
         
+        
     }else{
         
         [self.calculatorView removeFromSuperview];
     }
 
-    
-    
     if (layoutModel.datasource.length > 0) {
            
 //        if (![textField.text isEqualToString:@""] ) {
 //            textField = self.textfield;
 //            textField.text = @"";
 //        }
+        
         isSingal = layoutModel.IsSingle;
       
         [self kindsDataSource:layoutModel];
@@ -920,7 +932,6 @@
 }
 
 
-
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
@@ -931,12 +942,12 @@
 //        _isHaven=NO;
 //    }
     
+    
     if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
     }
 
-    
     
     if ([textField.text length]>0) {
         unichar single = [textField.text characterAtIndex:0];
@@ -948,13 +959,10 @@
                 return NO;
             }
             
-            //            }
         }
     }
     
-    
-    
-    
+
     [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
     [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
     
@@ -1111,6 +1119,8 @@
     }
     
 }
+
+
 -(void)setdefaults
 {
    
@@ -1123,13 +1133,6 @@
             
           
         }else {
-            
-            
-            
-            
-            
-            
-            
             
             
             NSString *mober = layout.MobileSspDefaultValue;
@@ -1178,24 +1181,13 @@
                             self.messageid = [f_id objectAtIndex:1];
                             
                             NSLog(@"msg分割=%@",[array objectAtIndex:i] );
-                            
-//                           
-//                            [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
-//                            [self.tableViewDic setObject:self.namestr forKey:layout.key];
-//                            
-                            
-//                            NSString *sas ;
-//                            sas = [self.cell_data objectForKey:field];
-//                            sas = t;
-//                            [self.tableView reloadData];
+
                             self.textfield = [self.cell_data objectForKey:field];
                             self.textfield.text = self.namestr;
                             [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
                             [self.tableViewDic setObject:self.namestr forKey:layout.key];
                             
-//                            [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
-//                            [self.tableViewDic setObject:self.namestr forKey:layout.key];
-//                            
+                           
                         }else{
                             
                         }
@@ -1213,9 +1205,7 @@
             }];
         }
      
-        
-
-        
+    
         NSLog(@"请求成功");
         //[__lock unlock];
         

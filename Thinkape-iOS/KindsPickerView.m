@@ -147,6 +147,7 @@
     }
     else
         _selectModel = [self.searchArray safeObjectAtIndex:row];
+    
     NSLog(@"_selectModel :%@",_selectModel);
     UILabel *label = (UILabel *)[self.pickerView viewForRow:row forComponent:component];
     label.textColor = [UIColor colorWithRed:0.231 green:0.482 blue:0.824 alpha:1.000];

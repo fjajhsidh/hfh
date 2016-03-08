@@ -17,6 +17,7 @@ static AccountModel *accountModel = nil;
 @implementation DataManager
 
 +(DataManager *)shareManager{
+
     if (manager == nil) {
         manager = [[DataManager alloc] init];
     }

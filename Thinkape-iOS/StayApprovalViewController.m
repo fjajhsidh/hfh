@@ -446,11 +446,13 @@
 }
 
 
+//进入编辑草稿页面
 - (void)editItem{
     if ([ac isEqualToString:@"GetMyApproved"]) {
         return;
     }
     isEdit = isEdit ? NO : YES;
+    
     if (!isEdit) {
         [self unSelectedState];
     }
@@ -478,12 +480,13 @@
     [_selectArr removeAllObjects];
     _selectLabel.text = [NSString stringWithFormat:@"已选择%d个项目同时处理",_selectArr.count];
 }
+
 - (IBAction)moreAgreeApprove:(id)sender {
 
     [self moreApproveParameters:@"pass" dsc:@""];
 
-    
 }
+
 - (IBAction)moreBackApprove:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请填写退回意见"
                                                     message:@""

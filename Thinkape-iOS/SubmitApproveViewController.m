@@ -1040,7 +1040,7 @@
     
         
        
-     [self setdefaults];
+    
         return cell;
         
     } else {
@@ -1154,9 +1154,9 @@
                
                 
                long error = [[responseObject objectForKey:@"error"] integerValue];
-                if (error==1) {
+                if (error!=0) {
                     //                        NSString *msg =[self.respondict objectForKey:@"msg"];
-                    [self setdefaults];
+                  
                     //                        [self setdefaults];
                     //                        [SVProgressHUD showErrorWithStatus:msg];
                    
@@ -1215,7 +1215,10 @@
     //
     
 }
-
+-(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    [self setdefaults];
+}
 //-(void)setdefaults
 //{
 //    for (KindsLayoutModel *layout in self.layoutArray) {

@@ -55,9 +55,9 @@
     distance = 0.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHiden:) name:UIKeyboardWillHideNotification object:nil];
-    [self saveNSUserDefaults];
+   // [self saveNSUserDefaults];
     
-    [self readNsuserDefaults];
+    [self readNSUserDefaults];
    
     
    
@@ -99,13 +99,13 @@
 //    }
 //    
 //}
--(void)readNsuserDefaults
-{
-    NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];
-    self.userText.text=[userfaults stringForKey:@"name"];
-    self.passwordText.text=[userfaults stringForKey:@"password"];
-    
-}
+//-(void)readNsuserDefaults
+//{
+//    NSUserDefaults *userfaults =[NSUserDefaults standardUserDefaults];
+//    self.userText.text=[userfaults stringForKey:@"name"];
+//    self.passwordText.text=[userfaults stringForKey:@"password"];
+//    
+//}
 #pragma mark -NSNotificationCenter
 
 - (void)keyboardShow:(NSNotification *)notification{

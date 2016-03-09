@@ -19,6 +19,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *category;
 @property (weak, nonatomic) IBOutlet UILabel *time;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImage;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+
+
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *decs;
 @property (weak, nonatomic) IBOutlet UILabel *money;

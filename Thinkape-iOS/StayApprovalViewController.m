@@ -235,11 +235,15 @@
     return self.dataArray.count;
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSString *cellid = @"cell";
     StayApprovalViewCell *cell = (StayApprovalViewCell *)[tableView dequeueReusableCellWithIdentifier:cellid];
     
+    
+
     if ([ac isEqualToString:@"GetMyApproved"]) {
         id unkonwModel = [self.dataArray safeObjectAtIndex:indexPath.row];
         if ([unkonwModel isKindOfClass:[StayApprovalModel class]]) {
@@ -247,9 +251,33 @@
             cell.markImage.hidden = YES;
             cell.selectBtn.hidden = YES;
             cell.flowStatue.hidden = NO;
-          cell.category.text = model.pagename;
+          
+            cell.category.text = model.pagename;
             
+            NSString *str = [model.pagename substringToIndex:1];
+            cell.titleLabel.text = str;
+       
 
+            
+            if ([str isEqualToString:@"差"]) {
+                cell.categoryImage.image = [UIImage imageNamed:@"chailv.jpg"];
+            }
+            else if ([str isEqualToString:@"招"]) {
+                cell.categoryImage.image = [UIImage imageNamed:@"zhaodai.jpg"];
+            }
+            
+            else if ([str isEqualToString:@"普"]) {
+                cell.categoryImage.image = [UIImage imageNamed:@"putong.jpg"];
+            }
+            else if ([ac isEqualToString:@"借"]){
+                cell.categoryImage.image = [UIImage imageNamed:@"jiekuan.jpg"];
+            }
+            else {
+                cell.categoryImage.image = [UIImage imageNamed:@"qita.jpg"];
+            }
+            
+            
+            
             cell.time.text = model.opdate;
             cell.name.text = [NSString stringWithFormat:@"%@  %@",model.submituser,model.deptid];
             cell.money.text = [NSString stringWithFormat:@"￥%@",model.billmoney];
@@ -274,7 +302,35 @@
                 cell.flowStatue.hidden = NO;
             }
             [cell resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
+            
+            
+
             cell.category.text = model.programname;
+            
+        
+            NSString *str = [model.programname substringToIndex:1];
+            cell.titleLabel.text = str;
+            
+            
+            if ([str isEqualToString:@"差"]) {
+                cell.categoryImage.image = [UIImage imageNamed:@"chailv.jpg"];
+            }
+            else if ([str isEqualToString:@"招"]) {
+                cell.categoryImage.image = [UIImage imageNamed:@"zhaodai.jpg"];
+            }
+            
+            else if ([str isEqualToString:@"普"]) {
+                cell.categoryImage.image = [UIImage imageNamed:@"putong.jpg"];
+            }
+            else if ([ac isEqualToString:@"借"]){
+                cell.categoryImage.image = [UIImage imageNamed:@"jiekuan.jpg"];
+            }
+            else {
+                cell.categoryImage.image = [UIImage imageNamed:@"qita.jpg"];
+            }
+
+            
+        
             cell.time.text = model.submitdate;
             cell.name.text = [NSString stringWithFormat:@"%@  %@",model.submituser,model.bdeptid];
             cell.money.text = [NSString stringWithFormat:@"￥%@",model.totalmoney];
@@ -354,8 +410,10 @@
         [self moreApproveParameters:@"fail" dsc:[text.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     }
     else{
-            UnApprovalModel *model = [self.dataArray safeObjectAtIndex:alertView.tag];
-            [self singleApprove:model type:@"fail" desc:[text.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        UnApprovalModel *model = [self.dataArray safeObjectAtIndex:alertView.tag];
+        
+        [self singleApprove:model type:@"fail" desc:[text.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         }
     }
 }

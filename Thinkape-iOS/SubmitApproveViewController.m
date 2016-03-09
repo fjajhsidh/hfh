@@ -44,6 +44,7 @@
     BOOL isSingal;
     
 }
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) KindsModel *selectModel;
 @property (strong, nonatomic) NSMutableArray *searchArray;
@@ -71,6 +72,7 @@
 @property(nonatomic,strong)UITextField *textfield;
 @property(nonatomic,strong)NSMutableArray *deaftcec;
 @property(nonatomic,assign)BOOL isretern;
+
 @end
 
 @implementation SubmitApproveViewController
@@ -133,7 +135,10 @@
     self.calculatorvc=[[CalculatorViewController alloc]init];
     self.calculatorvc.delegate=self;
      self.textfield = [[UITextField alloc] init];
-   
+    
+    
+    //请求数据：
+//    [self setdefaults];
    
 }
 
@@ -327,8 +332,12 @@
                           if ([dataArr isKindOfClass:[NSArray class]]) {
                               [self saveItemsToDB:dataArr callbakc:^(NSArray *modelArr) {
                                   [self initItemView:modelArr tag:tag];
+                                  
                                   [SVProgressHUD dismiss];
+                                  
                               }];
+                              
+                              
                           }
                           else
                           {
@@ -339,7 +348,7 @@
                       
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          
+                            [SVProgressHUD dismiss];
                       }
             showLoadingStatus:YES];
 }
@@ -662,12 +671,8 @@
     
 }
 
-//- (BOOL)isPureInt:(NSString*)string{
-//  //  [NSScanner scannerWithString:string];
-//    NSScanner* scan = [NSScanner scannerWithString:string];
-//    float val;
-//    return[scan scanFloat:&val] && [scan isAtEnd];
-//}
+
+
 - (BOOL)isPureInt:(NSString*)string{
     //  [NSScanner scannerWithString:string];
     NSScanner* scan = [NSScanner scannerWithString:string];
@@ -869,10 +874,7 @@
                 [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.key,value];
             }
         }
-        //        else if (i != 0){
-        //            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.Name]];
-        //            return nil;
-        //        }
+    
         i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
@@ -894,16 +896,7 @@
         CGRect frame=CGRectMake(0,[UIScreen mainScreen].bounds.size.height-250 , [UIScreen mainScreen].bounds.size.width, 250);
         self.calculatorvc.view.frame=frame;
         textField.inputView=self.calculatorvc.view;
-        
-        //     [self addCalculator];
-        
-        
-        //        textField.inputView=self.calculatorvc.view;
-        //        AppDelegate * app=[UIApplication sharedApplication].delegate;
-        //        if (![app.calcultorResult isEqualToString:@"0"]) {
-        //            textField.text=app.calcultorResult;
-        //      }
-        
+    
         
     }else{
         
@@ -911,11 +904,6 @@
     }
 
     if (layoutModel.datasource.length > 0) {
-           
-//        if (![textField.text isEqualToString:@""] ) {
-//            textField = self.textfield;
-//            textField.text = @"";
-//        }
         
         isSingal = layoutModel.IsSingle;
       
@@ -935,14 +923,7 @@
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-    
-//    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
-//        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-//        textField.text = @"";
-//        _isHaven=NO;
-//    }
-    
-    
+
     if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] && textField.text.length != 0) {
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
@@ -1014,8 +995,6 @@
             [self.cell_data setObject:cell.contentText forKey:layoutModel.key];
         }
         
-        
-        
         NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
         value = value.length >0 ? value :@"";
         NSLog(@"值%@",value);
@@ -1037,16 +1016,9 @@
             }
         }
       
-    
-        
-       
-    
         return cell;
         
     } else {
-        
-        
-       
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
         if (!cell) {
@@ -1125,8 +1097,6 @@
 {
    
    if (self.isretern==NO) {
-    
-
     for (KindsLayoutModel *layout in self.layoutArray) {
        
         if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
@@ -1136,7 +1106,6 @@
             
             
             NSString *mober = layout.MobileSspDefaultValue;
-            
             
             NSString *aler =[self str:mober];
             //            @synchronized(self) {
@@ -1162,28 +1131,33 @@
                    
                     
                 }else
+                
                 {
                     NSString *msg =[responseObject objectForKey:@"msg"];
                     NSArray *array =[msg componentsSeparatedByString:@";"];
-                    
-                    
-                    
                     
                     for (int i=0; i<[array count]; i++) {
                         
                         NSString *ster =  [array objectAtIndex:i];
                      
-                        if(![ster isEqualToString:@""]){
+                        if(![ster isEqualToString:@""])
+                        {
                             NSArray *arcer =[ster componentsSeparatedByString:@":"];
                            self.namestr = [arcer objectAtIndex:1];
                             NSArray *f_id = [[arcer objectAtIndex:0] componentsSeparatedByString:@"="];
                             NSString *field =[[f_id objectAtIndex:0]stringByReplacingOccurrencesOfString:@"$" withString:@""];
                             self.messageid = [f_id objectAtIndex:1];
                             
+                            
+                            
                             NSLog(@"msg分割=%@",[array objectAtIndex:i] );
 
+                            
+                            
                             self.textfield = [self.cell_data objectForKey:field];
                             self.textfield.text = self.namestr;
+                            
+                            
                             [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
                             [self.tableViewDic setObject:self.namestr forKey:layout.key];
                             
@@ -1194,12 +1168,19 @@
                         
                     }
                     
+                    
+                    
                 }
                 
+            
+           
                 
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+                                               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
             }];
+            
+            
             [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
                 NSLog(@"totle %lld",totalBytesWritten);
             }];
@@ -1209,110 +1190,25 @@
         NSLog(@"请求成功");
         //[__lock unlock];
         
+        
+     
+        
+        
     }
     
     }
     //
     
 }
+
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     [self setdefaults];
 }
-//-(void)setdefaults
-//{
-//    for (KindsLayoutModel *layout in self.layoutArray) {
-//        if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
-//            
-//        }else {
-//            
-//          
-//          
-//         
-//            
-//        
-//            
-//           
-//           
-//            NSString *mober = layout.MobileSspDefaultValue;
-//            
-//            
-//            NSString *aler =[self str:mober];
-////            @synchronized(self) {
-//            
-//                NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,aler];
-//                
-//                
-//                NSLog(@"默认值的接口=%@",defaults);
-//               
-//            
-//            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//            
-//                                AFHTTPRequestOperation *op = [manager POST:[defaults stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//                    
-//                   
-//                    long error = [[responseObject objectForKey:@"error"] integerValue];
-//                    if (error==1) {
-////                        NSString *msg =[self.respondict objectForKey:@"msg"];
-//                       
-////                        [self setdefaults];
-////                        [SVProgressHUD showErrorWithStatus:msg];
-//                        
-//                    }else
-//                    {
-//                        NSString *msg =[responseObject objectForKey:@"msg"];
-//                        NSArray *array =[msg componentsSeparatedByString:@";"];
-//                        
-//                        
-//                        
-//                        
-//                        for (int i=0; i<[array count]; i++) {
-//                            
-//                            NSString *ster =  [array objectAtIndex:i];
-//                            
-//                            if(![ster isEqualToString:@""]){
-//                                NSArray *arcer =[ster componentsSeparatedByString:@":"];
-//                                NSString *t = [arcer objectAtIndex:1];
-//                                NSArray *f_id = [[arcer objectAtIndex:0] componentsSeparatedByString:@"="];
-//                                NSString *field =[[f_id objectAtIndex:0]stringByReplacingOccurrencesOfString:@"$" withString:@""];
-//                                NSString *ids = [f_id objectAtIndex:1];
-//                                
-//                                NSLog(@"msg分割=%@",[array objectAtIndex:i] );
-//                                
-//                                [self.XMLParameterDic setObject:ids forKey:layout.key];
-//                                [self.tableViewDic setObject:t forKey:layout.key];
-//                                NSString *sas ;
-//                                sas = [self.cell_data objectForKey:field];
-//                                sas = t;
-//                                 [self.tableView reloadData];
-//                               
-//                               
-//                                
-//                            }else{
-//                                
-//                            }
-//                            
-//                        }
-//                        
-//                    }
-//                
-//                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                    
-//                }];
-//                [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-//                    NSLog(@"totle %lld",totalBytesWritten);
-//                }];
-//            }
-//            NSLog(@"请求成功");
-//                //[__lock unlock];
-//                
-//        }
-//        
-//        
-////
-//       
-//    }
-//}
+
+
+
 //替换大括号字符串
 -(NSString *)str:(NSString *)mobel
 {
@@ -1419,9 +1315,7 @@
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#crolename" withString:crolename];
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusercode" withString:cusercode];
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusername" withString:cusername];
-    
-   
-   
+
     
     return mobel;
 }

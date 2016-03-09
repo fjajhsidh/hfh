@@ -39,13 +39,19 @@ static RequestCenter *defaultCenter;
 
     
     if (show) {
-        [SVProgressHUD showWithStatus:@"加载中..." maskType:2];
+        [SVProgressHUD showWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeNone];
+        
+        
+        
+        
+        
     }
 //    NSString *sig = [NSString stringWithFormat:@"%d%@%@%d2bdbe037abdf28a091e473ff5c86860c",2,IOS_VERSION,APP_VERSION,[DataManager shareManager].appID];
 //    // 公共请求参数
 //    NSString *publicParameters = [NSString stringWithFormat:@"s=%@&device=%d&os=%@&version=%@&app_id=%d&sig=%@&",URLString,2,IOS_VERSION,APP_VERSION,[DataManager shareManager].appID,[sig MD5]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
     
 //    //wo解决JSON解析数据中的<null>问题
 //    ((AFJSONResponseSerializer *)manager.responseSerializer).removesKeysWithNullValues = YES;
@@ -70,11 +76,12 @@ static RequestCenter *defaultCenter;
                                                                                          
                                                        [SVProgressHUD showErrorWithStatus:[infoDic objectForKey:@"msg"]];
                                                                                          failure(operation,nil);}
-                                                                                     
+                                              
                                                                                  }
                                                                                 
                                                                                  
                                                                                  // [SVProgressHUD showSuccessWithStatus:@"加载完成!"];
+                                                                                 
                                                                              }
                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                                                  failure(operation,error);

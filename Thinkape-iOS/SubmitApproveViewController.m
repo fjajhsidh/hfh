@@ -320,7 +320,9 @@
                           id dataArr = [responseObject objectForKey:@"msg"];
                           if ([dataArr isKindOfClass:[NSArray class]]) {
                               [self saveItemsToDB:dataArr callbakc:^(NSArray *modelArr) {
-                                  [self initItemView:modelArr tag:tag];
+                                 [self initItemView:modelArr tag:tag];
+                                  
+                              
                                   [SVProgressHUD dismiss];
                               }];
                           }
@@ -335,6 +337,7 @@
                           
                       }
             showLoadingStatus:YES];
+   
 }
 
 - (void)saveBills:(NSString *)ac{
@@ -457,7 +460,7 @@
                                               }
                                           }
                                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                              
+                                              [SVProgressHUD dismiss];
                                           }];
     
 }
@@ -873,8 +876,8 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     self.tagValue=textField.tag;
     self.textfield.tag = textField.tag;
-    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-    
+//    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
     NSString * category=[NSString stringWithFormat:@"%@",layoutModel.Name];
     NSLog(@"===%@",layoutModel.Name);
     
@@ -923,7 +926,7 @@
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
     
 //    if (![self isPureInt:textField.text] && [layoutModel.SqlDataType isEqualToString:@"number"] &&[textField.text rangeOfString:@"."].location&&![textField.text isEqualToString:@""]==NSNotFound) {
 //        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
@@ -963,14 +966,15 @@
     return YES;
 }
 -(void)sender:(NSString *)str{
-    UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
+//    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
+      UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
 //    if (![str isEqualToString:@"0"]) {
 //        textField.text=str;
 //    }
     textField.text=str;
     NSLog(@"-----%@",str);
-    
-    [textField resignFirstResponder];
+    [self.calculatorView removeFromSuperview];
+    //[textField resignFirstResponder];
     
 }
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -1105,7 +1109,7 @@
         [cell.contentView addSubview:addImage];
 //        [self Message];
        
-       
+       [self setdefaults];
         return cell;
        
     }
@@ -1188,7 +1192,7 @@
 //                            sas = [self.cell_data objectForKey:field];
 //                            sas = t;
 //                            [self.tableView reloadData];
-                            self.textfield = [self.cell_data objectForKey:field];
+                            self.textfield = [self.cell_data objectForKey:layout.Field];
                             self.textfield.text = self.namestr;
                             [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
                             [self.tableViewDic setObject:self.namestr forKey:layout.key];
@@ -1214,7 +1218,7 @@
         }
      
         
-
+        
         
         NSLog(@"请求成功");
         //[__lock unlock];
@@ -1225,10 +1229,13 @@
     //
     
 }
--(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    [self setdefaults];
-}
+
+
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+//{
+//    [self setdefaults];
+//}
+
 //-(void)setdefaults
 //{
 //    for (KindsLayoutModel *layout in self.layoutArray) {

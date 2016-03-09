@@ -753,6 +753,7 @@
                           if ([dataArr isKindOfClass:[NSArray class]]) {
                               [self saveItemsToDB:dataArr callbakc:^(NSArray *modelArr) {
                                   [self initItemView:modelArr tag:tag];
+                                  
                                   [SVProgressHUD dismiss];
                               }];
                           }

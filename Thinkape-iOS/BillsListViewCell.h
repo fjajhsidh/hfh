@@ -17,4 +17,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *billNum;
 @property (weak, nonatomic) IBOutlet UILabel *billPrice;
 
+
+
+//
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+
+
+
 @end

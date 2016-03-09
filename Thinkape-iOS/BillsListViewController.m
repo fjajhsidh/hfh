@@ -170,21 +170,36 @@
     cell.billPrice.text = [NSString stringWithFormat:@"￥%@",model.billmoney];
     cell.billName.text = model.pagename;
     
+    //
+    NSString *str = [model.pagename substringToIndex:1];
+    
+    
     cell.billTime.text = model.opdate;
     cell.nameLabel.text = [NSString stringWithFormat:@"%@  %@",model.uid,model.deptid];
     cell.billProcess.text = model.flowstatus.length > 0 ? model.flowstatus : @"";
     
-    if ([ac isEqualToString:@"GetMyBorList"]) {
-        cell.billTypeImage.image = [UIImage imageNamed:@"money"];
+    if ([str isEqualToString:@"差"]) {
+        cell.billTypeImage.image = [UIImage imageNamed:@"chailv.jpg"];
     }
-    else if ([ac isEqualToString:@"GetMyReqList"]) {
-        cell.billTypeImage.image = [UIImage imageNamed:@"apply"];
-    }
-    else if ([ac isEqualToString:@"GetMyAfrList"]){
-        cell.billTypeImage.image = [UIImage imageNamed:@"borrow"];
+    else if ([str isEqualToString:@"招"]) {
+        cell.billTypeImage.image = [UIImage imageNamed:@"zhaodai.jpg"];
     }
     
+    else if ([str isEqualToString:@"普"]) {
+        cell.billTypeImage.image = [UIImage imageNamed:@"putong.jpg"];
+    }
+    else if ([ac isEqualToString:@"借"]){
+        cell.billTypeImage.image = [UIImage imageNamed:@"jiekuan.jpg"];
+    }
+    else {
+        cell.billTypeImage.image = [UIImage imageNamed:@"qita.jpg"];
+    }
+
     
+    //
+    cell.titleLabel.text = str;
+    
+
     return cell;
 }
 

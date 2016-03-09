@@ -809,6 +809,12 @@
                                                                     <color key="textColor" red="0.94901960780000005" green="0.2470588235" blue="0.30588235289999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="青" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fCC-Om-hId">
+                                                                    <rect key="frame" x="8" y="7.5" width="51" height="44.5"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
@@ -889,6 +895,7 @@
                                             <outlet property="rightCconstraint" destination="Ebq-CJ-OZj" id="MDi-ns-JDM"/>
                                             <outlet property="selectBtn" destination="stq-g4-NMS" id="x6C-ax-SSm"/>
                                             <outlet property="time" destination="goR-en-Q0g" id="ytS-vz-9nY"/>
+                                            <outlet property="titleLabel" destination="fCC-Om-hId" id="Src-DW-amh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1176,6 +1183,11 @@
                                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="青" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxS-OX-4Io">
+                                                            <rect key="frame" x="0.0" y="8" width="68" height="43"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1215,7 +1227,8 @@
                                             <outlet property="billProcess" destination="lQr-4g-qYG" id="czb-TN-uak"/>
                                             <outlet property="billTime" destination="rz9-bc-S3n" id="9Ul-bs-Wso"/>
                                             <outlet property="billTypeImage" destination="6Kt-za-rnR" id="etA-o3-a3A"/>
-                                            <outlet property="nameLabel" destination="dyj-uP-y2v" id="3eG-Uz-aBr"/>
+                                            <outlet property="nameLabel" destination="yxS-OX-4Io" id="IsC-qG-ZgD"/>
+                                            <outlet property="titleLabel" destination="yxS-OX-4Io" id="5S2-KC-gSZ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1254,7 +1267,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SwN-LJ-6xq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2568.5" y="305.5"/>
+            <point key="canvasLocation" x="2604.5" y="305.5"/>
         </scene>
         <!--Bills Detail View Controller-->
         <scene sceneID="Gu5-N0-lYD">
@@ -2696,6 +2709,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="vYZ-wD-m7k"/>
-        <segue reference="ArL-cg-Yb1"/>
+        <segue reference="7yF-0V-txM"/>
     </inferredMetricsTieBreakers>
 </document>

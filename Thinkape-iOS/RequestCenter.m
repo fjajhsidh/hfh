@@ -37,20 +37,33 @@ static RequestCenter *defaultCenter;
                      showLoadingStatus:(BOOL)show{
     
 
-    
     if (show) {
-        [SVProgressHUD showWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeNone];
         
-        
-        
-        
+        [SVProgressHUD showWithStatus:@"加载中..." maskType:1];
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 //    NSString *sig = [NSString stringWithFormat:@"%d%@%@%d2bdbe037abdf28a091e473ff5c86860c",2,IOS_VERSION,APP_VERSION,[DataManager shareManager].appID];
 //    // 公共请求参数
 //    NSString *publicParameters = [NSString stringWithFormat:@"s=%@&device=%d&os=%@&version=%@&app_id=%d&sig=%@&",URLString,2,IOS_VERSION,APP_VERSION,[DataManager shareManager].appID,[sig MD5]];
+    
+    
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    //超时：
+    manager.requestSerializer.timeoutInterval = 10;
     
     
 //    //wo解决JSON解析数据中的<null>问题

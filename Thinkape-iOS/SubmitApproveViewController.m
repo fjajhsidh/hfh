@@ -351,6 +351,7 @@
                             [SVProgressHUD dismiss];
                       }
             showLoadingStatus:YES];
+   
 }
 
 
@@ -478,7 +479,7 @@
                                               }
                                           }
                                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                              
+                                              [SVProgressHUD dismiss];
                                           }];
     
 }
@@ -887,8 +888,8 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     self.tagValue=textField.tag;
     self.textfield.tag = textField.tag;
-    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
-    
+//    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+     KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
     NSString * category=[NSString stringWithFormat:@"%@",layoutModel.Name];
     NSLog(@"===%@",layoutModel.Name);
     
@@ -952,14 +953,15 @@
     return YES;
 }
 -(void)sender:(NSString *)str{
-    UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
+//    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
+      UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
 //    if (![str isEqualToString:@"0"]) {
 //        textField.text=str;
 //    }
     textField.text=str;
     NSLog(@"-----%@",str);
-    
-    [textField resignFirstResponder];
+    [self.calculatorView removeFromSuperview];
+    //[textField resignFirstResponder];
     
 }
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -1085,7 +1087,7 @@
         [cell.contentView addSubview:addImage];
 //        [self Message];
        
-       
+       [self setdefaults];
         return cell;
        
     }

@@ -19,7 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property(nonatomic,strong)NSMutableArray *dataArr;
-
+@property(nonatomic,assign)int firstindex;
+@property(nonatomic,assign)BOOL ishandan;
 @end
 
 @implementation Bianjito
@@ -219,7 +220,7 @@
                  
 
                   LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
-                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                  _dataArr = [_costDataArr safeObjectAtIndex:_index];
                    
                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
                     
@@ -243,11 +244,12 @@
                         
                         
                         }
-                        else
+                      if(indexPath.row!=_indexRow+2)
                        {
                        
-                         
+                          
                         label.text = [_datar objectForKey:layoutModel.fieldname];
+                           
                            
                        }
                     
@@ -278,8 +280,11 @@
                     
                     if (self.editstart==NO||self.isstrart==NO) {
                          label.text = [_datar objectForKey:layoutModel.fieldname];
+                       
+                        
+                        _firstindex = 2;
                     }
-                 
+                    
                    
                     
                     NSLog(@"%@",label.text);
@@ -308,15 +313,15 @@
     return cell;
     
 }
--(void)saveto
+-(void)saveto:(NSMutableDictionary *)save
 {
-    NSDictionary *dic =@{@"sda":_datar};
+    NSDictionary *dic =@{@"sda":save};
     [dic writeToFile:[self filePath] atomically:YES];
 }
--(void)readtodate
+-(void)readtodate:(NSMutableDictionary *)read
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-   _datar= [dic objectForKey:@"sda"];
+   read= [dic objectForKey:@"sda"];
 }
 -(NSString *)filePath{
     NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
@@ -350,26 +355,56 @@
     
         
      _indexRow = indexPath.row-2;
-    if (indexPath.row == _indexRow+2) {
+    if (indexPath.row == _indexRow+2||_firstindex==2) {
         
         if (self.editstart==NO) {
+        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+        app.dict = _datar;
+        _ishandan=YES;
+        
             
-            app.dict = _datar;
         }
+        _firstindex = 1;
         if (self.editstart==YES) {
+            if (_firstindex==1) {
+                if (indexPath.row==_indexRowss+2) {
+                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                    _datar= self.editnew;
+                    app.dict = _datar;
+                    [self.tableview reloadData];
+                                    }
+                else
+                {
+                    if (_ishandan==NO) {
+                        _datar= self.editnew;
+                        app.dict = _datar;
+                        [self.tableview reloadData];
+                    }
+                    else
+                    {
+                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                    app.dict = _datar;
+                        [self.tableview reloadData];
+                    }
+
+                }
+            
+               
+            }
+           else
+           {
+            _datar = self.editnew;
             app.dict = _datar;
+               [self.tableview reloadData];
+            
+           }
         }
        
     }
     else
     {
-        if (self.editstart==NO) {
-            
-            app.dict = _datar;
-        }
-        if (self.editstart==YES) {
-            app.dict = _datar;
-        }
+        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+        app.dict = _datar;
     }
  
 

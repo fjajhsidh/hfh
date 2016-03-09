@@ -89,11 +89,12 @@ static RequestCenter *defaultCenter;
                                                                                          
                                                        [SVProgressHUD showErrorWithStatus:[infoDic objectForKey:@"msg"]];
                                                                                          failure(operation,nil);}
-                                                                                     
+                                              
                                                                                  }
                                                                                 
                                                                                  
                                                                                  // [SVProgressHUD showSuccessWithStatus:@"加载完成!"];
+                                                                                 
                                                                              }
                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                                                  failure(operation,error);

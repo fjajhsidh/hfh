@@ -16,4 +16,7 @@
 @property (nonatomic, strong) NSString *barText;
 
 
+
+
+
 @end

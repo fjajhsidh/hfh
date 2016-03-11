@@ -22,7 +22,7 @@ static RequestCenter *defaultCenter;
                         success:(void (^)(AFHTTPRequestOperation *operation,  NSDictionary *responseObject))success
                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure{
 
-    return     [RequestCenter GetRequest:URLString
+    return  [RequestCenter GetRequest:URLString
                               parameters:parameters
                                  success:success
                                  failure:failure
@@ -100,6 +100,7 @@ static RequestCenter *defaultCenter;
                                                                                  NSLog(@"error :%@",error);
                                                                                  [SVProgressHUD showErrorWithStatus:@"网络错误，请稍后再试"];
                                                                              }];
+    
     return operation;
     
 }

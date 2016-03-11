@@ -184,6 +184,10 @@
                       }
             showLoadingStatus:YES];
     
+    
+    
+    
+    
 }
 
 #pragma mark - Navigation
@@ -209,11 +213,13 @@
         AppDelegate * app=[UIApplication sharedApplication].delegate;
         app.danJu=@"已完成审批";
     }
+    
     if ([segue.identifier isEqualToString:@"LinkVC"]) {
         LinkViewController *link = (LinkViewController *)segue.destinationViewController;
         link.linkStyle = 0;
         link.titleStr = @"联系人";
     }
+    
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }

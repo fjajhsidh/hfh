@@ -36,7 +36,8 @@
 
 #import "AppDelegate.h"
 
-@interface SubmitApproveViewController () <KindsItemsViewDelegate,CTAssetsPickerControllerDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,CalculatorResultDelegate>
+@interface SubmitApproveViewController () <KindsItemsViewDelegate,CTAssetsPickerControllerDelegate,SDPhotoBrowserDelegate,UIScrollViewDelegate,
+QLPreviewControllerDataSource,CalculatorResultDelegate>
 {
     NSString *delteImageID;
     NSString *sspid;
@@ -88,8 +89,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
-   
+    
     _searchArray = [[NSMutableArray alloc] init];
     _selectModel = [[KindsModel alloc] init];
     _layoutArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -324,6 +324,19 @@
 
 - (void)requestKindsDataSource:(KindsLayoutModel *)model{
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
+    
+//    NSString *sqlstr =model.MobileSspDataSourceWhere;
+    /**
+     *  首先判断是否为空，空的话 就传空值，不为空替换
+     */
+//    if ([sqlstr isEqualToString:@""]) {
+//        
+//    }else{
+//        
+//    }
+    
+    
+    
     NSInteger tag= [self.layoutArray indexOfObject:model];
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
                    parameters:nil
@@ -401,8 +414,6 @@
                                                    [self uploadImage:dic[@"sspid"] ac:ac2 inde:0];
                                                }
                                                else{
-                                                   
-                                                   
                                                    
                                                    if (commintBills==YES) {
                                                        if (self.type==0) {
@@ -972,7 +983,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (self.layoutArray.count ==0) {
+    if (self.layoutArray.count == 0) {
         return 0;
     }
     else
@@ -982,15 +993,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  
+    
+
     if (indexPath.row != self.layoutArray.count) {
         
         KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:indexPath.row];
         NSString *cellID = @"cell";
         BillsLayoutViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         cell.category.text = [NSString stringWithFormat:@"%@:",layoutModel.Name];
-       cell.contentText.tag = indexPath.row;
-      
+       
+        cell.contentText.tag = indexPath.row;
+
+
         if(indexPath.row == 0){
             
         }else{
@@ -1002,7 +1016,7 @@
         NSLog(@"值%@",value);
         cell.contentText.text = value;
         cell.contentText.enabled = YES;
-        if (indexPath.row == 0 &&self.type == 0) {
+        if (indexPath.row == 0 && self.type == 0) {
             cell.contentText.text = _selectModel.cname;
             cell.contentText.enabled = NO;
         }
@@ -1017,9 +1031,9 @@
                 cell.contentText.keyboardType =UIKeyboardTypeDecimalPad ;
             }
         }
-      
+    
         return cell;
-        
+    
     } else {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
@@ -1045,6 +1059,7 @@
                 [btn setImage:[UIImage imageNamed:@"word"] forState:UIControlStateNormal];
             }
             else{
+                
                 [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:model.FilePath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"ab_nav_bg"]];
             }
             btn.tag = 1024+ i;
@@ -1087,131 +1102,135 @@
         [cell.contentView addSubview:addImage];
 //        [self Message];
        
-       [self setdefaults];
+//       [self setdefaults];
+        
+        
+        [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
+        
+        
         return cell;
        
     }
-    
+
+
 }
+
+
+
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.tableView reloadData];
+}
+
+
+
 
 
 -(void)setdefaults
 {
    
    if (self.isretern==NO) {
-    for (KindsLayoutModel *layout in self.layoutArray) {
+    
+       for (KindsLayoutModel *layout in self.layoutArray) {
        
-        if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
+       
+           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
             
-          
-        }else {
+           }else {
             
+               NSString *mober = layout.MobileSspDefaultValue;
             
-            NSString *mober = layout.MobileSspDefaultValue;
-            
-            NSString *aler =[self str:mober];
+               NSString *aler =[self str:mober];
             //            @synchronized(self) {
+               NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,aler];
+        
+               NSLog(@"默认值的接口=%@",defaults);
+               AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
             
-            NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,aler];
-            
-            
-            NSLog(@"默认值的接口=%@",defaults);
-            
-           
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            
-            AFHTTPRequestOperation *op = [manager POST:[defaults stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                
+               AFHTTPRequestOperation *op = [manager POST:[defaults stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   long error = [[responseObject objectForKey:@"error"] integerValue];
                
-                
-               long error = [[responseObject objectForKey:@"error"] integerValue];
-                if (error!=0) {
-                    //                        NSString *msg =[self.respondict objectForKey:@"msg"];
-                  
-                    //                        [self setdefaults];
-                    //                        [SVProgressHUD showErrorWithStatus:msg];
-                   
+                   if (error!=0) {
                     
-                }else
-                
-                {
-                    NSString *msg =[responseObject objectForKey:@"msg"];
-                    NSArray *array =[msg componentsSeparatedByString:@";"];
+                   }else{
                     
-                    for (int i=0; i<[array count]; i++) {
+                       NSString *msg =[responseObject objectForKey:@"msg"];
+                       NSArray *array =[msg componentsSeparatedByString:@";"];
+                       
+                       for (int i=0; i<[array count]; i++) {
+                           NSString *ster =  [array objectAtIndex:i];
                         
-                        NSString *ster =  [array objectAtIndex:i];
-                     
-                        if(![ster isEqualToString:@""])
-                        {
-                            NSArray *arcer =[ster componentsSeparatedByString:@":"];
-                           self.namestr = [arcer objectAtIndex:1];
-                            NSArray *f_id = [[arcer objectAtIndex:0] componentsSeparatedByString:@"="];
-                            NSString *field =[[f_id objectAtIndex:0]stringByReplacingOccurrencesOfString:@"$" withString:@""];
-                            self.messageid = [f_id objectAtIndex:1];
+                           if(![ster isEqualToString:@""]) {
+                           
+                               NSArray *arcer =[ster componentsSeparatedByString:@":"];
+                               self.namestr = [arcer objectAtIndex:1];
+                               NSArray *f_id = [[arcer objectAtIndex:0] componentsSeparatedByString:@"="];
+                           
+                               NSString *field =[[f_id objectAtIndex:0]stringByReplacingOccurrencesOfString:@"$" withString:@""];
+                           
+                               self.messageid = [f_id objectAtIndex:1];
+                               NSLog(@"msg分割=%@",[array objectAtIndex:i] );
+                               self.textfield = [self.cell_data objectForKey:field];
+                               self.textfield.text = self.namestr;
                             
-                            
-                            
-                            NSLog(@"msg分割=%@",[array objectAtIndex:i] );
+                               [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
+                           
+                               [self.tableViewDic setObject:self.namestr forKey:layout.key];
 
                             
-                            
-                            self.textfield = [self.cell_data objectForKey:field];
-                            self.textfield.text = self.namestr;
-                            
-                            
-                            [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
-                            [self.tableViewDic setObject:self.namestr forKey:layout.key];
-                            
-                           
-                        }else{
-                            
-                        }
+                           }else{
                         
-                    }
-                    
-                    
-                    
-                }
+                           }
+                           
+                           
+//                           [self.tableView reloadData];
+                           
+                       }
+//                         [self.tableView reloadData];
+
+                   }
+
+               }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
-            
+                   [SVProgressHUD dismiss];
            
-                
-            }
-                                               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                
-            }];
-            
-            
-            [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-                NSLog(@"totle %lld",totalBytesWritten);
-            }];
-        }
-     
+               }];
+           
+               [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+               
+                   NSLog(@"totle %lld",totalBytesWritten);
+           
+               }];
+       
+           }
     
-        NSLog(@"请求成功");
+           NSLog(@"请求成功");
         //[__lock unlock];
-        
-        
-     
-        
-        
-    }
     
-    }
-    //
+       }
+    
+     
+   
+   }
     
 }
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
+    
+    NSLog(@"hah ");
+    
     [self setdefaults];
+    
+//    [self.tableView reloadData];
 }
 
 
 
-//替换大括号字符串
+//替换大括号字符串 包括#
 -(NSString *)str:(NSString *)mobel
 {
     NSDictionary *icer =[NSDictionary dictionary];
@@ -1400,6 +1419,8 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+
 
 @end
 

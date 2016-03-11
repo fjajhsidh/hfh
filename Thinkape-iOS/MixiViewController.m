@@ -96,7 +96,6 @@
     UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
     
-    
     [btn setTitle:@"保 存" forState:UIControlStateNormal];
     //设置边框为圆角
     [btn.layer setMasksToBounds:YES];

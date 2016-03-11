@@ -187,7 +187,7 @@
    
     [view closed];
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
      self.isretern=YES;
 }
 
@@ -1087,7 +1087,7 @@
         [cell.contentView addSubview:addImage];
 //        [self Message];
        
-       [self setdefaults];
+        [self setdefaults];
         return cell;
        
     }
@@ -1203,11 +1203,6 @@
     
 }
 
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    [self setdefaults];
-}
 
 
 

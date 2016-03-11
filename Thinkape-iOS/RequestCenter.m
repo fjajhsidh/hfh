@@ -62,8 +62,7 @@ static RequestCenter *defaultCenter;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
-    //超时：
-    manager.requestSerializer.timeoutInterval = 10;
+
     
     
 //    //wo解决JSON解析数据中的<null>问题

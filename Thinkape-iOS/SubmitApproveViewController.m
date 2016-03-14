@@ -291,6 +291,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     NSInteger tag= [self.layoutArray indexOfObject:model];
     if (model.datasource.length != 0) {
         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
+        
         if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.DataVer : @"0.01"] && oldDataVer.length >0) {
             NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
            
@@ -969,7 +970,13 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 //    if (![str isEqualToString:@"0"]) {
 //        textField.text=str;
 //    }
+    if ([str isEqualToString:@"0"]) {
+        textField.text = @"";
+    }
+    else
+    {
     textField.text=str;
+    }
     NSLog(@"-----%@",str);
     [self.calculatorView removeFromSuperview];
     //[textField resignFirstResponder];
@@ -1114,10 +1121,10 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.tableView reloadData];
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    [self.tableView reloadData];
+//}
 
 
 
@@ -1189,7 +1196,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
                }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
-                   [SVProgressHUD dismiss];
+                  
            
                }];
            

@@ -35,23 +35,28 @@
 {
     [self viewDidLoad];
    
-    
+ 
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
    
     self.title = @"明 细";
-    
+   
     itemWidth = 80;
     speace = 20;
-  
+   
     
+    if (_dataArr.count!=0) {
+        [self readtoarray];
+        _firstindex=1;
+    }
+ 
     [self addRightNavgation];
     [self itemLength];
     [self layoutScroll];
     self.scrollview.bounces=NO;
     self.navigationController.navigationBarHidden=NO;
-    if (self.editstart==YES) {
+    if (self.editstart==YES||self.isstrart==YES) {
         [self.tableview reloadData];
     }
    
@@ -195,12 +200,9 @@
                 else
                 {
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
-                    
-                    
+                
                     label.text = layoutModel.name;
-                 
-                    
-                    
+                
                 }
       
                 if (button.tag==1) {
@@ -217,76 +219,127 @@
                 }
              
                 else{
-                 
-
+                   
                   LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
+                    
                   _dataArr = [_costDataArr safeObjectAtIndex:_index];
                    
-                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    
+                  _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+               
                    
                     //判断传值是否经过传值而过来的字典
                  
-                    
+                [self savetoarray];
                 
-                    
-                    if (_index==0) {
-                        
-                    
-                    if (self.editstart==YES) {
-                        //通过我的点的行数，值就会带到那行
-                       if (indexPath.row==_indexRow+2) {
-                          
-                        _datar = self.editnew;
-                        
-                        label.text = [_datar objectForKey:layoutModel.fieldname];
+                if (_index==0) {
                         
                         
-                        
-                        }
-                      if(indexPath.row!=_indexRow+2)
-                       {
-                       
-                          
-                        label.text = [_datar objectForKey:layoutModel.fieldname];
+                        if (self.editstart==YES) {
+                            //通过我的点的行数，值就会带到那行
+//                                                  if (indexPath.row==_indexRow+2) {
+                            
+                           
+                            
+                            NSMutableDictionary *adc =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+                            if (adc.count==0) {
+                                
+                            }
+                             else
+                             {
+                            NSMutableArray *sad =[NSMutableArray arrayWithArray:_dataArr];
+                            [sad replaceObjectAtIndex:_indexRow withObject:adc];
+                                 _dataArr = sad;
+                             }
+                            
+                            //替换数组
+                            
+                            
+                            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                            
+                            NSString *cc = [_datar objectForKey:layoutModel.fieldname];
+                           
+                            
+                            label.text =cc;
+                            
+                            _firstindex=2;
                            
                            
-                       }
-                    
-                    
-                     
-                       
-                    
+                            
+              //  }
                
+                      
+                            
+                            
+                            
+                            
+                            
+                            
+                        }
+                        
+                        
                     }
-                
-                
+                    if (_index==1) {
+                        if (self.isstrart==YES&&self.isstrart==NO) {
+                            
+                            if (self.editxiao.count !=0) {
+                                
+                            
+                            NSMutableDictionary *adc =[NSMutableDictionary dictionaryWithDictionary:self.editxiao];
+                          
+                            NSMutableArray *sad =[NSMutableArray arrayWithArray:_dataArr];
+                            [sad replaceObjectAtIndex:_indexRow withObject:adc];
+                            
+                            _dataArr = sad;
+                            //替换数组
+                            
+                            }
+                            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                            
+                            NSString *cc = [_datar objectForKey:layoutModel.fieldname];
+                            
+                            
+                            label.text =cc;
+                            
+                           
+                            _firstindex=1;
+                        }
+                        [self savetoarray];
                     }
                     
-                   
-                   
                     
                     
-                  
+
                     
-                   
                     
-                    NSLog(@"_datar====%@",_datar);
+                    
+                    
+                                        NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
-                  
+                    
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
                     
                     
                     if (self.editstart==NO||self.isstrart==NO) {
-                         label.text = [_datar objectForKey:layoutModel.fieldname];
+                      
+                        if (_firstindex==1) {
+                            
+                            [self readtoarray];
+                            
+                             _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                            
+                        }else
+                        {
+                          
+                        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                        label.text = [_datar objectForKey:layoutModel.fieldname];
+                           
+                        }
                        
-                        
-                        _firstindex = 2;
                     }
-                    
+                 
+                  
                    
-                    
                     NSLog(@"%@",label.text);
 
                  }
@@ -309,7 +362,7 @@
         
         
     }
-   
+    
     return cell;
     
 }
@@ -317,6 +370,7 @@
 {
     NSDictionary *dic =@{@"sda":save};
     [dic writeToFile:[self filePath] atomically:YES];
+    
 }
 -(void)readtodate:(NSMutableDictionary *)read
 {
@@ -344,70 +398,21 @@
     
     AppDelegate *app =[UIApplication sharedApplication].delegate;
    
-//    _datar = [_dataArr safeObjectAtIndex:_indexRow];
-//    if (self.editstart==YES) {
-//    _datar=self.self.editnew;
-//     app.dict = _datar;
-//    }else
-//    {
-//     app.dict=_datar;
-//    }
+
     
         
      _indexRow = indexPath.row-2;
-    if (indexPath.row == _indexRow+2||_firstindex==2) {
-        
-        if (self.editstart==NO) {
-        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-        app.dict = _datar;
-        _ishandan=YES;
-        
-            
-        }
-        _firstindex = 1;
-        if (self.editstart==YES) {
-            if (_firstindex==1) {
-                if (indexPath.row==_indexRowss+2) {
-                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    _datar= self.editnew;
-                    app.dict = _datar;
-                    [self.tableview reloadData];
-                                    }
-                else
-                {
-                    if (_ishandan==NO) {
-                        _datar= self.editnew;
-                        app.dict = _datar;
-                        [self.tableview reloadData];
-                    }
-                    else
-                    {
-                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    app.dict = _datar;
-                        [self.tableview reloadData];
-                    }
 
-                }
-            
-               
-            }
-           else
-           {
-            _datar = self.editnew;
-            app.dict = _datar;
-               [self.tableview reloadData];
-            
-           }
-        }
-       
-    }
-    else
-    {
-        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+    if (self.isstrart ==NO) {
+        
         app.dict = _datar;
     }
- 
-
+    if (self.isstrart ==YES||_firstindex==1) {
+        app.dict=_datar;
+    
+      
+    }
+   
 
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
@@ -419,7 +424,22 @@
     
 }
 
-
+-(void)readtoarray
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self fileArray]];
+   _dataArr= [dic objectForKey:@"sda"];
+}
+-(void)savetoarray
+{
+    NSDictionary *dic =@{@"sda":_dataArr};
+    [dic writeToFile:[self filePath] atomically:YES];
+}
+-(NSString *)fileArray{
+    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"arraya.txt"];
+    NSLog(@"文件夹位置%@",filePath);
+    return filePath;
+}
 -(void)buttonaction
 {
  

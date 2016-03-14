@@ -574,7 +574,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     });
     
 }
-
 - (void)saveLayoutKindsToDB:(NSDictionary *)dataDic callbakc:(void (^)(void))callBack{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         for (NSString *key in dataDic.allKeys) {
@@ -1039,6 +1038,11 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
             }
         }
     
+        
+        
+        
+        [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
+        
         return cell;
     
     } else {
@@ -1109,7 +1113,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [cell.contentView addSubview:addImage];
 //        [self Message];
        
-        [self setdefaults];
+       
         return cell;
        
     }
@@ -1218,7 +1222,13 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    }
     
 }
-
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self setdefaults];
+    
+    
+    
+}
 
 
 

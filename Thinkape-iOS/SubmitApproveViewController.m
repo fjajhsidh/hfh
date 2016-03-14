@@ -192,7 +192,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    
     [view closed];
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
      self.isretern=YES;
 }
 
@@ -1250,16 +1250,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
 }
 
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    
-    NSLog(@"hah ");
-    
-    [self setdefaults];
-    
-//    [self.tableView reloadData];
-}
 
 
 

@@ -43,7 +43,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     NSString *sspid;
     BOOL commintBills;
     BOOL isSingal;
-    
+    NSString *_sqlstr;
+//    NSString *_field;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -89,6 +90,10 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+//    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
+    
     
     _searchArray = [[NSMutableArray alloc] init];
     _selectModel = [[KindsModel alloc] init];
@@ -257,8 +262,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                           [self.layoutArray removeAllObjects];
                           NSDictionary *dataDic = [[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"];
                     
-                         
-                          
                           KindsLayoutModel *layoutModel = [[KindsLayoutModel alloc] init];
                          layoutModel.Name = @"类别";
                          
@@ -287,58 +290,88 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 
 - (void)kindsDataSource:(KindsLayoutModel *)model{
+    
+    
     NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
     NSInteger tag= [self.layoutArray indexOfObject:model];
+   
+
     if (model.datasource.length != 0) {
         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
-        if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.DataVer : @"0.01"] && oldDataVer.length >0) {
-            NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
-           
-            [SVProgressHUD showWithStatus:nil maskType:2];
-            [self fetchItemsData:str callbakc:^(NSArray *arr) {
+        
+        
+         _sqlstr =model.MobileSspDataSourceWhere;
+        /**
+         *  首先判断是否为空，空的话 就传空值，不为空替换
+         */
+        if ([_sqlstr isEqualToString:@""]) {
+            
+        
+            if ([oldDataVer isEqualToString:model.DataVer.length >0 ? model.DataVer : @"0.01"] && oldDataVer.length >0) {
+            
+                NSString *str = [NSString stringWithFormat:@"datasource like %@ ",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
+                [SVProgressHUD showWithStatus:nil maskType:2];
+                [self fetchItemsData:str callbakc:^(NSArray *arr) {
+                    if (arr.count == 0) {
+                    
+                        [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
+                    
+                        [self requestKindsDataSource:model];
                 
-                if (arr.count == 0) {
-                    [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str data:[NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length >0 ? model.DataVer : @"0.01",@"dataVer", nil]];
-                    [self requestKindsDataSource:model];
-                }
-                else{
-                    [SVProgressHUD dismiss];
-                    [self initItemView:arr tag:tag];
-                }
+                    }else{
+                    
+                        [SVProgressHUD dismiss];
+                        [self initItemView:arr tag:tag];
                 
-            }];
-        }
-        else
-        {
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length > 0 ? model.DataVer : @"0.01",@"dataVer", nil];
-            [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
+                    }
+                }];
+        
+            }else{
+                NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:model.DataVer.length > 0 ? model.DataVer : @"0.01",@"dataVer", nil];
+            
+                [[CoreDataManager shareManager] updateModelForTable:@"KindsLayout" sql:str1 data:dic];
+                [self requestKindsDataSource:model];
+        
+            }
+        
+        }else{
+            
+            _sqlstr = [self str:_sqlstr];
             [self requestKindsDataSource:model];
         }
-        
     }
 }
+
+
 /**
  *  请求 详细数据分类
  *
  */
 
+
+
 - (void)requestKindsDataSource:(KindsLayoutModel *)model{
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
+    
     
 //    NSString *sqlstr =model.MobileSspDataSourceWhere;
     /**
      *  首先判断是否为空，空的话 就传空值，不为空替换
      */
-//    if ([sqlstr isEqualToString:@""]) {
-//        
-//    }else{
-//        
-//    }
-    
-    
+    if ([_sqlstr isEqualToString:@""]) {
+        
+    }else{
+        
+        _sqlstr = [self str:_sqlstr];
+    }
     
     NSInteger tag= [self.layoutArray indexOfObject:model];
-    [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
+    
+    NSString *str0 = [NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0&q=%@",self.uid,model.datasource,_sqlstr];
+   
+    NSString *str1 = [str0 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [RequestCenter GetRequest:str1
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           id dataArr = [responseObject objectForKey:@"msg"];
@@ -349,16 +382,12 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                   [SVProgressHUD dismiss];
                                   
                               }];
-                              
-                              
                           }
                           else
                           {
                               [SVProgressHUD showInfoWithStatus:@"请求数据失败。"];
                               [SVProgressHUD dismiss];
                           }
-                          
-                      
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                             [SVProgressHUD dismiss];
@@ -368,8 +397,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 }
 
 
-
-
+//递交申请
 - (void)saveBills:(NSString *)ac{
     NSString *xmlParameter = [self XMLParameter];
     if (xmlParameter.length == 0) {
@@ -534,6 +562,10 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     //http://27.115.23.126:3032/ashx/mobilenew.ashx?ac= SspCGToBills &u=9& sspid =3,4,5,6,7
     NSString *billsspid = commintBills ? sspid : _editModel.SspID;
     NSString *url = [NSString stringWithFormat:@"ac=SspCGToBills&u=%@&sspid=%@",self.uid,billsspid];
+    
+    
+//    NSString *str1 = @"http://27.115.23.126:5032/ashx/mobileNew.ashx?ac=GetDataSourceNew&u=1&datasource=410202&dataver=0&q=and cDepName like '%财%'";
+    
     [RequestCenter GetRequest:url
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -582,10 +614,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                 [layoutModel setValuesForKeysWithDictionary:[dataDic objectForKey:key]];
                 layoutModel.key = key;
                
-                
                 [self.layoutArray addObject:layoutModel];
                
-                
                 if (self.type == 1) {
                     [self.tableViewDic setObject:layoutModel.Text forKey:layoutModel.key];
                     if (layoutModel.datasource.length != 0) {
@@ -595,7 +625,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                         [self.XMLParameterDic setObject:layoutModel.Text forKey:layoutModel.key];
                     
                 }
-                
                 
                 if (layoutModel.datasource.length > 0) {
                     NSString *str = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",layoutModel.datasource]];
@@ -682,8 +711,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
     
 }
-
-
 
 - (BOOL)isPureInt:(NSString*)string{
     //  [NSScanner scannerWithString:string];
@@ -963,18 +990,39 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
     return YES;
 }
+
+
+//执行计算器单击确认的操作
 -(void)sender:(NSString *)str{
 //    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
+    
+    
       UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
+    
+    
 //    if (![str isEqualToString:@"0"]) {
 //        textField.text=str;
 //    }
-    textField.text=str;
+//    textField.text=str;
+    
+    double number = [str doubleValue];
+    
+    if (number == 0){
+        textField.text = @"";
+        
+    }else{
+        textField.text = str;
+    }
+    
+
     NSLog(@"-----%@",str);
     [self.calculatorView removeFromSuperview];
     //[textField resignFirstResponder];
     
 }
+
+
+
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.calculatorView removeFromSuperview];
     
@@ -994,7 +1042,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-
     if (indexPath.row != self.layoutArray.count) {
         
         KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:indexPath.row];
@@ -1102,29 +1149,24 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [cell.contentView addSubview:addImage];
 //        [self Message];
        
-//       [self setdefaults];
-        
-        
         [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
-        
         
         return cell;
        
     }
-
-
 }
 
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    [self.tableView reloadData];
+//}
 
-
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+#define mark -- scrollViewDelegate
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    [self.tableView reloadData];
+//    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
+//    [self.tableView reloadData];
 }
-
-
 
 
 
@@ -1134,8 +1176,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    if (self.isretern==NO) {
     
        for (KindsLayoutModel *layout in self.layoutArray) {
-       
-       
            if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
             
            }else {
@@ -1179,16 +1219,11 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                            
                                [self.tableViewDic setObject:self.namestr forKey:layout.key];
 
-                            
                            }else{
                         
                            }
                            
-                           
-//                           [self.tableView reloadData];
-                           
                        }
-//                         [self.tableView reloadData];
 
                    }
 
@@ -1210,10 +1245,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         //[__lock unlock];
     
        }
-    
-     
-   
    }
+//    [self.tableView reloadData];
     
 }
 
